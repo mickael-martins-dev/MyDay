@@ -153,7 +153,7 @@ function Register() {
                     id="terms" 
                     checked={acceptedTerms}
                     onChange={(e) => setAcceptedTerms(e.target.checked)}/>
-                <label htmlFor="terms"> J'accepte les conditions générales</label>
+                <label htmlFor="terms"> Je déclare avoir pris connaissance des conditions générales</label>
             </h4>
             
             <button 
