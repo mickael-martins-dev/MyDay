@@ -26,7 +26,7 @@ body {
 
 .header {
   max-width: 37.5rem; /* 600px */
-  margin: 0.925rem 2.725rem 2.725rem 2.725rem; /* 50px */
+  margin: 0.925rem 2.725rem 1.225rem 2.725rem; /* 50px */
   padding: 1.25rem ; /* 20px */
   text-align: center;
   background-color:  #5a9a7f;
@@ -38,6 +38,10 @@ h1 {
   font-size: 1.75rem; /* 28px */
   margin: 0.25rem auto; /* 20px */
   color: #ffffff; /* Vert apaisant */
+}
+h1 span {
+  display: inline-block;
+  transform: rotate(10deg); /* Ajuste pour arrondir */
 }
 
 h2 {
@@ -56,8 +60,30 @@ h3 {
   background-color: #e9e2f0;
   border: #cfa2d9 1px solid;
   border-radius: 10px;
-  width: 75%;
-  
+  width: 75%; 
+}
+
+h4 {
+  font-size: 1.05rem; /* 28px */
+  margin: auto;
+  margin-top: 0.85rem; /* 20px */
+  margin-bottom: 1.25rem; /* 20px */
+  color: #5a9a7f; /* Vert apaisant */
+  background-color: #e9e2f0;
+  border: #cfa2d9 1px solid;
+  border-radius: 10px;
+  width: 75%; 
+}
+h5 {
+  font-size: 1.05rem; /* 28px */
+  margin: auto;
+  margin-top: 0.05rem; /* 20px */
+  margin-bottom: 0.05rem; /* 20px */
+  color: #123d2b; /* Vert apaisant */
+  background-color: #c294ef;
+  border: #cfa2d9 1px solid;
+  border-radius: 10px;
+  width: 60%; 
 }
 
 .stars {
@@ -88,13 +114,26 @@ h3 {
   resize: none;
 }
 
+.login-input {
+  width: 40%;
+  height: 2.25rem; /* 100px */
+  padding: 0.625rem; /* 10px */
+  margin: 0.35rem ; /* 20px */
+  font-size: 1rem; /* 16px */
+  border-radius: 0.5rem; /* 8px */
+  background-color: #f0ccee;
+  border: 0.0625rem solid #ddd; /* 1px */
+  text-align: center;
+
+}
+
 .hr {
   width: 70%;
   color: black;
   background-color: #5a9a7f;
   height: 0.225rem; /* Ajuster la hauteur en rem */
   border: none; /* Pour enlever la bordure par défaut */
-  margin: 0.85rem auto  0.05rem ; /* Ajouter un peu de marge autour de la ligne */
+  margin: 0.85rem auto  0.85rem ; /* Ajouter un peu de marge autour de la ligne */
 }
 .regles{
   margin-top: 1.3rem;
@@ -119,4 +158,8 @@ h3 {
 
 .submit-button:hover {
   background-color: #4b8b6b;
+}
+
+.input-field-login{
+  margin-left: 0.5rem;
 }

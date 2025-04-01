@@ -32,7 +32,9 @@ function Home() {
     return (
         <div className="container">
             <div className="header">
-                <h1>myDay</h1>
+                <h1>
+                <span>M</span><span>y</span><span>D</span><span>a</span><span>y</span>
+                </h1>
             </div>
 
             {[ 
