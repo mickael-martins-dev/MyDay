@@ -1,0 +1,122 @@
+/* styles/Home.css */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(135deg, #cfa2d9, #e0aad7, #b88c9d);
+  color: #444;
+}
+
+.container {
+  border: #e0c7f1;
+  max-width: 37.5rem; /* 600px */
+  margin: 3.125rem auto; /* 50px */
+  padding: 1.25rem; /* 20px */
+  text-align: center;
+  /* background-color: rgb(227, 167, 210); */
+  background: linear-gradient(135deg, #e0c7f1, #f0e7f9, #d8b2d6);
+  border-radius: 0.75rem; /* 12px */
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  max-width: 37.5rem; /* 600px */
+  margin: 0.925rem 2.725rem 2.725rem 2.725rem; /* 50px */
+  padding: 1.25rem ; /* 20px */
+  text-align: center;
+  background-color:  #5a9a7f;
+  border-radius: 0.75rem; /* 12px */
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 1.75rem; /* 28px */
+  margin: 0.25rem auto; /* 20px */
+  color: #ffffff; /* Vert apaisant */
+}
+
+h2 {
+  font-size: 1.75rem; /* 28px */
+  margin-top: 1.85rem; /* 20px */
+  margin-bottom: 0.25rem; /* 20px */
+  color: #5a9a7f; /* Vert apaisant */
+}
+
+h3 {
+  font-size: 1.35rem; /* 28px */
+  margin: auto;
+  margin-top: 1.85rem; /* 20px */
+  margin-bottom: 0.25rem; /* 20px */
+  color: #5a9a7f; /* Vert apaisant */
+  background-color: #e9e2f0;
+  border: #cfa2d9 1px solid;
+  border-radius: 10px;
+  width: 75%;
+  
+}
+
+.stars {
+  margin: 0.05rem 0; /* 20px */
+  font-size: 2.5rem; /* 40px */
+}
+
+.star {
+  color: #d3d3d3; /* Gris clair */
+  cursor: pointer;
+  transition: color 0.3s;
+  text-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.7);
+}
+
+.star.active {
+  /* color: #ffd700;  */
+  color: #da791e; /* Jaune or pour l'étoile active */
+}
+
+.phrase-input {
+  width: 90%;
+  height: 6.25rem; /* 100px */
+  padding: 0.625rem; /* 10px */
+  margin: 1.25rem 0 0 0; /* 20px */
+  font-size: 1rem; /* 16px */
+  border-radius: 0.5rem; /* 8px */
+  border: 0.0625rem solid #ddd; /* 1px */
+  resize: none;
+}
+
+.hr {
+  width: 70%;
+  color: black;
+  background-color: #5a9a7f;
+  height: 0.225rem; /* Ajuster la hauteur en rem */
+  border: none; /* Pour enlever la bordure par défaut */
+  margin: 0.85rem auto  0.05rem ; /* Ajouter un peu de marge autour de la ligne */
+}
+.regles{
+  margin-top: 1.3rem;
+  margin-bottom: 1.3rem;
+}
+
+.checkBox-regles{
+  transform: scale(1.5);
+  margin-left: 0.5rem;
+ 
+}
+
+.submit-button {
+  background-color: #5a9a7f; /* Vert apaisant */
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem; /* 12px 24px */
+  font-size: 1.125rem; /* 18px */
+  border-radius: 0.5rem; /* 8px */
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #4b8b6b;
+}
