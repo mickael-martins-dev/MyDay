@@ -26,7 +26,7 @@ function Login() {
                 <span>M</span><span>y</span><span>D</span><span>a</span><span>y</span>
                 </h1>
             </div>
-            <h5>Connection</h5>
+            <h5>Connexion</h5>
             <form onSubmit={handleSubmit}>
                 <h4>
                     <label htmlFor="pseudo" >Pseudo : </label>
@@ -47,7 +47,7 @@ function Login() {
                     id="password"
                     name="password"
                     value={pseudo}
-                    onChange={(e) => setPseudo(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
                     placeholder=""
                     />

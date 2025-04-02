@@ -6,161 +6,185 @@ function Register() {
     const [pseudo, setPseudo] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [feeling_1, setFeeling_1] = useState('');
-    const [feeling_2, setFeeling_2] = useState('');
-    const [feeling_3, setFeeling_3] = useState('');
-    const [feeling_4, setFeeling_4] = useState('');
-    const [feeling_5, setFeeling_5] = useState('');
+    const [feelings, setFeelings] = useState(["", "", "", ""]); // 4 émotions par défaut
     const [acceptedTerms, setAcceptedTerms] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const handleSubmit = (e) => {
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     if (!acceptedTerms) {
+    //         alert("Vous devez accepter les conditions générales pour continuer.");
+    //         return;
+    //     }
+
+    //     if (password !== confirmPassword) {
+    //         setErrorMessage("Les mots de passe ne correspondent pas.");
+    //         return;
+    //     }
+
+    //     setErrorMessage(""); // Réinitialise le message d'erreur
+
+    //     const userData = {
+    //         pseudo,
+    //         password,
+    //         feelings,
+    //     };
+
+    //     console.log('User Data:', userData);
+    //     // Envoi des données à l'API ou base de données
+
+    //     try {
+    //         const response = await fetch("http://localhost:4000/Register", {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify(userData),
+    //         });
+    
+    //         const data = await response.json();
+    //         console.log("Réponse du serveur :", data);
+    //     } catch (error) {
+    //         console.error("Erreur lors de l'envoi :", error);
+    //     }
+
+    //     fetch('/Register', {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/json" },
+    //         // body: JSON.stringify({ pseudo: document.getElementById("pseudo").value })
+    //         body: JSON.stringify(userData)
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         console.log("Réponse serveur :", data);
+    //         if (data.pseudo) {
+    //             window.location.href = "/Login"; // ✅ La redirection se fait ici
+    //         }
+    //     })
+    //     .catch(error => console.error("Erreur :", error));
+    // };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         if (!acceptedTerms) {
             alert("Vous devez accepter les conditions générales pour continuer.");
             return;
         }
     
-        // Ici, tu peux envoyer les données au backend ou gérer la logique de création du compte
+        if (password !== confirmPassword) {
+            setErrorMessage("Les mots de passe ne correspondent pas.");
+            return;
+        }
+    
+        setErrorMessage(""); // Réinitialise le message d'erreur
+    
         const userData = {
-          pseudo,
-          password,
-          confirmPassword,
-          feeling_1,
-          feeling_2,
-          feeling_3,
-          feeling_4,
-          feeling_5
+            pseudo,
+            password,
+            feelings,
         };
-        
+    
         console.log('User Data:', userData);
-        // Effectuer l'envoi de ces données à l'API ou base de données
-      };
+    
+        try {
+            const response = await fetch("http://localhost:4000/Register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(userData),
+            });
+    
+            const data = await response.json();
+            console.log("Réponse du serveur :", data);
+    
+            if (data.pseudo) {
+                window.location.href = "/Login"; // ✅ La redirection se fait ici
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'envoi :", error);
+        }
+    };
+    
+
+    const handleFeelingChange = (index, value) => {
+        const updatedFeelings = [...feelings];
+        updatedFeelings[index] = value;
+        setFeelings(updatedFeelings);
+    };
 
     return (
         <div className="container">
             <div className="header">
-            <h1>
-                <span>M</span><span>y</span><span>D</span><span>a</span><span>y</span>
+                <h1>
+                    <span>M</span><span>y</span><span>D</span><span>a</span><span>y</span>
                 </h1>
             </div>
             <form onSubmit={handleSubmit}>
                 <h5>Données personnelles</h5>
                 <h4>
-                    <label htmlFor="pseudo" >Pseudo : </label>
-                    <input className="login-input"
-                    type="text"
-                    id="pseudo"
-                    name="pseudo"
-                    value={pseudo}
-                    onChange={(e) => setPseudo(e.target.value)}
-                    required
-                    placeholder=""
+                    <label htmlFor="pseudo">Pseudo : </label>
+                    <input
+                        className="login-input"
+                        type="text"
+                        id="pseudo"
+                        value={pseudo}
+                        onChange={(e) => setPseudo(e.target.value)}
+                        required
                     />
                 </h4>
                 <h4>
-                    <label htmlFor="password" >Mot de pass : </label>
-                    <input className="login-input"
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    placeholder=""
+                    <label htmlFor="password">Mot de passe : </label>
+                    <input
+                        className="login-input"
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
                 </h4>
                 <h4>
-                    <p>Confirmation : </p>
-                    <label htmlFor="confirmPassword" >Mot de pass : </label>
-                    <input className="login-input"
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                    placeholder=""
+                    <label htmlFor="confirmPassword">Confirmez le mot de passe : </label>
+                    <input
+                        className="login-input"
+                        type="password"
+                        id="confirmPassword"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
                     />
                 </h4>
-                <h5>Tes émotions à suivre </h5>
-                <h4>
-                    <label htmlFor="feeling_1" >Feeling 1 : </label>
-                    <input className="login-input"
-                    type="text"
-                    id="feeling_1"
-                    name="feeling_1"
-                    value={feeling_1}
-                    onChange={(e) => setFeeling_1(e.target.value)}
-                    required
-                    placeholder=""
-                    />
-                </h4>
-                <h4>
-                    <label htmlFor="feeling_2" >Feeling 2 : </label>
-                    <input className="login-input"
-                    type="text"
-                    id="feeling_2"
-                    name="feeling_2"
-                    value={feeling_2}
-                    onChange={(e) => setFeeling_2(e.target.value)}
-                    required
-                    placeholder=""
-                    />
-                </h4>
-                <h4>
-                    <label htmlFor="feeling_3" >Feeling 3 : </label>
-                    <input className="login-input"
-                    type="text"
-                    id="feeling_3"
-                    name="feeling_3"
-                    value={feeling_1}
-                    onChange={(e) => setFeeling_3(e.target.value)}
-                    required
-                    placeholder=""
-                    />
-                </h4>
-                <h4>
-                    <label htmlFor="feeling_4" >Feeling 4 : </label>
-                    <input className="login-input"
-                    type="text"
-                    id="feeling_4"
-                    name="feeling_4"
-                    value={feeling_4}
-                    onChange={(e) => setFeeling_4(e.target.value)}
-                    required
-                    placeholder=""
-                    />
-                </h4>
-                <h4>
-                    <label htmlFor="feeling_5" >Feeling 5 : </label>
-                    <input className="login-input"
-                    type="text"
-                    id="feeling_5"
-                    name="feeling_5"
-                    value={feeling_5}
-                    onChange={(e) => setFeeling_5(e.target.value)}
-                    required
-                    placeholder=""
-                    />
-                </h4>
-                </form>
-            <hr class="hr" />
+                {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-            <h4>
-                <input 
-                    type="checkbox" 
-                    id="terms" 
-                    checked={acceptedTerms}
-                    onChange={(e) => setAcceptedTerms(e.target.checked)}/>
-                <label htmlFor="terms"> Je déclare avoir pris connaissance des conditions générales</label>
-            </h4>
-            
-            <button 
-            className="submit-button"
-            type="submit"
-            disabled={!acceptedTerms}
-            >Soumettre</button>
+                <h5>Tes émotions à suivre</h5>
+                {feelings.map((feeling, index) => (
+                    <h4 key={index}>
+                        <label htmlFor={`feeling_${index + 1}`}>Émotion #{index + 1} : </label>
+                        <input
+                            className="login-input"
+                            type="text"
+                            id={`feeling_${index + 1}`}
+                            value={feeling}
+                            onChange={(e) => handleFeelingChange(index, e.target.value)}
+                            required
+                        />
+                    </h4>
+                ))}
+
+                <hr className="hr" />
+
+                <h4>
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        checked={acceptedTerms}
+                        onChange={(e) => setAcceptedTerms(e.target.checked)}
+                    />
+                    <label htmlFor="terms"> J'accepte les conditions générales</label>
+                </h4>
+                <button className="submit-button" type="submit" disabled={!acceptedTerms}>
+                    Soumettre
+                </button>
+            </form>
         </div>
     );
 }

@@ -41,12 +41,12 @@ h1 {
 }
 h1 span {
   display: inline-block;
-  transform: rotate(10deg); /* Ajuste pour arrondir */
+  transform: rotate(5deg); /* Ajuste pour arrondir */
 }
 
 h2 {
   font-size: 1.75rem; /* 28px */
-  margin-top: 1.85rem; /* 20px */
+  margin-top: 0.75rem; /* 20px */
   margin-bottom: 0.25rem; /* 20px */
   color: #5a9a7f; /* Vert apaisant */
 }
@@ -80,7 +80,9 @@ h5 {
   margin-top: 0.05rem; /* 20px */
   margin-bottom: 0.05rem; /* 20px */
   color: #123d2b; /* Vert apaisant */
-  background-color: #c294ef;
+  /* background-color: #c294ef; */
+  background: linear-gradient(135deg, #cfa2d9, #e0aad7, #b88c9d);
+  background: linear-gradient(135deg, #cfa2d9, #e0aad7, #f3e0e7);
   border: #cfa2d9 1px solid;
   border-radius: 10px;
   width: 60%; 
