@@ -94,6 +94,25 @@ if (process.env.NODE_ENV === 'production') {
         res.json({ message: "Données reçues", pseudo: userPseudo });
     });
 
+    // app.post('/',(req,res)=>{
+    //     console.log("donnée recu de la journée !!")
+    //     res.json({ message: "Données reçues" });
+    // })
+
+    app.post('/', (req, res) => {
+        const { feeling1, feeling2, feeling3, feeling4, phraseGratitude, regle } = req.body;
+    
+        console.log("Données reçues du client :");
+        console.log("Joie :", feeling1);
+        console.log("Stress :", feeling2);
+        console.log("Colère :", feeling3);
+        console.log("Légèreté :", feeling4);
+        console.log("Phrase de gratitude :", phraseGratitude);
+        console.log("Règle acceptée :", regle);
+    
+        res.json({ message: "Données bien reçues par le serveur" });
+    });
+
   } else {
     // En développement, tu peux laisser React gérer le routage via son serveur de développement
     app.get('/', (req, res) => {
