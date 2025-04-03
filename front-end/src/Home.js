@@ -41,7 +41,7 @@ function Home() {
                 { title: "Joie", rating: rating1, setRating: handleRatingChangeF1 }, 
                 { title: "Stress", rating: rating2, setRating: handleRatingChangeF2 }, 
                 { title: "Colère", rating: rating3, setRating: handleRatingChangeF3 }, 
-                { title: "Légereté", rating: rating4, setRating: handleRatingChangeF4 }
+                { title: "Légèreté", rating: rating4, setRating: handleRatingChangeF4 }
             ].map((feeling, index) => (
                 <div key={index}>
                     <h2>{feeling.title}</h2>
@@ -71,8 +71,13 @@ function Home() {
                 <label for="horns">Régles : </label>
                 <input className="checkBox-regles" type="checkbox" id="horns" name="horns" />
             </div>
-            
-            <button className="submit-button">Soumettre</button>
+            <div className='boutton-clear-submit-index'>
+                <button className="submit-button-clear">Effacer</button>
+                <button className="submit-button">Soumettre</button>  
+            </div>
+
+            <hr class="hr" />
+            <button className="submit-button">Historique</button>
         </div>
     );
 }
