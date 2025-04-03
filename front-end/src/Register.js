@@ -87,6 +87,9 @@ function Register() {
         console.log('User Data:', userData);
     
         try {
+            const API_URL=process.env.REACT_APP_API_URL || "http://localhost:4000";
+
+            // const response = await fetch(`${API_URL}/
             const response = await fetch("http://localhost:4000/Register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -96,7 +99,7 @@ function Register() {
             const data = await response.json();
             console.log("Réponse du serveur :", data);
     
-            if (data.pseudo) {
+            if (data) {
                 window.location.href = "/Login"; // ✅ La redirection se fait ici
             }
         } catch (error) {
