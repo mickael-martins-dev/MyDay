@@ -38,7 +38,9 @@ function Home() {
         };
 
         try {
-            const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000";
+            // const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000";
+
+            const API_URL="https://myday-back.onrender.com";
 
             const response = await fetch(`${API_URL}/`, {
             // const response = await fetch("http://localhost:4000", {    
