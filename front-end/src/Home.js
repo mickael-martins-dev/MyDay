@@ -19,6 +19,10 @@ function Home() {
         setRating3(0);
         setRating4(0);
         setPhrase('');
+        const checkbox = document.getElementById("regle");
+        if (checkbox) {
+            checkbox.checked = false;
+        }
     };
 
     const handleSubmit = async () => {

@@ -6,7 +6,7 @@ function Login() {
     const [pseudo, setPseudo] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
     
         // Ici, tu peux envoyer les données au backend ou gérer la logique de création du compte
@@ -17,6 +17,26 @@ function Login() {
         
         console.log('User Data:', userData);
         // Effectuer l'envoi de ces données à l'API ou base de données
+
+        try {
+            const API_URL=process.env.REACT_APP_API_URL || "http://localhost:4000";
+
+            // const response = await fetch(`${API_URL}/
+            const response = await fetch("http://localhost:4000/Login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(userData),
+            });
+    
+            const data = await response.json();
+            console.log("Réponse du serveur :", data);
+    
+            if (data.success) {
+                window.location.href = data.redirectUrl;
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'envoi :", error);
+        }
       };
 
     return (
@@ -46,16 +66,20 @@ function Login() {
                     type="password"
                     id="password"
                     name="password"
-                    value={pseudo}
+                    value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     placeholder=""
                     />
                 </h4>
-                </form>
-            <hr class="hr" />
+                <hr class="hr" />
             
-            <button className="submit-button">Soumettre</button>
+                <button 
+                type="submit"
+                className="submit-button">
+                Soumettre</button>
+            </form>
+            
         </div>
     );
 }
