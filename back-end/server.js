@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const bcryptjs = require('bcryptjs');
 const MongoStore = require('connect-mongo');
+const isAuthenticated = require('./middleware/auth');
 
 // Charger les variables d'environnement
 
@@ -42,6 +43,40 @@ const sessionMiddleware = session({
 
 app.use(sessionMiddleware);
 
+app.use(session({
+  secret: 'myDay',
+  resave: false,
+  saveUninitialized: false
+}))
+
+// app.use((req, res, next) => {
+//   const isLoggedIn = req.session.user;
+
+//   // Si la requête est pour login ou register, on laisse passer
+//   if (req.path === '/Login' || req.path === '/Register' || req.path === '/login' || req.path === '/Register') {
+//     return next();
+//   }
+
+//   // Si l'utilisateur est connecté, on continue
+//   if (isLoggedIn) {
+//     return next();
+//   }
+
+//   // Sinon on redirige vers /Login
+//   return res.redirect('/Login');
+// });
+
+// Ne protège que les API sensibles, pas les routes de React
+app.use('/api', (req, res, next) => {
+  const isLoggedIn = req.session.user;
+  if (!isLoggedIn) {
+    return res.status(401).json({ message: 'Non autorisé' });
+  }
+  next();
+});
+
+
+
 const connectDB = require('./config/db');
 connectDB();
 // Serveur des fichiers statiques de React
@@ -50,68 +85,120 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '..', 'front-end', 'build')));
   
     // Toutes les autres routes renvoient le fichier index.html de React
-    app.get('/', (req, res) => {
-      res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
-      console.log("dans /")
-    });
+   
+    // app.get('/', (req, res) => {
+    //   if (!req.session.user) {
+    //     console.log("Utilisateur non connecté, redirection vers /login");
+    //     return res.redirect('/login');
+    //   } else {
+    //     console.log("Utilisateur connecté :", req.session.user);
+    //     res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
+    //   }
+    // });
 
+    // app.get('/', (req, res) => {
+    //   return res.redirect('/Login');
+    // })
+
+    app.get('/', isAuthenticated, (req, res) => {
+      res.render('index', { user: req.session.user });
+    });
+    
     app.get('/Login', (req, res) => {
         res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
         console.log("dans /Login")
     });
 
+    // app.post('/login', async (req, res) => {
+    //     const { pseudo, password } = req.body;
+    //     console.log("pseudo : ",pseudo)
+    //     console.log("psw : ",password)
+    //     try {
+    //       const userLogged = await User.findOne({ pseudo });
+    
+    //         // Vérifier si l'utilisateur existe
+    //         if (!userLogged) {
+    //             return res.render('login', { message: "Login ou mot de passe erroné !" });
+    //         }
+    
+    //         // Vérifier si le mot de passe correspond au hash stocké
+    //         const isMatch = await bcryptjs.compare(password, userLogged.password);
+    //         if (!isMatch) {
+    //           return res.status(400).json({ message: "Login ou mot de passe erroné !" });
+    //         }
+    
+    //         // Création de la session utilisateur après authentification réussie
+    //         req.session.user = {
+    //             _id: userLogged._id,
+    //             username: userLogged.pseudo,
+    //         };
+
+    //         console.log("Session après connexion :", req.session);
+    
+    //         // Redirection selon le rôle de l'utilisateur
+    //         if (userLogged.isAdmin === "y") {
+    //             console.log("Utilisateur admin connecté");
+    //             return res.redirect('/admin');
+    //         } else {
+    //             console.log("Utilisateur connecté :", req.session.user.username);
+    //             return res.json({ success: true, redirectUrl: '/' });
+    //         }
+    //     } catch (err) {
+    //         console.error("Erreur lors de la connexion :", err);
+    //         res.status(500).send("Erreur lors de la connexion");
+    //     }
+    // });
+
     app.post('/login', async (req, res) => {
-        const { pseudo, password } = req.body;
-        console.log("pseudo : ",pseudo)
-        console.log("psw : ",password)
-        try {
+      const { pseudo, password } = req.body;
+      console.log("pseudo : ", pseudo);
+      console.log("psw : ", password);
+  
+      try {
           const userLogged = await User.findOne({ pseudo });
-    
-            // Vérifier si l'utilisateur existe
-            if (!userLogged) {
-                return res.render('login', { message: "Login ou mot de passe erroné !" });
-            }
-            // if (userLogged.isLoggedIn) {
-            //     return res.render('login', { message: "Ce compte est déjà connecté ailleurs." });
-            // }
-    
-            // Vérifier si le mot de passe correspond au hash stocké
-            const isMatch = await bcryptjs.compare(password, userLogged.password);
-            if (!isMatch) {
-                return res.render('login', { message: "Login ou mot de passe erroné !" });
-            }
-    
-            // await collection.updateOne(
-            //     { _id: userLogged._id },
-            //     { $set: { isLoggedIn: true } }
-            // );
-    
-            // Création de la session utilisateur après authentification réussie
-            req.session.user = {
-                _id: userLogged._id,
-                username: userLogged.pseudo,
-                // firstname: userLogged.firstname,
-                // lastname: userLogged.lastname,
-                // email: userLogged.email,
-                // avatar: userLogged.avatar
-            };
+  
+          // Vérifier si l'utilisateur existe
+          if (!userLogged) {
+              return res.render('login', { message: "Login ou mot de passe erroné !" });
+          }
+  
+          // Vérifier le mot de passe
+          const isMatch = await bcryptjs.compare(password, userLogged.password);
+          if (!isMatch) {
+              return res.render('login', { message: "Login ou mot de passe erroné !" });
+          }
+  
+          // Créer la session utilisateur
+          req.session.user = {
+              _id: userLogged._id,
+              username: userLogged.pseudo,
+          };
+  
+          console.log("Session après connexion :", req.session);
+  
+          // Redirection
+          if (userLogged.isAdmin === "y") {
+              console.log("Utilisateur admin connecté");
+              return res.redirect('/admin');
+          } else {
+              console.log("Utilisateur connecté :", req.session.user.username);
+              return res.json({ success: true, redirectUrl: '/' });
+          }
+  
+      } catch (err) {
+          console.error("Erreur lors de la connexion :", err);
+          res.status(500).send("Erreur lors de la connexion");
+      }
+  });
 
-            console.log("Session après connexion :", req.session);
-    
-            // Redirection selon le rôle de l'utilisateur
-            if (userLogged.isAdmin === "y") {
-                console.log("Utilisateur admin connecté");
-                return res.redirect('/admin');
-            } else {
-                console.log("Utilisateur connecté :", req.session.user.username);
-                res.json({ success: true, redirectUrl: '/' });
-            }
-        } catch (err) {
-            console.error("Erreur lors de la connexion :", err);
-            res.status(500).send("Erreur lors de la connexion");
-        }
+    app.get('/api/check-auth', (req, res) => {
+      if (req.session.user) {
+        res.json({ authenticated: true, user: req.session.user });
+      } else {
+        res.json({ authenticated: false });
+      }
     });
-
+  
     app.get('/Register', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
     console.log("dans /Register")
@@ -160,6 +247,8 @@ if (process.env.NODE_ENV === 'production') {
     
         res.json({ message: "Données bien reçues par le serveur" });
     });
+
+    
 
   } else {
     // En développement, tu peux laisser React gérer le routage via son serveur de développement
