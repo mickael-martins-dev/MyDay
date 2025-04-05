@@ -90,6 +90,7 @@ function Register() {
             // const API_URL=process.env.REACT_APP_API_URL || "http://localhost:4000";
 
             const API_URL="https://myday-back.onrender.com";
+            // const API_URL = "http://localhost:4000";
 
 
             const response = await fetch(`${API_URL}/Register`, {
@@ -97,6 +98,7 @@ function Register() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userData),
+                credentials: 'include'
             });
     
             const data = await response.json();

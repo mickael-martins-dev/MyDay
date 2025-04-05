@@ -8,7 +8,7 @@ function Home() {
     const [rating3, setRating3] = useState(0);
     const [rating4, setRating4] = useState(0);
     const [phrase, setPhrase] = useState('');
-    const [showPopup, setShowPopup] = useState(false); // État pour afficher le pop-up
+    const [showPopup, setShowPopup] = useState(false);
 
     const handleRatingChange = (setter) => (newRating) => setter(newRating);
     const handlePhraseChange = (event) => setPhrase(event.target.value);
@@ -26,7 +26,7 @@ function Home() {
     };
 
     const handleSubmit = async () => {
-        setShowPopup(false); // Fermer le pop-up après confirmation
+        setShowPopup(false);
 
         const userData = {
             feeling1: rating1,
@@ -38,15 +38,14 @@ function Home() {
         };
 
         try {
-            // const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000";
-
-            const API_URL="https://myday-back.onrender.com";
+            const API_URL = "https://myday-back.onrender.com";
+            // const API_URL = "http://localhost:4000";
 
             const response = await fetch(`${API_URL}/`, {
-            // const response = await fetch("http://localhost:4000", {    
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userData),
+                credentials: 'include'
             });
 
             const data = await response.json();
@@ -69,7 +68,7 @@ function Home() {
             </div>
 
             <form onSubmit={(e) => e.preventDefault()}>
-                {[ 
+                {[
                     { title: "Joie", rating: rating1, setRating: handleRatingChange(setRating1) },
                     { title: "Stress", rating: rating2, setRating: handleRatingChange(setRating2) },
                     { title: "Colère", rating: rating3, setRating: handleRatingChange(setRating3) },
@@ -102,23 +101,28 @@ function Home() {
                 ></textarea>
 
                 <div className="regles">
-                    <label htmlFor="regles">Régles : </label>
-                    <input className="checkBox-regles" type="checkbox" id="regle" name="regle" />
+                    <label htmlFor="regles">Règles :</label>
+                    <input
+                        className="checkBox-regles"
+                        type="checkbox"
+                        id="regle"
+                        name="regle"
+                    />
                 </div>
 
-                <div className='boutton-clear-submit-index'>
-                    <button 
+                <div className="boutton-clear-submit-index">
+                    <button
                         type="button"
                         className="submit-button-clear"
                         onClick={handleClear}>
                         Effacer
                     </button>
-                    <button 
+                    <button
                         type="button"
                         className="submit-button"
                         onClick={() => setShowPopup(true)}>
                         Soumettre
-                    </button>  
+                    </button>
                 </div>
             </form>
 
@@ -128,7 +132,6 @@ function Home() {
                 Historique
             </button>
 
-            {/* Pop-up personnalisé */}
             {showPopup && (
                 <div className="popup">
                     <div className="popup-content">
@@ -139,7 +142,7 @@ function Home() {
                 </div>
             )}
 
-            {/* CSS interne pour le pop-up */}
+            {/* Style CSS intégré pour le pop-up */}
             <style jsx>{`
                 .popup {
                     position: fixed;
@@ -151,13 +154,14 @@ function Home() {
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    z-index: 1000;
                 }
                 .popup-content {
                     background: white;
                     padding: 20px;
                     border-radius: 10px;
                     text-align: center;
-                    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
                 }
                 .yes-btn, .no-btn {
                     margin: 10px;
@@ -165,13 +169,14 @@ function Home() {
                     cursor: pointer;
                     border: none;
                     border-radius: 5px;
+                    font-weight: bold;
                 }
                 .yes-btn {
-                    background-color: green;
+                    background-color: #28a745;
                     color: white;
                 }
                 .no-btn {
-                    background-color: red;
+                    background-color: #dc3545;
                     color: white;
                 }
             `}</style>

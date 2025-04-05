@@ -5,13 +5,19 @@ import About from './About'; // On importe la page
 import Login from './Login'; // On importe la page
 import Home from './Home';
 import Register from './Register';
+import PrivateRoute from './PrivateRoute';
 
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={
+          <PrivateRoute>
+            <Home />
+          </PrivateRoute>
+        } />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
