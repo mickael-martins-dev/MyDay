@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/Home.css';
 import './styles/Mobile.css';
+import LogoutButton from './LogoutButton';  // Importer le composant LogoutButton
 
 function Home() {
     const [rating1, setRating1] = useState(0);
@@ -9,6 +10,7 @@ function Home() {
     const [rating4, setRating4] = useState(0);
     const [phrase, setPhrase] = useState('');
     const [showPopup, setShowPopup] = useState(false);
+    const [canSubmit, setCanSubmit] = useState(true); // Contrôle de la possibilité de soumettre
 
     const handleRatingChange = (setter) => (newRating) => setter(newRating);
     const handlePhraseChange = (event) => setPhrase(event.target.value);
@@ -38,8 +40,12 @@ function Home() {
         };
 
         try {
-            const API_URL = "https://myday-back.onrender.com";
+            // const API_URL="https://myday-back.onrender.com";
             // const API_URL = "http://localhost:4000";
+            const API_URL =
+                window.location.hostname === "localhost"
+                    ? "http://localhost:4000"
+                    : "https://myday-back.onrender.com";
 
             const response = await fetch(`${API_URL}/`, {
                 method: "POST",
@@ -53,11 +59,31 @@ function Home() {
 
             if (data) {
                 handleClear();
+                const currentDate = new Date();
+                const currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+                localStorage.setItem('lastSubmissionDate', currentDateWithoutTime.toISOString()); // Enregistrer la date sans l'heure
+                setCanSubmit(false); // Désactiver le bouton de soumission
             }
         } catch (error) {
             console.error("Erreur lors de l'envoi :", error);
         }
     };
+
+    useEffect(() => {
+        // Vérifier si la date du jour est différente de celle enregistrée dans le localStorage
+        const lastSubmission = localStorage.getItem('lastSubmissionDate');
+        const currentDate = new Date();
+        const currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+        
+        if (lastSubmission) {
+            const lastDate = new Date(lastSubmission);
+            if (currentDateWithoutTime > lastDate) {
+                setCanSubmit(true); // Permettre la soumission si nous sommes sur un nouveau jour
+            } else {
+                setCanSubmit(false); // Empêcher la soumission sinon
+            }
+        }
+    }, []);
 
     return (
         <div className="container">
@@ -68,7 +94,7 @@ function Home() {
             </div>
 
             <form onSubmit={(e) => e.preventDefault()}>
-                {[
+                {[ 
                     { title: "Joie", rating: rating1, setRating: handleRatingChange(setRating1) },
                     { title: "Stress", rating: rating2, setRating: handleRatingChange(setRating2) },
                     { title: "Colère", rating: rating3, setRating: handleRatingChange(setRating3) },
@@ -120,17 +146,26 @@ function Home() {
                     <button
                         type="button"
                         className="submit-button"
-                        onClick={() => setShowPopup(true)}>
+                        onClick={() => setShowPopup(true)}
+                        disabled={!canSubmit} // Désactiver le bouton si on ne peut pas soumettre
+                    >
                         Soumettre
                     </button>
                 </div>
+                <hr className="hr" />
+
+                <button type="button" className="submit-button">
+                    Historique
+                </button>
+                
+                {/* Utilisation du composant LogoutButton */}
+                <div className='button-container'>
+                    <LogoutButton />
+                </div>
+                    
+
+                
             </form>
-
-            <hr className="hr" />
-
-            <button type="button" className="submit-button">
-                Historique
-            </button>
 
             {showPopup && (
                 <div className="popup">
@@ -141,45 +176,6 @@ function Home() {
                     </div>
                 </div>
             )}
-
-            {/* Style CSS intégré pour le pop-up */}
-            <style jsx>{`
-                .popup {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0, 0, 0, 0.5);
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    z-index: 1000;
-                }
-                .popup-content {
-                    background: white;
-                    padding: 20px;
-                    border-radius: 10px;
-                    text-align: center;
-                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-                }
-                .yes-btn, .no-btn {
-                    margin: 10px;
-                    padding: 10px 20px;
-                    cursor: pointer;
-                    border: none;
-                    border-radius: 5px;
-                    font-weight: bold;
-                }
-                .yes-btn {
-                    background-color: #28a745;
-                    color: white;
-                }
-                .no-btn {
-                    background-color: #dc3545;
-                    color: white;
-                }
-            `}</style>
         </div>
     );
 }

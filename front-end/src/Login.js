@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './styles/Home.css';
 import './styles/Mobile.css';
+import { Link } from 'react-router-dom';
 
 function Login() {
     const [pseudo, setPseudo] = useState('');
@@ -21,8 +22,12 @@ function Login() {
         try {
             // const API_URL=process.env.REACT_APP_API_URL || "http://localhost:4000";
 
-            const API_URL="https://myday-back.onrender.com";
+            // const API_URL="https://myday-back.onrender.com";
             // const API_URL = "http://localhost:4000";
+            const API_URL =
+                window.location.hostname === "localhost"
+                    ? "http://localhost:4000"
+                    : "https://myday-back.onrender.com";
             
 
             const response = await fetch(`${API_URL}/Login`, {
@@ -77,12 +82,19 @@ function Login() {
                     placeholder=""
                     />
                 </h4>
-                <hr class="hr" />
-            
-                <button 
-                type="submit"
-                className="submit-button">
-                Soumettre</button>
+                <hr className="hr" />
+                <div className="boutton-clear-submit-index">
+                    <Link to="/Register">
+                        <button type="button" className="submit-button">
+                            Créer un compte
+                        </button>
+                    </Link>
+                        <button 
+                        type="submit"
+                        className="submit-button">
+                        Valider </button>
+                </div>
+                
             </form>
             
         </div>

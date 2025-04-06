@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './styles/Home.css';
 import './styles/Mobile.css';
+import { Link } from 'react-router-dom';
 
 function Register() {
     const [pseudo, setPseudo] = useState('');
@@ -89,8 +90,13 @@ function Register() {
         try {
             // const API_URL=process.env.REACT_APP_API_URL || "http://localhost:4000";
 
-            const API_URL="https://myday-back.onrender.com";
+            // const API_URL="https://myday-back.onrender.com";
             // const API_URL = "http://localhost:4000";
+
+            const API_URL =
+                window.location.hostname === "localhost"
+                    ? "http://localhost:4000"
+                    : "https://myday-back.onrender.com";
 
 
             const response = await fetch(`${API_URL}/Register`, {
@@ -189,9 +195,17 @@ function Register() {
                     />
                     <label htmlFor="terms"> J'accepte les conditions générales</label>
                 </h4>
-                <button className="submit-button" type="submit" disabled={!acceptedTerms}>
-                    Soumettre
-                </button>
+                <div className="boutton-clear-submit-index">
+                    <button className="submit-button" type="submit" disabled={!acceptedTerms}>
+                        Valider
+                    </button>
+                    <Link to="/Login">
+                        <button type="button" className="submit-button">
+                            J'ai déja un compte
+                        </button>
+                    </Link>
+                </div>
+                    
             </form>
         </div>
     );
