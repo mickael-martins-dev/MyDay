@@ -90,13 +90,13 @@ function Register() {
         try {
             // const API_URL=process.env.REACT_APP_API_URL || "http://localhost:4000";
 
-            // const API_URL="https://myday-back.onrender.com";
+            const API_URL="https://myday-back.onrender.com";
             // const API_URL = "http://localhost:4000";
 
-            const API_URL =
-                window.location.hostname === "localhost"
-                    ? "http://localhost:4000"
-                    : "https://myday-back.onrender.com";
+            // const API_URL =
+            //     window.location.hostname === "localhost"
+            //         ? "http://localhost:4000"
+            //         : "https://myday-back.onrender.com";
 
 
             const response = await fetch(`${API_URL}/Register`, {
