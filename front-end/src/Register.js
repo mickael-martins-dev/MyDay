@@ -90,13 +90,13 @@ function Register() {
         try {
             // const API_URL=process.env.REACT_APP_API_URL || "http://localhost:4000";
 
-            const API_URL="https://myday-back.onrender.com";
+            // const API_URL="https://myday-back.onrender.com";
             // const API_URL = "http://localhost:4000";
 
-            // const API_URL =
-            //     window.location.hostname === "localhost"
-            //         ? "http://localhost:4000"
-            //         : "https://myday-back.onrender.com";
+            const API_URL =
+                window.location.hostname === "localhost"
+                    ? "http://localhost:4000"
+                    : "https://myday-back.onrender.com";
 
 
             const response = await fetch(`${API_URL}/Register`, {
@@ -111,6 +111,7 @@ function Register() {
             console.log("Réponse du serveur :", data);
     
             if (data) {
+                localStorage.setItem('userFeelings', JSON.stringify(feelings));
                 window.location.href = "/Login"; // ✅ La redirection se fait ici
             }
         } catch (error) {
