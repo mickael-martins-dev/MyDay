@@ -75,8 +75,6 @@ app.use('/api', (req, res, next) => {
   next();
 });
 
-
-
 const connectDB = require('./config/db');
 connectDB();
 // Serveur des fichiers statiques de React
@@ -104,7 +102,7 @@ if (process.env.NODE_ENV === 'production') {
       res.render('index', { user: req.session.user });
     });
     
-    app.get('/Login', (req, res) => {
+    app.get('/Login', async (req, res) => {
         res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
         console.log("dans /Login")
     });
@@ -234,21 +232,78 @@ if (process.env.NODE_ENV === 'production') {
         }
     });
 
-    app.post('/', (req, res) => {
-        const { feeling1, feeling2, feeling3, feeling4, phraseGratitude, regle } = req.body;
+    // app.post('/', async (req, res) => {
+    //     const { feeling1, feeling2, feeling3, feeling4, phraseGratitude, regle } = req.body;
     
-        console.log("Données reçues du client :");
-        console.log("Joie :", feeling1);
-        console.log("Stress :", feeling2);
-        console.log("Colère :", feeling3);
-        console.log("Légèreté :", feeling4);
-        console.log("Phrase de gratitude :", phraseGratitude);
-        console.log("Règle acceptée :", regle);
+    //     console.log("Données reçues du client :");
+    //     console.log("Joie :", feeling1);
+    //     console.log("Stress :", feeling2);
+    //     console.log("Colère :", feeling3);
+    //     console.log("Légèreté :", feeling4);
+    //     console.log("Phrase de gratitude :", phraseGratitude);
+    //     console.log("Règle acceptée :", regle);
     
-        res.json({ message: "Données bien reçues par le serveur" });
-    });
 
-    
+    //     user.responses.push({
+    //       feeling1,
+    //       feeling2,
+    //       feeling3,
+    //       feeling4,
+    //       phraseGratitude,
+    //       regle
+    //   });
+
+    //   // Sauvegarde dans la DB
+    //   await user.save();
+    //     res.json({ message: "Données bien reçues par le serveur" });
+    // });
+
+    app.post('/', async (req, res) => {
+      const { feeling1, feeling2, feeling3, feeling4, phraseGratitude, regle } = req.body;
+  
+      if (!req.session.user) {
+          return res.status(401).json({ message: 'Non autorisé : utilisateur non connecté' });
+      }
+  
+      try {
+          // Cherche l'utilisateur connecté
+          const user = await User.findById(req.session.user._id);
+          if (!user) {
+              return res.status(404).json({ message: 'Utilisateur non trouvé' });
+          }
+  
+          // Ajoute la réponse au tableau `responses`
+          user.responses.push({
+              feeling1,
+              feeling2,
+              feeling3,
+              feeling4,
+              phraseGratitude,
+              regle
+          });
+  
+          // Sauvegarde dans la DB
+          await user.save();
+  
+          console.log("Réponse enregistrée pour l'utilisateur :", user.pseudo);
+  
+          res.json({ message: "Réponse enregistrée avec succès" });
+      } catch (err) {
+          console.error("Erreur lors de l'enregistrement de la réponse :", err);
+          res.status(500).json({ message: "Erreur serveur lors de l'enregistrement" });
+      }
+  });
+
+  app.post('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ message: 'Erreur lors de la déconnexion' });
+        }
+        res.clearCookie('connect.sid'); // Remplacez 'connect.sid' par le nom de votre cookie de session
+        res.json({ message: 'Déconnexion réussie' });
+    });
+});
+  
 
   } else {
     // En développement, tu peux laisser React gérer le routage via son serveur de développement
