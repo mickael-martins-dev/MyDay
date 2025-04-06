@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 const cors = require('cors');
 // app.use(cors());
 app.use(cors({
-  origin: "https://myday-front.onrender.com", // ← le lien exact de ton front !
+  origin: "https://myday-20rg.onrender.com", // ← le lien exact de ton front !
   credentials: true
 }));
 
