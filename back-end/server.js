@@ -32,7 +32,7 @@ app.use(cors({
 
 
 const sessionMiddleware = session({
-  store: new RedisStore({ host: 'localhost', port: 6379 }),
+  // store: new RedisStore({ host: 'localhost', port: 6379 }),
     secret: process.env.JWT_SECRET || 'default-secret',
     resave: false,
     saveUninitialized: false,
@@ -44,7 +44,7 @@ const sessionMiddleware = session({
     cookie: {
         secure: true, // Mettre true en production avec HTTPS
         httpOnly: true,
-        sameSite: 'Strict',
+        sameSite: 'None',
         maxAge: 30*24 * 60 * 60 * 1000, // Durée de vie des cookies (30 jour ici)
     },
 });
@@ -188,7 +188,8 @@ if (process.env.NODE_ENV === 'production') {
               return res.redirect('/admin');
           } else {
               console.log("Utilisateur connecté :", req.session.user.username);
-              return res.json({ success: true, redirectUrl: '/' });
+              // return res.json({ success: true, redirectUrl: '/' });
+              return res.redirect('/');
           }
   
       } catch (err) {
