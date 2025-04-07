@@ -257,9 +257,11 @@ if (process.env.NODE_ENV === 'production') {
     app.get('/api/check-auth', (req, res) => {
       if (req.session.user) {
         console.log("Session actuelle /api/check-auth: ", req.session.user ); // Log de la session active
-        res.json({ authenticated: true, user: req.session.user });
+        return res.json({ authenticated: true, user: req.session.user });
+        //res.json({ authenticated: true, user: req.session.user });
       } else {
-        res.json({ authenticated: false });
+        // res.json({ authenticated: false });
+        return res.status(401).json({ message: 'Unauthorized' });
       }
     });
   
