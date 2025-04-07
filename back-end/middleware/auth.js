@@ -4,6 +4,7 @@ function isAuthenticated(req, res, next) {
       return next(); // Utilisateur connecté => on continue
     } else {
       return res.redirect('/login'); // Sinon, on le redirige vers /login
+      // return res.json({ success: true, redirectUrl: '/' });
     }
   }
   
