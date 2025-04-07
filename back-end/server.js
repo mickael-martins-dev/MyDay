@@ -32,6 +32,7 @@ app.use(cors({
 
 
 const sessionMiddleware = session({
+  store: new RedisStore({ host: 'localhost', port: 6379 }),
     secret: process.env.JWT_SECRET || 'default-secret',
     resave: false,
     saveUninitialized: false,
