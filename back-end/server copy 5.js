@@ -11,6 +11,10 @@ const bcryptjs = require('bcryptjs');
 const MongoStore = require('connect-mongo');
 const isAuthenticated = require('./middleware/auth');
 
+let users = {
+  user1: { feelings: ["", "", "", ""] },
+};
+
 // Charger les variables d'environnement
 
 dotenv.config();
@@ -41,7 +45,7 @@ const sessionMiddleware = session({
         collectionName: 'production', // Nom de la collection pour les sessions
     }),
     cookie: {
-        secure: true, // Mettre true en production avec HTTPS
+        secure: false, // Mettre true en production avec HTTPS
         maxAge: 30*24 * 60 * 60 * 1000, // Durée de vie des cookies (30 jour ici)
     },
 });
@@ -284,7 +288,7 @@ if (process.env.NODE_ENV === 'production') {
               feeling2,
               feeling3,
               feeling4,
-              phraseGratitude: phraseGratitude || "",
+              phraseGratitude,
               regle,
               timezone: timezone,
               userLocalDate: userLocalDate.toISOString() // envoyer une date valide
@@ -294,7 +298,7 @@ if (process.env.NODE_ENV === 'production') {
           // Sauvegarde dans la DB
           await user.save();
   
-          // console.log("Réponse enregistrée pour l'utilisateur :", user.pseudo);
+          console.log("Réponse enregistrée pour l'utilisateur :", user.pseudo);
   
           res.json({ message: "Réponse enregistrée avec succès" });
       } catch (err) {
@@ -303,71 +307,16 @@ if (process.env.NODE_ENV === 'production') {
       }
   });
 
-  app.get('/user-feelings', async (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).json({ message: 'Non autorisé : utilisateur non connecté' });
+  app.get('/user-feelings', (req, res) => {
+    // Exemple d'authentification : vérifiez l'utilisateur connecté
+    const userId = 'user1'; // Remplacez par l'identifiant de l'utilisateur connecté
+  
+    if (users[userId]) {
+      res.json({ feelings: users[userId].feelings });
+    } else {
+      res.status(404).json({ error: 'Utilisateur non trouvé' });
     }
-
-    try {
-        const user = await User.findById(req.session.user._id);
-        if (!user) {
-            return res.status(404).json({ error: 'Utilisateur non trouvé' });
-        }
-
-        const regles = user.responses.map(response => response.regle);
-        
-        // console.log("feelings",user.feelings)
-        // console.log("phrasesGratitude",user.responses.phraseGratitude )
-        console.log("Tout", regles)
-        res.json({ feelings: user.feelings,phrasesGratitude:user.responses,regles});
-    } catch (err) {
-        res.status(500).json({ message: 'Erreur serveur lors de la récupération des émotions' });
-    }
-});
-
-
-app.get('/user-phraseGratitude', async (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ message: 'Non autorisé : utilisateur non connecté' });
-  }
-
-  try {
-    const user = await User.findById(req.session.user._id);
-    if (!user) {
-      return res.status(404).json({ message: 'Utilisateur non trouvé' });
-    }
-    
-    // Supposons que tu veux renvoyer les dernières phrases de gratitude
-    const phrases = user.responses.map(r => ({
-      phraseGratitude: r.phraseGratitude,
-      date: r.userLocalDate
-    }));
-    console.log("phrases",phrases)
-
-    res.json({ phrases });
-  } catch (err) {
-    console.error("Erreur lors de la récupération :", err);
-    res.status(500).json({ message: 'Erreur serveur lors de la récupération des phrases' });
-  }
-});
-
-
-
-// app.get('/user-phraseGratitude', async (req, res) => {
-//   if (!req.session.user) {
-//       return res.status(401).json({ message: 'Non autorisé : utilisateur non connecté' });
-//   }
-
-//   try {
-//       const user = await User.findById(req.session.user._id);
-//       if (!user) {
-//           return res.status(404).json({ error: 'Utilisateur non trouvé' });
-//       }
-//       res.json({ feelings: user.phraseGratitude });
-//   } catch (err) {
-//       res.status(500).json({ message: 'Erreur serveur lors de la récupération des émotions' });
-//   }
-// });
+  });
 
   app.post('/logout', (req, res) => {
     req.session.destroy((err) => {
@@ -378,44 +327,8 @@ app.get('/user-phraseGratitude', async (req, res) => {
         res.json({ message: 'Déconnexion réussie' });
     });
 });
+  
 
-app.get('/user-regles', async (req, res) => {
-  if (!req.session.user) {
-      return res.status(401).json({ message: 'Non autorisé : utilisateur non connecté' });
-  }
-
-  try {
-      const user = await User.findById(req.session.user._id);
-      if (!user) {
-          return res.status(404).json({ message: 'Utilisateur non trouvé' });
-      }
-      console.log("regles .....",user.regles)
-      // Récupérer les règles de l'utilisateur
-      res.json({ regles: user.regles });
-  } catch (err) {
-      res.status(500).json({ message: 'Erreur serveur lors de la récupération des règles' });
-  }
-});
-
-app.get('/user-history', async (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ message: 'Non autorisé : utilisateur non connecté' });
-  }
-
-  try {
-    const user = await User.findById(req.session.user._id);
-    if (!user) {
-      return res.status(404).json({ error: 'Utilisateur non trouvé' });
-    }
-    
-    // console.log("------------")
-    // console.log("user.responses",user.responses)
-    // console.log("------------")
-    res.json(user.responses);
-  } catch (err) {
-    res.status(500).json({ message: 'Erreur serveur lors de la récupération de l\'historique' });
-  }
-});
   } else {
     // En développement, tu peux laisser React gérer le routage via son serveur de développement
     app.get('/', (req, res) => {
