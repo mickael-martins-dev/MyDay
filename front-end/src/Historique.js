@@ -38,6 +38,121 @@ const Historique = () => {
   const [showFeeling4, setShowFeeling4] = useState(true);
   const [showRegles, setShowRegles] = useState(true);
 
+  // useEffect(() => {
+  //   const fetchUserFeelingsAndHistory = async () => {
+  //     try {
+  //       const API_URL =
+  //         window.location.hostname === "localhost"
+  //           ? "http://localhost:4000"
+  //           : "https://myday-back.onrender.com";
+
+  //       const feelingsResponse = await fetch(`${API_URL}/user-feelings`, {
+  //         method: "GET",
+  //         headers: { "Content-Type": "application/json" },
+  //         credentials: 'include'
+  //       });
+
+  //       const feelingsData = await feelingsResponse.json();
+  //       if (feelingsData && feelingsData.feelings) {
+  //         setFeelings(feelingsData.feelings);
+  //         setPhraseGratitude(feelingsData.phraseGratitude || []);
+  //         setReglesDates(feelingsData.regles || []);
+  //       }
+
+  //       const historyResponse = await axios.get(`${API_URL}/user-history`, {
+  //         withCredentials: true,
+  //       });
+
+  //       const historyData = historyResponse.data;
+  //       historyData.sort((a, b) => new Date(a.userLocalDate) - new Date(b.userLocalDate));
+
+  //       const labels = historyData.map(entry => {
+  //         const date = new Date(entry.userLocalDate);
+  //         return date.toLocaleDateString('fr-FR', {
+  //           day: '2-digit',
+  //           month: 'short',
+  //         });
+  //       });
+
+  //       const gratitudeHistory = historyData
+  //         .map(entry => entry.phraseGratitude)
+  //         .filter(phrase => phrase && phrase.trim() !== "");
+
+  //       const gratitudeDates = historyData
+  //         .map(entry => new Date(entry.userLocalDate).toLocaleDateString())
+  //         .filter((_, index) => gratitudeHistory[index]);
+
+  //       setDatesGratitude(gratitudeDates);
+  //       setHistoriqueGratitude(gratitudeHistory);
+
+  //       const data = {
+  //         labels,
+  //         datasets: [
+  //           {
+  //             label: feelings[0],
+  //             data: historyData.map(entry => entry.feeling1),
+  //             borderColor: 'rgba(75, 192, 192, 1)',
+  //             borderWidth: 2,
+  //             pointRadius: 1,
+  //             pointHoverRadius: 4,
+  //             fill: false,
+  //             hidden: !showFeeling1
+  //           },
+  //           {
+  //             label: feelings[1],
+  //             data: historyData.map(entry => entry.feeling2),
+  //             borderColor: 'rgba(153, 102, 255, 1)',
+  //             borderWidth: 2,
+  //             pointRadius: 1,
+  //             pointHoverRadius: 4,
+  //             fill: false,
+  //             hidden: !showFeeling2
+  //           },
+  //           {
+  //             label: feelings[2],
+  //             data: historyData.map(entry => entry.feeling3),
+  //             borderColor: 'rgba(255, 99, 132, 1)',
+  //             borderWidth: 2,
+  //             pointRadius: 1,
+  //             pointHoverRadius: 4,
+  //             fill: false,
+  //             hidden: !showFeeling3
+  //           },
+  //           {
+  //             label: feelings[3],
+  //             data: historyData.map(entry => entry.feeling4),
+  //             borderColor: 'rgba(255, 206, 86, 1)',
+  //             borderWidth: 2,
+  //             pointRadius: 1,
+  //             pointHoverRadius: 4,
+  //             fill: false,
+  //             hidden: !showFeeling4
+  //           },
+  //           {
+  //             label: 'Règles',
+  //             data: reglesDates.map((regle, index) => {
+  //               return regle === true ? 0 : null;
+  //             }),
+  //             borderColor: 'rgba(0, 0, 0, 1)',
+  //             backgroundColor: 'rgba(0, 0, 0, 1)',
+  //             borderWidth: 4,
+  //             pointRadius: 4,
+  //             pointHoverRadius: 4,
+  //             fill: true,
+  //             hidden: !showRegles
+  //           }
+  //         ],
+  //       };
+
+  //       setChartData(data);
+  //     } catch (error) {
+  //       console.error("Erreur lors de la récupération des données :", error);
+  //     }
+  //   };
+
+  //   fetchUserFeelingsAndHistory();
+  // }, [feelings, reglesDates, showFeeling1, showFeeling2, showFeeling3, showFeeling4, showRegles]);
+
   useEffect(() => {
     const fetchUserFeelingsAndHistory = async () => {
       try {
@@ -45,25 +160,28 @@ const Historique = () => {
           window.location.hostname === "localhost"
             ? "http://localhost:4000"
             : "https://myday-back.onrender.com";
-
+  
         const feelingsResponse = await fetch(`${API_URL}/user-feelings`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: 'include'
         });
-
+  
         const feelingsData = await feelingsResponse.json();
         if (feelingsData && feelingsData.feelings) {
-          setFeelings(feelingsData.feelings);
+          // Ne relance pas setFeelings inutilement si les valeurs sont déjà identiques
+          setFeelings(prev => JSON.stringify(prev) !== JSON.stringify(feelingsData.feelings) ? feelingsData.feelings : prev);
           setPhraseGratitude(feelingsData.phraseGratitude || []);
           setReglesDates(feelingsData.regles || []);
         }
-
+  
         const historyResponse = await axios.get(`${API_URL}/user-history`, {
           withCredentials: true,
         });
-
+  
         const historyData = historyResponse.data;
+        historyData.sort((a, b) => new Date(a.userLocalDate) - new Date(b.userLocalDate));
+  
         const labels = historyData.map(entry => {
           const date = new Date(entry.userLocalDate);
           return date.toLocaleDateString('fr-FR', {
@@ -71,23 +189,23 @@ const Historique = () => {
             month: 'short',
           });
         });
-
+  
         const gratitudeHistory = historyData
           .map(entry => entry.phraseGratitude)
           .filter(phrase => phrase && phrase.trim() !== "");
-
+  
         const gratitudeDates = historyData
           .map(entry => new Date(entry.userLocalDate).toLocaleDateString())
           .filter((_, index) => gratitudeHistory[index]);
-
+  
         setDatesGratitude(gratitudeDates);
         setHistoriqueGratitude(gratitudeHistory);
-
+  
         const data = {
           labels,
           datasets: [
             {
-              label: feelings[0],
+              label: feelingsData.feelings[0],
               data: historyData.map(entry => entry.feeling1),
               borderColor: 'rgba(75, 192, 192, 1)',
               borderWidth: 2,
@@ -97,7 +215,7 @@ const Historique = () => {
               hidden: !showFeeling1
             },
             {
-              label: feelings[1],
+              label: feelingsData.feelings[1],
               data: historyData.map(entry => entry.feeling2),
               borderColor: 'rgba(153, 102, 255, 1)',
               borderWidth: 2,
@@ -107,7 +225,7 @@ const Historique = () => {
               hidden: !showFeeling2
             },
             {
-              label: feelings[2],
+              label: feelingsData.feelings[2],
               data: historyData.map(entry => entry.feeling3),
               borderColor: 'rgba(255, 99, 132, 1)',
               borderWidth: 2,
@@ -117,7 +235,7 @@ const Historique = () => {
               hidden: !showFeeling3
             },
             {
-              label: feelings[3],
+              label: feelingsData.feelings[3],
               data: historyData.map(entry => entry.feeling4),
               borderColor: 'rgba(255, 206, 86, 1)',
               borderWidth: 2,
@@ -128,9 +246,7 @@ const Historique = () => {
             },
             {
               label: 'Règles',
-              data: reglesDates.map((regle, index) => {
-                return regle === true ? 0 : null;
-              }),
+              data: feelingsData.regles?.map((regle) => (regle === true ? 0 : null)) || [],
               borderColor: 'rgba(0, 0, 0, 1)',
               backgroundColor: 'rgba(0, 0, 0, 1)',
               borderWidth: 4,
@@ -141,15 +257,16 @@ const Historique = () => {
             }
           ],
         };
-
+  
         setChartData(data);
       } catch (error) {
         console.error("Erreur lors de la récupération des données :", error);
       }
     };
-
+  
     fetchUserFeelingsAndHistory();
-  }, [feelings, reglesDates, showFeeling1, showFeeling2, showFeeling3, showFeeling4, showRegles]);
+  }, [showFeeling1, showFeeling2, showFeeling3, showFeeling4, showRegles]);
+  
 
   const options = {
     responsive: true,
