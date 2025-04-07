@@ -103,6 +103,12 @@ if (process.env.NODE_ENV === 'production') {
     //   return res.redirect('/Login');
     // })
 
+    res.cookie('token', token, {
+      httpOnly: true,
+      sameSite: 'None',
+      secure: true, // ← Obligatoire pour cookies cross-origin en HTTPS
+    });
+
     app.get('/', isAuthenticated, (req, res) => {
       res.render('index', { user: req.session.user });
     });
