@@ -188,8 +188,8 @@ if (process.env.NODE_ENV === 'production') {
               return res.redirect('/admin');
           } else {
               console.log("Utilisateur connecté :", req.session.user.username);
-              // return res.json({ success: true, redirectUrl: '/' });
-              return res.redirect('/');
+              return res.json({ success: true, redirectUrl: '/' });
+              // return res.redirect('/');
           }
   
       } catch (err) {
