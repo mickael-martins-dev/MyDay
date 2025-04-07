@@ -48,9 +48,9 @@ const sessionMiddleware = session({
         collectionName: 'production', // Nom de la collection pour les sessions
     }),
     cookie: {
-        secure: false, // Mettre true en production avec HTTPS
-        // httpOnly: true,
-        // sameSite: 'None',
+        secure: true, // Mettre true en production avec HTTPS
+        httpOnly: true,
+        sameSite: 'None',
         maxAge: 30*24 * 60 * 60 * 1000, // Durée de vie des cookies (30 jour ici)
     },
 });
