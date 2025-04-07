@@ -19,6 +19,10 @@ dotenv.config();
 // Créer une application Express
 const app = express();
 app.use(cookieParser());
+app.use((req, res, next) => {
+  console.log("Cookies : ", req.cookies); // Log des cookies
+  next();
+});
 // Middleware pour parser le corps des requêtes en JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -29,6 +33,8 @@ app.use(cors({
   origin: "https://myday-20rg.onrender.com", // ← le lien exact de ton front !
   credentials: true
 }));
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 const sessionMiddleware = session({
@@ -42,9 +48,9 @@ const sessionMiddleware = session({
         collectionName: 'production', // Nom de la collection pour les sessions
     }),
     cookie: {
-        secure: true, // Mettre true en production avec HTTPS
-        httpOnly: true,
-        sameSite: 'None',
+        secure: false, // Mettre true en production avec HTTPS
+        // httpOnly: true,
+        // sameSite: 'None',
         maxAge: 30*24 * 60 * 60 * 1000, // Durée de vie des cookies (30 jour ici)
     },
 });
@@ -77,6 +83,7 @@ app.use(sessionMiddleware);
 // Ne protège que les API sensibles, pas les routes de React
 app.use('/api', (req, res, next) => {
   const isLoggedIn = req.session.user;
+  console.log("Session actuelle dans api: ", req.session); // Log de la session active
   if (!isLoggedIn) {
     return res.status(401).json({ message: 'Non autorisé' });
   }
@@ -107,10 +114,13 @@ if (process.env.NODE_ENV === 'production') {
     // })
 
     app.get('/', isAuthenticated, (req, res) => {
+      console.log("isAuthenticated",isAuthenticated)
+      console.log("Session actuelle : ", req.session); // Log de la session active
       res.render('index', { user: req.session.user });
     });
     
     app.get('/Login', async (req, res) => {
+      console.log("Session actuelle : ", req.session); // Log de la session active
         res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
         console.log("dans /Login")
     });
@@ -200,6 +210,7 @@ if (process.env.NODE_ENV === 'production') {
 
   app.post('/Login', async (req, res) => {
     const { pseudo, password } = req.body;
+    console.log("Session actuelle dans Login post: ", req.session); // Log de la session active
     console.log("pseudo : ", pseudo);
     console.log("psw : ", password);
 
@@ -213,6 +224,7 @@ if (process.env.NODE_ENV === 'production') {
 
         // Vérifier le mot de passe
         const isMatch = await bcryptjs.compare(password, userLogged.password);
+        console.log("Valeur de isMatch : ", isMatch); // Log de la session active
         if (!isMatch) {
             return res.render('Login', { message: "Login ou mot de passe erroné !" });
         }
@@ -222,7 +234,7 @@ if (process.env.NODE_ENV === 'production') {
             _id: userLogged._id,
             username: userLogged.pseudo,
         };
-
+        console.log('req.session.user',req.session.user)
         console.log("Session après connexion :", req.session);
 
         // Redirection
@@ -231,7 +243,8 @@ if (process.env.NODE_ENV === 'production') {
             return res.redirect('/admin');
         } else {
             console.log("Utilisateur connecté :", req.session.user.username);
-            return res.json({ success: true, redirectUrl: '/' });
+            // return res.json({ success: true, redirectUrl: '/' });
+            return res.redirect('/');
             // return res.redirect('/');
         }
 
@@ -243,6 +256,7 @@ if (process.env.NODE_ENV === 'production') {
 
     app.get('/api/check-auth', (req, res) => {
       if (req.session.user) {
+        console.log("Session actuelle /api/check-auth: ", req.session.user ); // Log de la session active
         res.json({ authenticated: true, user: req.session.user });
       } else {
         res.json({ authenticated: false });
