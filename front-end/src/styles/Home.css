@@ -87,6 +87,33 @@ h5 {
   border-radius: 10px;
   width: 60%; 
 }
+h6 {
+  font-size: 1.35rem; /* 28px */
+  margin: auto;
+  margin-top: 1.85rem; /* 20px */
+  margin-bottom: 1.05rem; /* 20px */
+  color: #5a9a7f; /* Vert apaisant */
+  background-color: #e9e2f0;
+  border: #cfa2d9 1px solid;
+  border-radius: 10px;
+  width: 75%; 
+  text-align: center;
+}
+
+.h7 {
+  font-size: 1.15rem; /* 28px */
+  margin: auto;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-top: 1.25rem; /* 20px */
+  margin-bottom: 1.05rem; /* 20px */
+  color: #5a9a7f; /* Vert apaisant */
+  background-color: #e9e2f0;
+  border: #cfa2d9 1px solid;
+  border-radius: 10px;
+  width: 75%; 
+  text-align: center;
+}
 
 .stars {
   margin: 0.05rem 0; /* 20px */
@@ -145,6 +172,16 @@ h5 {
   border: none; /* Pour enlever la bordure par défaut */
   margin: 0.85rem auto  0.85rem ; /* Ajouter un peu de marge autour de la ligne */
 }
+
+.hr-phraseGratitude{
+  width: 75%;
+  color: black;
+  background-color: #5a9a7f;
+  height: 0.075rem; /* Ajuster la hauteur en rem */
+  border: none; /* Pour enlever la bordure par défaut */
+  margin: 0.35rem auto  0.1rem ; /* Ajouter un peu de marge autour de la ligne */
+}
+
 .regles{
   margin-top: 1.3rem;
   margin-bottom: 1.3rem;
@@ -170,25 +207,42 @@ h5 {
   background-color: #4b8b6b;
 }
 
-.button-container {
-  display: flex;
-  justify-content: flex-end; /* Aligne le bouton à droite */
-}
-
-.submit-button-deco {
-  background-color: #ed1010; /* Vert apaisant */
-  color: rgb(0, 0, 0);
+.submit-button-history {
+  background-color: #5a9a7f; /* Vert apaisant */
+  color: white;
   border: none;
-  margin-top: 2.2rem;
+  margin-top: 1rem;
   padding: 0.75rem 1.5rem; /* 12px 24px */
   font-size: 1.125rem; /* 18px */
   border-radius: 0.5rem; /* 8px */
   cursor: pointer;
 }
 
+.submit-button-history:hover {
+  background-color: #4b8b6b;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Aligne le bouton à droite */
+}
+
+.submit-button-deco {
+  background-color: #ff4949; /* Vert apaisant */
+  color: rgb(0, 0, 0);
+  border: none;
+  margin-top: 2.2rem;
+  padding: 0.75rem 0.75rem 0.50rem 0.75rem; /* 12px 24px */
+  font-size: 1.125rem; /* 18px */
+  border: solid 1px white;
+  border-radius: 50%; /* 8px */
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
 .submit-button-deco:hover {
-  background-color: #000000;
-  color: rgb(241, 102, 102);
+  background-color: #8e8484;
+  color: rgb(232, 114, 114);
 }
 
 .submit-button-clear {
@@ -213,3 +267,59 @@ h5 {
   width: 1.05rem; /* Taille de l'image, ajustez selon vos besoins */
   height: 1.05rem; /* Taille de l'image, ajustez selon vos besoins */
 }
+
+.fenetre-gratitude{
+  border-radius: 10px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 80%;
+  height: 8rem;
+  background-color: #bfc6eb;
+  text-align: center;
+  margin: auto;
+  overflow-y: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+p {
+  font-size: 0.9rem;
+  line-height: 2.0;
+  padding-top: 0.9rem; 
+  margin-left: 2rem;  /* Marge à gauche */
+  margin-right: 2rem; /* Marge à droite */
+}
+
+.chart-container {
+  height: 15rem; /* Spécifie la hauteur ici */
+  width: 100%; /* Optionnel, pour garantir que le graphique prend toute la largeur du conteneur */
+}
+
+.checkbox-container {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap; /* Permet aux éléments de s'enrouler */
+  gap: 10px; /* Ajoute un espace entre les éléments */
+}
+
+.checkbox-container label {
+  flex: 1 0 30%; /* Chaque label occupe 30% de la largeur de la ligne (3 par ligne) */
+  font-size: 20px;
+  font-weight: bolder;
+  white-space: normal; /* Permet le retour à la ligne si nécessaire */
+  overflow-wrap: break-word;
+  margin-bottom: 10px; /* Espacement entre les lignes */
+  margin-right: 10px; 
+}
+
+/* Si vous voulez une deuxième ligne avec 2 éléments */
+.checkbox-container label:nth-child(n+4) {
+  flex: 1 0 45%; /* Pour les éléments après le 3ème, on les fait occuper 45% de la largeur (2 par ligne) */
+}
+
+.checkbox-container input {
+  margin-right: 10px;
+   /* Espace entre la case à cocher et le texte */
+}
+
+

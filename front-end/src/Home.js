@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import './styles/Home.css';
 import './styles/Mobile.css';
-import LogoutButton from './LogoutButton';
-
+import LogoutButton from './LogoutButton'; // Importer le composant LogoutButton
+import { Link } from 'react-router-dom';
+let feeling1=""
+let feeling2=""
+let feeling3=""
+let feeling4=""
 function Home() {
   const [rating1, setRating1] = useState(0);
   const [rating2, setRating2] = useState(0);
   const [rating3, setRating3] = useState(0);
   const [rating4, setRating4] = useState(0);
   const [phrase, setPhrase] = useState('');
-  const [canSubmit, setCanSubmit] = useState(true);
+  const [canSubmit, setCanSubmit] = useState(true); // Contrôle de la possibilité de soumettre
   const [feelings, setFeelings] = useState(["", "", "", ""]);
 
   const handleRatingChange = (setter) => (newRating) => setter(newRating);
@@ -27,7 +31,47 @@ function Home() {
     }
   };
 
-  const handleSubmit = async () => {
+//   const handleSubmit = async () => {
+//     // Cette fonction gère la soumission réelle
+//     const userData = {
+//       feeling1: rating1,
+//       feeling2: rating2,
+//       feeling3: rating3,
+//       feeling4: rating4,
+//       phraseGratitude: phrase,
+//       regle: document.getElementById("regle").checked
+//     };
+
+//     try {
+//       const API_URL =
+//         window.location.hostname === "localhost"
+//           ? "http://localhost:4000"
+//           : "https://myday-back.onrender.com";
+
+//       const response = await fetch(`${API_URL}/`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify(userData),
+//         credentials: 'include'
+//       });
+
+//       const data = await response.json();
+//       console.log("Réponse du serveur :", data);
+
+//       if (data) {
+//         handleClear();
+//         const currentDate = new Date();
+//         const currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+//         localStorage.setItem('lastSubmissionDate', currentDateWithoutTime.toISOString()); // Enregistrer la date sans l'heure
+//         setCanSubmit(false); // Désactiver le bouton de soumission
+//       }
+//     } catch (error) {
+//       console.error("Erreur lors de l'envoi :", error);
+//     }
+//   };
+
+const handleSubmit = async () => {
+    // Vérification des valeurs avant l'envoi
     console.log("Données envoyées :");
     console.log({
       feeling1: rating1,
@@ -37,7 +81,7 @@ function Home() {
       phraseGratitude: phrase,
       regle: document.getElementById("regle").checked
     });
-
+  
     const userData = {
       feeling1: rating1,
       feeling2: rating2,
@@ -46,55 +90,92 @@ function Home() {
       phraseGratitude: phrase,
       regle: document.getElementById("regle").checked
     };
-
+  
     try {
       const API_URL =
         window.location.hostname === "localhost"
           ? "http://localhost:4000"
           : "https://myday-back.onrender.com";
-
+  
+      // Ajout d'un log pour vérifier l'URL
       console.log("Envoi de la requête à l'URL : ", `${API_URL}/`);
-
+  
       const response = await fetch(`${API_URL}/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
         credentials: 'include'
       });
-
+  
       const data = await response.json();
       console.log("Réponse du serveur :", data);
-
+  
       if (data) {
         handleClear();
         const currentDate = new Date();
         const currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-        localStorage.setItem('lastSubmissionDate', currentDateWithoutTime.toISOString());
-        setCanSubmit(false);
+        localStorage.setItem('lastSubmissionDate', currentDateWithoutTime.toISOString()); // Enregistrer la date sans l'heure
+        setCanSubmit(false); // Désactiver le bouton de soumission
       }
     } catch (error) {
       console.error("Erreur lors de l'envoi :", error);
     }
+    const API_URL =
+        window.location.hostname === "localhost"
+          ? "http://localhost:4000"
+          : "https://myday-back.onrender.com";
+    const response = await fetch(`${API_URL}/user-feelings`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: 'include'
+      });
+
+      console.log("response",response)
   };
+  
 
   useEffect(() => {
+
+    const fetchUserFeelings = async () => {
+        try {
+          const API_URL =
+            window.location.hostname === "localhost"
+              ? "http://localhost:4000"
+              : "https://myday-back.onrender.com";
+  
+          const response = await fetch(`${API_URL}/user-feelings`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: 'include'
+          });
+  
+          const dataFeelings = await response.json();
+          feeling1=dataFeelings.feelings[0]
+          feeling2=dataFeelings.feelings[1]
+          feeling3=dataFeelings.feelings[2]
+          feeling4=dataFeelings.feelings[3]
+
+          if (dataFeelings && dataFeelings.feelings) {
+            setFeelings(dataFeelings.feelings);
+          }
+        } catch (error) {
+          console.error("Erreur lors de la récupération des émotions :", error);
+        }
+      };
+  
+      fetchUserFeelings();
+    // Vérifier si la date du jour est différente de celle enregistrée dans le localStorage
     const lastSubmission = localStorage.getItem('lastSubmissionDate');
     const currentDate = new Date();
     const currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-
+    
     if (lastSubmission) {
       const lastDate = new Date(lastSubmission);
       if (currentDateWithoutTime > lastDate) {
-        setCanSubmit(true);
+        setCanSubmit(true); // Permettre la soumission si nous sommes sur un nouveau jour
       } else {
-        setCanSubmit(false);
+        setCanSubmit(false); // Empêcher la soumission sinon
       }
-    }
-
-    // Récupérer les émotions du localStorage
-    const storedFeelings = localStorage.getItem('userFeelings');
-    if (storedFeelings) {
-      setFeelings(JSON.parse(storedFeelings));
     }
   }, []);
 
@@ -106,16 +187,21 @@ function Home() {
         </h1>
       </div>
 
-      <form onSubmit={(e) => e.preventDefault()}>
-        {feelings.map((feeling, index) => (
+      <form onSubmit={(e) => e.preventDefault()}> {/* Prévenir la soumission automatique du formulaire */}
+        {[ 
+          { title: feeling1, rating: rating1, setRating: handleRatingChange(setRating1) },
+          { title: feeling2, rating: rating2, setRating: handleRatingChange(setRating2) },
+          { title: feeling3, rating: rating3, setRating: handleRatingChange(setRating3) },
+          { title: feeling4, rating: rating4, setRating: handleRatingChange(setRating4) }
+        ].map((feeling, index) => (
           <div key={index}>
-            <h2>{feeling}</h2>
+            <h2>{feeling.title}</h2>
             <div className="stars">
               {[1, 2, 3, 4, 5].map((star) => (
                 <span
                   key={star}
-                  className={star >= (index === 0 ? rating1 : index === 1 ? rating2 : index === 2 ? rating3 : rating4) ? 'active' : ''}
-                  onClick={() => handleRatingChange(index === 0 ? setRating1 : index === 1 ? setRating2 : index === 2 ? setRating3 : setRating4)(star)}
+                  className={`star ${feeling.rating >= star ? 'active' : ''}`}
+                  onClick={() => feeling.setRating(star)}
                 >
                   &#9733;
                 </span>
@@ -125,7 +211,7 @@ function Home() {
         ))}
 
         <hr className="hr" />
-        <h3>Ma gratitude du jour</h3>
+        <h3>Mon mantra du jour</h3>
         <textarea
           className="phrase-input"
           placeholder="Ajoutez une phrase ou une réflexion..."
@@ -154,17 +240,21 @@ function Home() {
           <button
             type="submit"
             className="submit-button"
-            onClick={handleSubmit}
+            onClick={handleSubmit} // Appel de la fonction handleSubmit directement
+            // disabled={!canSubmit} // Désactiver le bouton si on ne peut pas soumettre
           >
             Soumettre
           </button>
         </div>
         <hr className="hr" />
 
-        <button type="button" className="submit-button">
-          Historique
-        </button>
-
+        <Link to="/Historique">
+            <button type="button" className="submit-button">
+                Historique
+            </button>
+        </Link>
+        
+        {/* Utilisation du composant LogoutButton */}
         <div className='button-container'>
           <LogoutButton />
         </div>
