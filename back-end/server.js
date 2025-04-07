@@ -43,6 +43,7 @@ const sessionMiddleware = session({
     cookie: {
         secure: true, // Mettre true en production avec HTTPS
         httpOnly: true,
+        sameSite: 'Strict',
         maxAge: 30*24 * 60 * 60 * 1000, // Durée de vie des cookies (30 jour ici)
     },
 });
