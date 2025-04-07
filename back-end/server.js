@@ -155,48 +155,91 @@ if (process.env.NODE_ENV === 'production') {
     //     }
     // });
 
-    app.post('/login', async (req, res) => {
-      const { pseudo, password } = req.body;
-      console.log("pseudo : ", pseudo);
-      console.log("psw : ", password);
+  //   app.post('/login', async (req, res) => {
+  //     const { pseudo, password } = req.body;
+  //     console.log("pseudo : ", pseudo);
+  //     console.log("psw : ", password);
   
-      try {
-          const userLogged = await User.findOne({ pseudo });
+  //     try {
+  //         const userLogged = await User.findOne({ pseudo });
   
-          // Vérifier si l'utilisateur existe
-          if (!userLogged) {
-              return res.render('login', { message: "Login ou mot de passe erroné !" });
-          }
+  //         // Vérifier si l'utilisateur existe
+  //         if (!userLogged) {
+  //             return res.render('login', { message: "Login ou mot de passe erroné !" });
+  //         }
   
-          // Vérifier le mot de passe
-          const isMatch = await bcryptjs.compare(password, userLogged.password);
-          if (!isMatch) {
-              return res.render('login', { message: "Login ou mot de passe erroné !" });
-          }
+  //         // Vérifier le mot de passe
+  //         const isMatch = await bcryptjs.compare(password, userLogged.password);
+  //         if (!isMatch) {
+  //             return res.render('login', { message: "Login ou mot de passe erroné !" });
+  //         }
   
-          // Créer la session utilisateur
-          req.session.user = {
-              _id: userLogged._id,
-              username: userLogged.pseudo,
-          };
+  //         // Créer la session utilisateur
+  //         req.session.user = {
+  //             _id: userLogged._id,
+  //             username: userLogged.pseudo,
+  //         };
   
-          console.log("Session après connexion :", req.session);
+  //         console.log("Session après connexion :", req.session);
   
-          // Redirection
-          if (userLogged.isAdmin === "y") {
-              console.log("Utilisateur admin connecté");
-              return res.redirect('/admin');
-          } else {
-              console.log("Utilisateur connecté :", req.session.user.username);
-              return res.json({ success: true, redirectUrl: '/' });
-              // return res.redirect('/');
-          }
+  //         // Redirection
+  //         if (userLogged.isAdmin === "y") {
+  //             console.log("Utilisateur admin connecté");
+  //             return res.redirect('/admin');
+  //         } else {
+  //             console.log("Utilisateur connecté :", req.session.user.username);
+  //             return res.json({ success: true, redirectUrl: '/' });
+  //             // return res.redirect('/');
+  //         }
   
-      } catch (err) {
-          console.error("Erreur lors de la connexion :", err);
-          res.status(500).send("Erreur lors de la connexion");
-      }
-  });
+  //     } catch (err) {
+  //         console.error("Erreur lors de la connexion :", err);
+  //         res.status(500).send("Erreur lors de la connexion");
+  //     }
+  // });
+
+  app.post('/Login', async (req, res) => {
+    const { pseudo, password } = req.body;
+    console.log("pseudo : ", pseudo);
+    console.log("psw : ", password);
+
+    try {
+        const userLogged = await User.findOne({ pseudo });
+
+        // Vérifier si l'utilisateur existe
+        if (!userLogged) {
+            return res.render('Login', { message: "Login ou mot de passe erroné !" });
+        }
+
+        // Vérifier le mot de passe
+        const isMatch = await bcryptjs.compare(password, userLogged.password);
+        if (!isMatch) {
+            return res.render('Login', { message: "Login ou mot de passe erroné !" });
+        }
+
+        // Créer la session utilisateur
+        req.session.user = {
+            _id: userLogged._id,
+            username: userLogged.pseudo,
+        };
+
+        console.log("Session après connexion :", req.session);
+
+        // Redirection
+        if (userLogged.isAdmin === "y") {
+            console.log("Utilisateur admin connecté");
+            return res.redirect('/admin');
+        } else {
+            console.log("Utilisateur connecté :", req.session.user.username);
+            return res.json({ success: true, redirectUrl: '/' });
+            // return res.redirect('/');
+        }
+
+    } catch (err) {
+        console.error("Erreur lors de la connexion :", err);
+        res.status(500).send("Erreur lors de la connexion");
+    }
+});
 
     app.get('/api/check-auth', (req, res) => {
       if (req.session.user) {
