@@ -376,6 +376,7 @@ p {
   gap: 0.5rem; /* espace horizontal entre les boutons */
   justify-content: space-around;
   margin-top: 0.85rem; /* optionnel, pour espacer du reste */
+  flex-wrap: wrap;
 }
 
 .time-filter button {

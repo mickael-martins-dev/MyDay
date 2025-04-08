@@ -350,10 +350,6 @@ const filtrerDonneesParTemps = (data, range) => {
     <div>
       <div className="container">
         <h6>Historique des Émotions</h6>
-
-        <div className="chart-container">
-          {chartData.labels && <Line data={chartData} options={options} />}
-        </div>
         <div className="time-filter">
           <button onClick={() => setTimeRange('1semaine')}>1 semaine</button>
           <button onClick={() => setTimeRange('1hour')}>1 mois</button>
@@ -361,6 +357,10 @@ const filtrerDonneesParTemps = (data, range) => {
           <button onClick={() => setTimeRange('6hour')}>6 mois</button>
           <button onClick={() => setTimeRange('tout')}>Tout</button>
         </div>
+        <div className="chart-container">
+          {chartData.labels && <Line data={chartData} options={options} />}
+        </div>
+        
 
         {/* <div className="checkbox-container">
           <label>
