@@ -193,7 +193,7 @@ function Register() {
 
                 <hr className="hr" />
 
-                <h4>
+                <div className='h4-bis'>
                     <input
                         type="checkbox"
                         id="terms"
@@ -201,7 +201,7 @@ function Register() {
                         onChange={(e) => setAcceptedTerms(e.target.checked)}
                     />
                     <label htmlFor="terms"> J'accepte les conditions générales</label>
-                </h4>
+                </div>
                 <div className="boutton-clear-submit-index">
                     <button className="submit-button" type="submit" disabled={!acceptedTerms}>
                         Valider

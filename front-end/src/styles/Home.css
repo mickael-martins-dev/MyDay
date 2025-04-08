@@ -74,6 +74,18 @@ h4 {
   border-radius: 10px;
   width: 75%; 
 }
+.h4-bis {
+  font-size: 1.05rem; /* 28px */
+  padding-top: 0.5rem;
+  margin: auto;
+  margin-top: 0.85rem; /* 20px */
+  margin-bottom: 1.25rem; /* 20px */
+  color: #5a9a7f; /* Vert apaisant */
+  background-color: #e9e2f0;
+  border: #cfa2d9 1px solid;
+  border-radius: 10px;
+  width: 75%; 
+}
 h5 {
   font-size: 1.05rem; /* 28px */
   margin: auto;
