@@ -6,7 +6,15 @@ function LogoutButton() {
 
     const handleLogout = async () => {
         try {
-            const response = await fetch('http://localhost:4000/logout', {
+            const API_URL =
+                window.location.hostname === "localhost"
+                    ? "http://localhost:4000"
+                    : "https://myday-back.onrender.com";
+                    
+            
+
+            const response = await fetch(`${API_URL}/logout`, {
+            // const response = await fetch('http://localhost:4000/logout', {
                 method: 'POST',
                 credentials: 'include',  // Pour inclure les cookies de session dans la requête
             });
