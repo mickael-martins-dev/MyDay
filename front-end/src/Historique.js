@@ -50,6 +50,9 @@ const filtrerDonneesParTemps = (data, range) => {
     case '1semaine':
       limite = new Date(maintenant.setDate(maintenant.getDate() - 7));
       break;
+      case '2semaine':
+      limite = new Date(maintenant.setDate(maintenant.getDate() - 14));
+      break;
     case '1mois':
       // limite = new Date(maintenant.setMonth(maintenant.getMonth() - 1));
       limite = new Date(maintenant.setMonth(maintenant.getMonth() - 1));
@@ -212,7 +215,7 @@ const filtrerDonneesParTemps = (data, range) => {
         });
   
         const historyData = historyResponse.data;
-        historyData.sort((a, b) => new Date(a.userLocalDate) - new Date(b.userLocalDate));
+        historyData.sort((a, b) => new Date(b.userLocalDate) - new Date(a.userLocalDate));
         const filteredHistory = filtrerDonneesParTemps(historyData, timeRange);
         const labels = filteredHistory.map(entry => {
           const date = new Date(entry.userLocalDate);
@@ -352,6 +355,7 @@ const filtrerDonneesParTemps = (data, range) => {
         <h6>Historique des Émotions</h6>
         <div className="time-filter">
           <button onClick={() => setTimeRange('1semaine')}>1 semaine</button>
+          <button onClick={() => setTimeRange('2semaine')}>2 semaines</button>
           <button onClick={() => setTimeRange('1mois')}>1 mois</button>
           <button onClick={() => setTimeRange('3mois')}>3 mois</button>
           <button onClick={() => setTimeRange('6mois')}>6 mois</button>
