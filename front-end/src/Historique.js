@@ -13,6 +13,8 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom';
+ChartJS.register(zoomPlugin);
 
 ChartJS.register(
   CategoryScale,
@@ -37,6 +39,36 @@ const Historique = () => {
   const [showFeeling3, setShowFeeling3] = useState(true);
   const [showFeeling4, setShowFeeling4] = useState(true);
   const [showRegles, setShowRegles] = useState(true);
+
+  const [timeRange, setTimeRange] = useState('3mois');
+
+const filtrerDonneesParTemps = (data, range) => {
+  const maintenant = new Date();
+  let limite;
+
+  switch (range) {
+    case '1semaine':
+      limite = new Date(maintenant.setDate(maintenant.getDate() - 7));
+      break;
+    case '1mois':
+      // limite = new Date(maintenant.setMonth(maintenant.getMonth() - 1));
+      limite = new Date(maintenant.setMonth(maintenant.getMonth() - 1));
+      break;
+    case '3mois':
+      // limite = new Date(maintenant.setMonth(maintenant.getMonth() - 3));
+      limite = new Date(maintenant.setMonth(maintenant.getMonth() - 3));
+      break;
+    case '6hour':
+      // limite = new Date(maintenant.setMonth(maintenant.getMonth() - 6));
+      limite = new Date(maintenant.setMonth(maintenant.getMonth() - 6));
+      break;
+    default:
+      return data;
+  }
+
+  return data.filter(entry => new Date(entry.userLocalDate) >= limite);
+};
+
 
   // useEffect(() => {
   //   const fetchUserFeelingsAndHistory = async () => {
@@ -181,8 +213,8 @@ const Historique = () => {
   
         const historyData = historyResponse.data;
         historyData.sort((a, b) => new Date(a.userLocalDate) - new Date(b.userLocalDate));
-  
-        const labels = historyData.map(entry => {
+        const filteredHistory = filtrerDonneesParTemps(historyData, timeRange);
+        const labels = filteredHistory.map(entry => {
           const date = new Date(entry.userLocalDate);
           return date.toLocaleDateString('fr-FR', {
             day: '2-digit',
@@ -265,7 +297,7 @@ const Historique = () => {
     };
   
     fetchUserFeelingsAndHistory();
-  }, [showFeeling1, showFeeling2, showFeeling3, showFeeling4, showRegles]);
+  }, [showFeeling1, showFeeling2, showFeeling3, showFeeling4, showRegles,timeRange]);
   
 
   const options = {
@@ -296,6 +328,21 @@ const Historique = () => {
           color: '#333',
         },
       },
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: 'x',
+        },
+        zoom: {
+          wheel: {
+            enabled: true,
+          },
+          pinch: {
+            enabled: true
+          },
+          mode: 'x',
+        },
+      },
     },
   };
 
@@ -307,6 +354,14 @@ const Historique = () => {
         <div className="chart-container">
           {chartData.labels && <Line data={chartData} options={options} />}
         </div>
+        <div className="time-filter">
+          <button onClick={() => setTimeRange('1semaine')}>1 semaine</button>
+          <button onClick={() => setTimeRange('1hour')}>1 mois</button>
+          <button onClick={() => setTimeRange('3mois')}>3 mois</button>
+          <button onClick={() => setTimeRange('6hour')}>6 mois</button>
+          <button onClick={() => setTimeRange('tout')}>Tout</button>
+        </div>
+
         {/* <div className="checkbox-container">
           <label>
             <input

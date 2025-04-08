@@ -360,3 +360,30 @@ p {
   color: #5a5454; /* Optionnel : couleur plus douce */
 }
 
+/* .time-filter button {
+  padding: 0.6rem 1.0rem; 
+  font-size: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  gap:0.3rem;
+  margin-top: 0.5rem;
+} */
+
+.time-filter {
+  display: flex;
+  gap: 0.5rem; /* espace horizontal entre les boutons */
+  justify-content: space-around;
+  margin-top: 0.9rem; /* optionnel, pour espacer du reste */
+}
+
+.time-filter button {
+  padding: 0.6rem 1.0rem;
+  font-size: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
