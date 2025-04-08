@@ -272,6 +272,12 @@ if (process.env.NODE_ENV === 'production') {
     console.log("dans /Register")
     });
 
+    app.get('/Historique', (req, res) => {
+      if(req.session.user)
+        res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
+      console.log("dans /Register")
+      });
+
     app.post('/Register', async (req, res) => {
         // console.log("Requête reçue sur /Register");
         console.log("Données reçues :", req.body); 
@@ -518,11 +524,6 @@ app.get('/user-history', async (req, res) => {
       res.send('API backend en cours d\'exécution');
     });
   }
-
-  // app.get('*', (req, res) => {
-  //   if (req.session.user)
-  //     res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
-  // });
 
 // Lancer le serveur
 const PORT = process.env.PORT;
