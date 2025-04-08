@@ -462,7 +462,7 @@ app.get('/user-phraseGratitude', async (req, res) => {
 
 app.post('/logout', (req, res) => {
   if (req.session.user) {
-      console.log("// Détruire la session actuelle")
+      console.log("// Détruire la session actuelle !!! ")
       req.session.destroy((err) => {
           if (err) {
               return res.status(500).json({ message: 'Erreur lors de la déconnexion' });
