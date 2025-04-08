@@ -519,6 +519,10 @@ app.get('/user-history', async (req, res) => {
     });
   }
 
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  });
+
 // Lancer le serveur
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
