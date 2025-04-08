@@ -31,14 +31,12 @@ const cors = require('cors');
 // app.use(cors());
 app.use(cors({
   origin: "https://myday-20rg.onrender.com", // ← le lien exact de ton front !
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.set('trust proxy', 1)
+
 const sessionMiddleware = session({
   // store: new RedisStore({ host: 'localhost', port: 6379 }),
     secret: process.env.JWT_SECRET || 'default-secret',
@@ -50,9 +48,9 @@ const sessionMiddleware = session({
         collectionName: 'production', // Nom de la collection pour les sessions
     }),
     cookie: {
-        secure: true, // Mettre true en production avec HTTPS
-        httpOnly: true,
-        sameSite: 'None',
+        secure: false, // Mettre true en production avec HTTPS
+        // httpOnly: true,
+        // sameSite: 'None',
         maxAge: 30*24 * 60 * 60 * 1000, // Durée de vie des cookies (30 jour ici)
     },
 });
