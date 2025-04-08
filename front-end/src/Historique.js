@@ -352,9 +352,9 @@ const filtrerDonneesParTemps = (data, range) => {
         <h6>Historique des Émotions</h6>
         <div className="time-filter">
           <button onClick={() => setTimeRange('1semaine')}>1 semaine</button>
-          <button onClick={() => setTimeRange('1hour')}>1 mois</button>
+          <button onClick={() => setTimeRange('1mois')}>1 mois</button>
           <button onClick={() => setTimeRange('3mois')}>3 mois</button>
-          <button onClick={() => setTimeRange('6hour')}>6 mois</button>
+          <button onClick={() => setTimeRange('6mois')}>6 mois</button>
           <button onClick={() => setTimeRange('tout')}>Tout</button>
         </div>
         <div className="chart-container">
