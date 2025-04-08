@@ -215,7 +215,7 @@ const filtrerDonneesParTemps = (data, range) => {
         });
   
         const historyData = historyResponse.data;
-        historyData.sort((a, b) => new Date(b.userLocalDate) - new Date(a.userLocalDate));
+        historyData.sort((a, b) => new Date(a.userLocalDate) - new Date(b.userLocalDate));
         const filteredHistory = filtrerDonneesParTemps(historyData, timeRange);
         const labels = filteredHistory.map(entry => {
           const date = new Date(entry.userLocalDate);
