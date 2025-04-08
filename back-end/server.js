@@ -50,9 +50,9 @@ const sessionMiddleware = session({
         collectionName: 'production', // Nom de la collection pour les sessions
     }),
     cookie: {
-        secure: true, // Mettre true en production avec HTTPS
-        httpOnly: true,
-        sameSite: 'None',
+        secure: false, // Mettre true en production avec HTTPS
+        // httpOnly: true,
+        // sameSite: 'None',
         maxAge: 30*24 * 60 * 60 * 1000, // Durée de vie des cookies (30 jour ici)
     },
 });
@@ -275,8 +275,14 @@ if (process.env.NODE_ENV === 'production') {
     app.get('/Historique', (req, res) => {
       if(req.session.user)
         res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
-      console.log("dans /Register")
+      console.log("dans /Emotions")
       });
+
+      app.get('/Emotions', (req, res) => {
+        if(req.session.user)
+          res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
+        console.log("dans /Register")
+        });
 
     app.post('/Register', async (req, res) => {
         // console.log("Requête reçue sur /Register");
