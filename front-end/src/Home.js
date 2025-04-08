@@ -259,6 +259,8 @@ const handleSubmit = async () => {
           <LogoutButton />
         </div>
       </form>
+      <p className ="droits">© 2025 myDay. Tous droits réservés.
+             Cette application et son contenu sont protégés par les lois en vigueur sur la propriété intellectuelle. </p>
     </div>
   );
 }

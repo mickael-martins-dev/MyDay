@@ -353,3 +353,10 @@ p {
   width: 100%;
 }
 
+.droits{
+  font-style: italic;
+  line-height: 1.2; /* Réduit l’interligne */
+  font-size: 0.85rem; /* Optionnel : si tu veux aussi la rendre discrète */
+  color: #5a5454; /* Optionnel : couleur plus douce */
+}
+
