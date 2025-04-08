@@ -134,6 +134,27 @@ function Register() {
                 </h1>
             </div>
             <form onSubmit={handleSubmit}>
+
+                <h5>Tes émotions à suivre</h5>
+                {feelings.map((feeling, index) => (
+                    <h4 key={index}>
+                        <label htmlFor={`feeling_${index + 1}`}>Émotion #{index + 1} : </label>
+                        <input
+                            className="login-input"
+                            type="text"
+                            id={`feeling_${index + 1}`}
+                            value={feeling}
+                            onChange={(e) => handleFeelingChange(index, e.target.value)}
+                            required
+                        />
+                    </h4>
+                ))}
+                <Link to="/Emotions">
+                        <button type="button" className="submit-button-roue">
+                            Roue des émotions
+                        </button>
+                </Link>
+
                 <h5>Données personnelles</h5>
                 <h4>
                     <label htmlFor="pseudo">Pseudo : </label>
@@ -169,21 +190,6 @@ function Register() {
                     />
                 </h4>
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
-
-                <h5>Tes émotions à suivre</h5>
-                {feelings.map((feeling, index) => (
-                    <h4 key={index}>
-                        <label htmlFor={`feeling_${index + 1}`}>Émotion #{index + 1} : </label>
-                        <input
-                            className="login-input"
-                            type="text"
-                            id={`feeling_${index + 1}`}
-                            value={feeling}
-                            onChange={(e) => handleFeelingChange(index, e.target.value)}
-                            required
-                        />
-                    </h4>
-                ))}
 
                 <hr className="hr" />
 

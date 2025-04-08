@@ -207,6 +207,21 @@ h6 {
   background-color: #4b8b6b;
 }
 
+.submit-button-roue {
+  background-color: #74cbdc; /* Vert apaisant */
+  color: rgb(58, 54, 54);
+  border: none;
+  padding: 0.75rem 1.5rem; /* 12px 24px */
+  margin-bottom: 1.125rem;
+  font-size: 0.8rem; /* 18px */
+  border-radius: 0.5rem; /* 8px */
+  cursor: pointer;
+}
+
+.submit-button-roue:hover {
+  background-color: #4b8b6b;
+}
+
 .submit-button-history {
   background-color: #5a9a7f; /* Vert apaisant */
   color: white;
@@ -322,4 +337,7 @@ p {
    /* Espace entre la case à cocher et le texte */
 }
 
+.rouesDesEmotions img {
+  width: 100%;
+}
 

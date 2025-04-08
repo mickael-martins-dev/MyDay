@@ -7,6 +7,7 @@ import Home from './Home';
 import Historique from './Historique'
 import Register from './Register';
 import PrivateRoute from './PrivateRoute';
+import Emotions from './Emotions'
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
         <Route path="/historique" element={<Historique />} />
+        <Route path="/emotions" element={<Emotions />} />
         
       </Routes>
     </Router>
