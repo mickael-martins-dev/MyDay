@@ -434,15 +434,33 @@ app.get('/user-phraseGratitude', async (req, res) => {
 //   }
 // });
 
-  app.post('/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            return res.status(500).json({ message: 'Erreur lors de la déconnexion' });
-        }
-        res.clearCookie('connect.sid'); // Remplacez 'connect.sid' par le nom de votre cookie de session
-        res.json({ message: 'Déconnexion réussie' });
-    });
+//   app.post('/logout', (req, res) => {
+//     req.session.destroy((err) => {
+//         if (err) {
+//             return res.status(500).json({ message: 'Erreur lors de la déconnexion' });
+//         }
+//         res.clearCookie('connect.sid'); // Remplacez 'connect.sid' par le nom de votre cookie de session
+//         res.json({ message: 'Déconnexion réussie' });
+//     });
+// });
+
+// Route pour la déconnexion
+app.post('/logout', (req, res) => {
+  if (req.session.user) {
+      console.log("// Détruire la session actuelle")
+      req.session.destroy((err) => {
+          if (err) {
+              return res.status(500).json({ message: 'Erreur lors de la déconnexion' });
+          }
+          res.clearCookie('connect.sid');  // Supprime le cookie de session
+          res.status(200).json({ message: 'Déconnexion réussie' });  // Confirme la déconnexion
+      });
+  } else {
+      res.status(400).json({ message: 'Aucun utilisateur connecté' });  // Si aucune session n'est active
+  }
 });
+
+
 
 app.get('/user-regles', async (req, res) => {
   if (!req.session.user) {
