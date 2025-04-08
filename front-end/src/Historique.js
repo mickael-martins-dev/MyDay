@@ -58,7 +58,7 @@ const filtrerDonneesParTemps = (data, range) => {
       // limite = new Date(maintenant.setMonth(maintenant.getMonth() - 3));
       limite = new Date(maintenant.setMonth(maintenant.getMonth() - 3));
       break;
-    case '6hour':
+    case '6mois':
       // limite = new Date(maintenant.setMonth(maintenant.getMonth() - 6));
       limite = new Date(maintenant.setMonth(maintenant.getMonth() - 6));
       break;
