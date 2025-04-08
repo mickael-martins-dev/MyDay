@@ -408,11 +408,18 @@ app.get('/user-phraseGratitude', async (req, res) => {
       return res.status(404).json({ message: 'Utilisateur non trouvé' });
     }
     
-    // Supposons que tu veux renvoyer les dernières phrases de gratitude
-    const phrases = user.responses.map(r => ({
+    // // Supposons que tu veux renvoyer les dernières phrases de gratitude
+    // const phrases = user.responses.map(r => ({
+    //   phraseGratitude: r.phraseGratitude,
+    //   date: r.userLocalDate
+    // }));
+    // Tri du tableau responses dans l'ordre décroissant des dates
+    const sortedResponses = user.responses.sort((a, b) => new Date(b.userLocalDate) - new Date(a.userLocalDate));
+
+    const phrases = sortedResponses.map(r => ({
       phraseGratitude: r.phraseGratitude,
       date: r.userLocalDate
-    }));
+    }))
     console.log("phrases",phrases)
 
     res.json({ phrases });
