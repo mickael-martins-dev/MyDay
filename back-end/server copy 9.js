@@ -20,7 +20,7 @@ dotenv.config();
 const app = express();
 app.use(cookieParser());
 app.use((req, res, next) => {
-  // console.log("Cookies : ", req.cookies); // Log des cookies
+  console.log("Cookies : ", req.cookies); // Log des cookies
   next();
 });
 // Middleware pour parser le corps des requêtes en JSON
@@ -254,46 +254,40 @@ if (process.env.NODE_ENV === 'production') {
         console.error("Erreur lors de la connexion :", err);
         res.status(500).send("Erreur lors de la connexion");
     }
-  });
+});
 
-  app.get('/api/check-auth', (req, res) => {
-    if (req.session.user) {
-      console.log("Session actuelle /api/check-auth: ", req.session.user ); // Log de la session active
-      return res.json({ authenticated: true, user: req.session.user });
-      //res.json({ authenticated: true, user: req.session.user });
-    } else {
-      // res.json({ authenticated: false });
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-  });
-
-  app.get('/Register', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
-  console.log("dans /Register")
-  });
-
-  app.get('/Historique', (req, res) => {
-    if(req.session.user)
-      res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
-    console.log("dans /Emotions")
+    app.get('/api/check-auth', (req, res) => {
+      if (req.session.user) {
+        console.log("Session actuelle /api/check-auth: ", req.session.user ); // Log de la session active
+        return res.json({ authenticated: true, user: req.session.user });
+        //res.json({ authenticated: true, user: req.session.user });
+      } else {
+        // res.json({ authenticated: false });
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+    });
+  
+    app.get('/Register', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
+    console.log("dans /Register")
     });
 
-    app.get('/Emotions', (req, res) => {
+    app.get('/Historique', (req, res) => {
       if(req.session.user)
         res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
+      console.log("dans /Emotions")
       });
 
-    app.get('/Identifiants', (req, res) => {
-        res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
-      });  
-      app.get('/Settings', (req, res) => {
-        res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
-      });   
+      app.get('/Emotions', (req, res) => {
+        if(req.session.user)
+          res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
+        console.log("dans /Register")
+        });
 
     app.post('/Register', async (req, res) => {
         // console.log("Requête reçue sur /Register");
         console.log("Données reçues :", req.body); 
-        const { pseudo, password, feelings,mail } = req.body;
+        const { pseudo, password, feelings } = req.body;
 
       // passwordClean
         const passwordHashed = await bcryptjs.hash(password, 10);
@@ -301,7 +295,6 @@ if (process.env.NODE_ENV === 'production') {
             pseudo,
             password:passwordHashed,
             feelings,
-            mail,
         });
 
           // Hacher le mot de passe après validation

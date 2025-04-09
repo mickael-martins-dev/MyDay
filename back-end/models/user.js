@@ -6,6 +6,10 @@ const responseSchema = new mongoose.Schema({
   feeling3: String,
   feeling4: String,
   phraseGratitude: String,
+  // phraseGratitude: {
+  //   iv: String,
+  //   contenu: String
+  // },
   regle: Boolean,
   date: { type: Date, default: Date.now }, // UTC serveur
   userLocalDate: { type: Date },           // date locale exacte
@@ -16,6 +20,7 @@ const responseSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
     pseudo: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    mail: { type: String, required: true},
     feelings: [{ type: String }], // Tableau de chaînes de caractères pour les feelings
     responses : [responseSchema]
 });
