@@ -95,6 +95,15 @@ function Login() {
                         className="submit-button">
                         Valider </button>
                 </div>
+
+                <hr className="hr" />
+                <div className="boutton-clear-submit-index-idOublie">
+                    <Link to="/Identifiants">
+                        <button type="button" className="submit-button-id">
+                            Identifiants oubliés
+                        </button>
+                    </Link>
+                </div>
                 
             </form>
             <p className ="droits">© 2025 myDay. Tous droits réservés.

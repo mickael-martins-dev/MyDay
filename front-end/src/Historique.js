@@ -215,6 +215,7 @@ const filtrerDonneesParTemps = (data, range) => {
         });
   
         const historyData = historyResponse.data;
+        // historyData.sort((a, b) => new Date(a.userLocalDate) - new Date(b.userLocalDate));
         historyData.sort((a, b) => new Date(a.userLocalDate) - new Date(b.userLocalDate));
         const filteredHistory = filtrerDonneesParTemps(historyData, timeRange);
         const labels = filteredHistory.map(entry => {
@@ -239,43 +240,87 @@ const filtrerDonneesParTemps = (data, range) => {
         const data = {
           labels,
           datasets: [
+            // {
+            //   label: feelingsData.feelings[0],
+            //   data: historyData.map(entry => entry.feeling1),
+            //   borderColor: 'rgba(75, 192, 192, 1)',
+            //   borderWidth: 2,
+            //   pointRadius: 1,
+            //   pointHoverRadius: 4,
+            //   fill: false,
+            //   hidden: !showFeeling1
+            // },
+            // {
+            //   label: feelingsData.feelings[1],
+            //   data: historyData.map(entry => entry.feeling2),
+            //   borderColor: 'rgba(153, 102, 255, 1)',
+            //   borderWidth: 2,
+            //   pointRadius: 1,
+            //   pointHoverRadius: 4,
+            //   fill: false,
+            //   hidden: !showFeeling2
+            // },
+            // {
+            //   label: feelingsData.feelings[2],
+            //   data: historyData.map(entry => entry.feeling3),
+            //   borderColor: 'rgba(255, 99, 132, 1)',
+            //   borderWidth: 2,
+            //   pointRadius: 1,
+            //   pointHoverRadius: 4,
+            //   fill: false,
+            //   hidden: !showFeeling3
+            // },
+            // {
+            //   label: feelingsData.feelings[3],
+            //   data: historyData.map(entry => entry.feeling4),
+            //   borderColor: 'rgba(255, 206, 86, 1)',
+            //   borderWidth: 2,
+            //   pointRadius: 1,
+            //   pointHoverRadius: 4,
+            //   fill: false,
+            //   hidden: !showFeeling4
+            // },
             {
               label: feelingsData.feelings[0],
               data: historyData.map(entry => entry.feeling1),
-              borderColor: 'rgba(75, 192, 192, 1)',
+              borderColor: 'rgba(75, 192, 192, 1)',  // Turquoise
               borderWidth: 2,
-              pointRadius: 1,
-              pointHoverRadius: 4,
+              pointRadius: 4,  // Plus grand pour mieux se voir
+              pointHoverRadius: 8,
+              pointStyle: 'circle',  // Type de point : Cercle
               fill: false,
               hidden: !showFeeling1
             },
             {
               label: feelingsData.feelings[1],
               data: historyData.map(entry => entry.feeling2),
-              borderColor: 'rgba(153, 102, 255, 1)',
+              borderColor: 'rgba(153, 102, 255, 1)',  // Violet
               borderWidth: 2,
-              pointRadius: 1,
-              pointHoverRadius: 4,
+              pointRadius: 4,
+              pointHoverRadius: 8,
+              pointStyle: 'triangle',  // Type de point : Triangle
               fill: false,
               hidden: !showFeeling2
             },
             {
               label: feelingsData.feelings[2],
               data: historyData.map(entry => entry.feeling3),
-              borderColor: 'rgba(255, 99, 132, 1)',
+              borderColor: 'rgba(255, 99, 132, 1)',  // Rose
               borderWidth: 2,
-              pointRadius: 1,
-              pointHoverRadius: 4,
+              pointRadius: 4,
+              pointHoverRadius: 8,
+              pointStyle: 'rect',  // Type de point : Carré
               fill: false,
               hidden: !showFeeling3
             },
             {
               label: feelingsData.feelings[3],
               data: historyData.map(entry => entry.feeling4),
-              borderColor: 'rgba(255, 206, 86, 1)',
+              borderColor: 'rgba(255, 206, 86, 1)',  // Jaune
               borderWidth: 2,
-              pointRadius: 1,
-              pointHoverRadius: 4,
+              pointRadius: 4,
+              pointHoverRadius: 8,
+              pointStyle: 'star',  // Type de point : Étoile
               fill: false,
               hidden: !showFeeling4
             },
@@ -284,7 +329,7 @@ const filtrerDonneesParTemps = (data, range) => {
               data: feelingsData.regles?.map((regle) => (regle === true ? 0 : null)) || [],
               borderColor: 'rgba(0, 0, 0, 1)',
               backgroundColor: 'rgba(0, 0, 0, 1)',
-              borderWidth: 4,
+              borderWidth: 2,
               pointRadius: 4,
               pointHoverRadius: 4,
               fill: true,
@@ -327,8 +372,11 @@ const filtrerDonneesParTemps = (data, range) => {
           },
           boxWidth: 15,
           boxHeight: 5,
+          marginTop: 10,
+          marginBottom: 10, 
           padding: 20,
           color: '#333',
+          usePointStyle: true,
         },
       },
       zoom: {
@@ -475,9 +523,9 @@ const filtrerDonneesParTemps = (data, range) => {
             Emotions
           </button>
         </Link>
-        <div className="button-container">
+        {/* <div className="button-container">
           <LogoutButton />
-        </div>
+        </div> */}
         <p className ="droits">© 2025 myDay. Tous droits réservés.
         Cette application et son contenu sont protégés par les lois en vigueur sur la propriété intellectuelle. </p>
       </div>

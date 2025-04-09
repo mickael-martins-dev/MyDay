@@ -2,15 +2,26 @@ import React, { useState } from 'react';
 import './styles/Home.css';
 import './styles/Mobile.css';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function Register() {
     const [pseudo, setPseudo] = useState('');
+    const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [feelings, setFeelings] = useState(["", "", "", ""]); // 4 émotions par défaut
     const [acceptedTerms, setAcceptedTerms] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [showPassword, setShowPassword] = useState(false);  // Ajouter l'état showPassword
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Ajouter l'état pour la confirmation du mot de passe
 
+
+    useEffect(() => {
+        const savedFeelings = localStorage.getItem('tempFeelings');
+        if (savedFeelings) {
+            setFeelings(JSON.parse(savedFeelings));
+        }
+    }, [])
     // const handleSubmit = async (e) => {
     //     e.preventDefault();
 
@@ -73,7 +84,7 @@ function Register() {
         }
     
         if (password !== confirmPassword) {
-            setErrorMessage("Les mots de passe ne correspondent pas.");
+            setErrorMessage("Les mots de passe ne sont pas identiques.");
             return;
         }
     
@@ -81,6 +92,7 @@ function Register() {
     
         const userData = {
             pseudo,
+            mail,
             password,
             feelings,
         };
@@ -113,6 +125,7 @@ function Register() {
             if (data) {
                 localStorage.setItem('userFeelings', JSON.stringify(feelings));
                 window.location.href = "/Login"; // ✅ La redirection se fait ici
+                localStorage.removeItem('tempFeelings')
             }
         } catch (error) {
             console.error("Erreur lors de l'envoi :", error);
@@ -124,6 +137,7 @@ function Register() {
         const updatedFeelings = [...feelings];
         updatedFeelings[index] = value;
         setFeelings(updatedFeelings);
+        localStorage.setItem('tempFeelings', JSON.stringify(updatedFeelings));
     };
 
     return (
@@ -168,26 +182,59 @@ function Register() {
                     />
                 </h4>
                 <h4>
+                    <label htmlFor="mail">Email : </label>
+                    <input
+                        className="login-input"
+                        type="mail"
+                        id="mail"
+                        value={mail}
+                        onChange={(e) => setMail(e.target.value)}
+                        required
+                    />
+                </h4>
+                <h4>
                     <label htmlFor="password">Mot de passe : </label>
                     <input
                         className="login-input"
-                        type="password"
+                        type={showPassword ? "text" : "password"} // Toggle entre password et text
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
+                    <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)} // Changer l'état de showPassword
+                            className="show-password-button"
+                        >
+                            {showPassword ? (
+                                <i className="fas fa-eye-slash"></i>  // Icône "œil barré"
+                            ) : (
+                                <i className="fas fa-eye"></i>  // Icône "œil"
+                            )}
+                        </button>
                 </h4>
                 <h4>
                     <label htmlFor="confirmPassword">Confirmez le mot de passe : </label>
                     <input
                         className="login-input"
-                        type="password"
+                        type={showConfirmPassword ? "text" : "password"} // Toggle pour confirmer le mot de passe
                         id="confirmPassword"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                     />
+                    <button
+                            type="button"
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)} // Changer l'état pour confirmPassword
+                            className="show-password-button"
+                        >
+                            {showConfirmPassword ? (
+                                <i className="fas fa-eye-slash"></i>  // Icône "œil barré"
+                            ) : (
+                                <i className="fas fa-eye"></i>  // Icône "œil"
+                            )}
+                        </button>
                 </h4>
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
 
@@ -203,14 +250,15 @@ function Register() {
                     <label htmlFor="terms"> J'accepte les conditions générales</label>
                 </div>
                 <div className="boutton-clear-submit-index">
-                    <button className="submit-button" type="submit" disabled={!acceptedTerms}>
-                        Valider
-                    </button>
                     <Link to="/Login">
                         <button type="button" className="submit-button">
                             J'ai déja un compte
                         </button>
                     </Link>
+                    <button className="submit-button" type="submit" disabled={!acceptedTerms}>
+                        Valider
+                    </button>
+                    
                 </div>
                     
             </form>

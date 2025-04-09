@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './styles/Home.css';
 import './styles/Mobile.css';
 import LogoutButton from './LogoutButton'; // Importer le composant LogoutButton
+import SettingsButton from './SettingsButton'; // Importer le composant LogoutButton
 import { Link } from 'react-router-dom';
 let feeling1=""
 let feeling2=""
@@ -248,16 +249,35 @@ const handleSubmit = async () => {
         </div>
         <hr className="hr" />
 
-        <Link to="/Historique">
+        {/* <Link to="/Historique">
+            <button type="button" className="submit-button">
+                Historique
+            </button>
+        </Link> */}
+        
+        {/* Utilisation du composant LogoutButton */}
+        <div className="settings"> 
+          {/* <div className='button-container'>
+            <Link to="/Emotions">
+                <button type="button" className="submit-button">
+                    <img className="icon-settings" src="/logout.png"></img>
+                </button>
+            </Link>
+          </div> */}
+          <div className='button-container'>
+              <SettingsButton />
+          </div>
+          <Link to="/Historique">
             <button type="button" className="submit-button">
                 Historique
             </button>
         </Link>
+          <div className='button-container'>
+              <LogoutButton />
+          </div>
         
-        {/* Utilisation du composant LogoutButton */}
-        <div className='button-container'>
-          <LogoutButton />
         </div>
+       
       </form>
       <p className ="droits">© 2025 myDay. Tous droits réservés.
              Cette application et son contenu sont protégés par les lois en vigueur sur la propriété intellectuelle. </p>
