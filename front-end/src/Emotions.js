@@ -61,7 +61,7 @@ function Emotions() {
             <h5>Derrière la ...</h5>
             
             <div className='emotionsProfils'>
-                <img src="/emotionsProfils.PNG" alt="emotions profils"></img>
+                <img src="/emotionsProfils.png" alt="emotions profils"></img>
             </div>
 
             <h5>Roues des emotions</h5>
