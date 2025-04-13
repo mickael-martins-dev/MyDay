@@ -76,6 +76,7 @@ function Emotions() {
                   Création du compte
               </button>
              </Link>
+             {/* ppppppppppppppppppppppppppppppp */}
              <p className ="droits">© 2025 myDay. Tous droits réservés.
              Cette application, ainsi que l’ensemble de son contenu, est protégée par les lois en vigueur relatives à la propriété intellectuelle. Les données qu’elle contient sont chiffrées afin d’en garantir la sécurité. </p>   
         </div>
