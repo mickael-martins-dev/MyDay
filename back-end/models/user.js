@@ -10,7 +10,8 @@ const responseSchema = new mongoose.Schema({
   //   iv: String,
   //   contenu: String
   // },
-  regle: Boolean,
+  // regle: Boolean,
+  regle: String,
   date: { type: Date, default: Date.now }, // UTC serveur
   userLocalDate: { type: Date },           // date locale exacte
   timezone: { type: String }               // ex: Europe/Paris

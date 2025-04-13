@@ -59,6 +59,29 @@ const sessionMiddleware = session({
 
 app.use(sessionMiddleware);
 
+// app.use(session({
+//   secret: 'myDay',
+//   resave: false,
+//   saveUninitialized: false
+// }))
+
+// app.use((req, res, next) => {
+//   const isLoggedIn = req.session.user;
+
+//   // Si la requête est pour login ou register, on laisse passer
+//   if (req.path === '/Login' || req.path === '/Register' || req.path === '/login' || req.path === '/Register') {
+//     return next();
+//   }
+
+//   // Si l'utilisateur est connecté, on continue
+//   if (isLoggedIn) {
+//     return next();
+//   }
+
+//   // Sinon on redirige vers /Login
+//   return res.redirect('/Login');
+// });
+
 // Ne protège que les API sensibles, pas les routes de React
 app.use('/api', (req, res, next) => {
   const isLoggedIn = req.session.user;
@@ -75,6 +98,22 @@ connectDB();
 if (process.env.NODE_ENV === 'production') {
     // Sert les fichiers statiques du build React
     app.use(express.static(path.join(__dirname, '..', 'front-end', 'build')));
+  
+    // Toutes les autres routes renvoient le fichier index.html de React
+   
+    // app.get('/', (req, res) => {
+    //   if (!req.session.user) {
+    //     console.log("Utilisateur non connecté, redirection vers /login");
+    //     return res.redirect('/login');
+    //   } else {
+    //     console.log("Utilisateur connecté :", req.session.user);
+    //     res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
+    //   }
+    // });
+
+    // app.get('/', (req, res) => {
+    //   return res.redirect('/Login');
+    // })
 
     app.get('/', isAuthenticated, (req, res) => {
       // console.log("isAuthenticated",isAuthenticated)
@@ -88,21 +127,109 @@ if (process.env.NODE_ENV === 'production') {
         // console.log("dans /Login")
     });
 
+    // app.post('/login', async (req, res) => {
+    //     const { pseudo, password } = req.body;
+    //     console.log("pseudo : ",pseudo)
+    //     console.log("psw : ",password)
+    //     try {
+    //       const userLogged = await User.findOne({ pseudo });
+    
+    //         // Vérifier si l'utilisateur existe
+    //         if (!userLogged) {
+    //             return res.render('login', { message: "Login ou mot de passe erroné !" });
+    //         }
+    
+    //         // Vérifier si le mot de passe correspond au hash stocké
+    //         const isMatch = await bcryptjs.compare(password, userLogged.password);
+    //         if (!isMatch) {
+    //           return res.status(400).json({ message: "Login ou mot de passe erroné !" });
+    //         }
+    
+    //         // Création de la session utilisateur après authentification réussie
+    //         req.session.user = {
+    //             _id: userLogged._id,
+    //             username: userLogged.pseudo,
+    //         };
+
+    //         console.log("Session après connexion :", req.session);
+    
+    //         // Redirection selon le rôle de l'utilisateur
+    //         if (userLogged.isAdmin === "y") {
+    //             console.log("Utilisateur admin connecté");
+    //             return res.redirect('/admin');
+    //         } else {
+    //             console.log("Utilisateur connecté :", req.session.user.username);
+    //             return res.json({ success: true, redirectUrl: '/' });
+    //         }
+    //     } catch (err) {
+    //         console.error("Erreur lors de la connexion :", err);
+    //         res.status(500).send("Erreur lors de la connexion");
+    //     }
+    // });
+
+  //   app.post('/login', async (req, res) => {
+  //     const { pseudo, password } = req.body;
+  //     console.log("pseudo : ", pseudo);
+  //     console.log("psw : ", password);
+  
+  //     try {
+  //         const userLogged = await User.findOne({ pseudo });
+  
+  //         // Vérifier si l'utilisateur existe
+  //         if (!userLogged) {
+  //             return res.render('login', { message: "Login ou mot de passe erroné !" });
+  //         }
+  
+  //         // Vérifier le mot de passe
+  //         const isMatch = await bcryptjs.compare(password, userLogged.password);
+  //         if (!isMatch) {
+  //             return res.render('login', { message: "Login ou mot de passe erroné !" });
+  //         }
+  
+  //         // Créer la session utilisateur
+  //         req.session.user = {
+  //             _id: userLogged._id,
+  //             username: userLogged.pseudo,
+  //         };
+  
+  //         console.log("Session après connexion :", req.session);
+  
+  //         // Redirection
+  //         if (userLogged.isAdmin === "y") {
+  //             console.log("Utilisateur admin connecté");
+  //             return res.redirect('/admin');
+  //         } else {
+  //             console.log("Utilisateur connecté :", req.session.user.username);
+  //             return res.json({ success: true, redirectUrl: '/' });
+  //             // return res.redirect('/');
+  //         }
+  
+  //     } catch (err) {
+  //         console.error("Erreur lors de la connexion :", err);
+  //         res.status(500).send("Erreur lors de la connexion");
+  //     }
+  // });
+
   app.post('/Login', async (req, res) => {
     const { pseudo, password } = req.body;
+    // console.log("Session actuelle dans Login post: ", req.session); // Log de la session active
+    // console.log("pseudo : ", pseudo);
+    // console.log("psw : ", password);
 
     try {
         const userLogged = await User.findOne({ pseudo });
 
         // Vérifier si l'utilisateur existe
         if (!userLogged) {
-          return res.status(400).json({ errorMessage: "Login ou mot de passe erroné !" });
+            return res.render('Login', { message: "Login ou mot de passe erroné !" });
         }
 
         // Vérifier le mot de passe
         const isMatch = await bcryptjs.compare(password, userLogged.password);
         // console.log("Valeur de isMatch : ", isMatch); // Log de la session active
         if (!isMatch) {
+            // return res.render('Login', { message: "Login ou mot de passe erroné !" });
+            // return res.json({ success: false, message: "Login ou mot de passe erroné !" });
             return res.status(400).json({ errorMessage: "Login ou mot de passe erroné !" });
         }
 
@@ -111,6 +238,8 @@ if (process.env.NODE_ENV === 'production') {
             _id: userLogged._id,
             username: userLogged.pseudo,
         };
+        // console.log('req.session.user',req.session.user)
+        // console.log("Session après connexion :", req.session);
 
         // Redirection
         if (userLogged.isAdmin === "y") {
@@ -182,6 +311,11 @@ if (process.env.NODE_ENV === 'production') {
             mail:mailEncrypted,
         });
 
+        // console.log("feelings : ",feelings)
+
+          // Hacher le mot de passe après validation
+           
+
         try {
             // Enregistrement dans la base de données
             await newUser.save();
@@ -193,8 +327,38 @@ if (process.env.NODE_ENV === 'production') {
         }
     });
 
+    // app.post('/', async (req, res) => {
+    //     const { feeling1, feeling2, feeling3, feeling4, phraseGratitude, regle } = req.body;
+    
+    //     console.log("Données reçues du client :");
+    //     console.log("Joie :", feeling1);
+    //     console.log("Stress :", feeling2);
+    //     console.log("Colère :", feeling3);
+    //     console.log("Légèreté :", feeling4);
+    //     console.log("Phrase de gratitude :", phraseGratitude);
+    //     console.log("Règle acceptée :", regle);
+    
+
+    //     User.responses.push({
+    //       feeling1,
+    //       feeling2,
+    //       feeling3,
+    //       feeling4,
+    //       phraseGratitude,
+    //       regle
+    //   });
+
+    //   // Sauvegarde dans la DB
+    //   await User.save();
+    //     res.json({ message: "Données bien reçues par le serveur" });
+    // });
+
     app.post('/', async (req, res) => {
       const { feeling1, feeling2, feeling3, feeling4, phraseGratitude, regle } = req.body;
+      // console.log("req.body",req.body)
+      // console.log("phraseGratitude : ",phraseGratitude)
+      // console.log("type of phraseGratitude : ",typeof phraseGratitude)
+      // console.log("feeling1 :",feeling1)
       const feeling1Encrypted = feeling1 ? encrypt(feeling1) : "";
       const feeling2Encrypted = feeling2 ? encrypt(feeling2) : "";
       const feeling3Encrypted = feeling3 ? encrypt(feeling3) : "";
@@ -216,6 +380,16 @@ if (process.env.NODE_ENV === 'production') {
           }
           const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
           const localDate = new Date().toLocaleString("sv-SE", { timeZone: timezone }); // format ISO-like
+          // console.log("---------")
+          // console.log("---------")
+          // console.log("---------")
+          // console.log("---------")
+          // console.log("feeling1 ",feeling1)
+          // console.log("feeling1Encrypted  ",feeling1Encrypted )
+          // console.log("---------")
+          // console.log("---------")
+          // console.log("---------")
+          // console.log("---------")
 
           // Convertir en vrai objet Date
           const userLocalDate = new Date(localDate);
@@ -260,13 +434,17 @@ if (process.env.NODE_ENV === 'production') {
             return res.status(404).json({ error: 'Utilisateur non trouvé' });
         }
 
-        const regles = user.responses.map(response => decrypt(response.regle));
+        const regles = user.responses.map(response => response.regle);
         const decryptedFeelings = user.feelings.map(feeling => decrypt(feeling));
+        // console.log("feelings",user.feelings)
+        // console.log("phrasesGratitude",user.responses.phraseGratitude )
+        // console.log("Tout", regles)
         res.json({ feelings: decryptedFeelings,phrasesGratitude:user.responses,regles});
     } catch (err) {
         res.status(500).json({ message: 'Erreur serveur lors de la récupération des émotions' });
     }
 });
+
 
 app.get('/user-phraseGratitude', async (req, res) => {
   if (!req.session.user) {
@@ -370,11 +548,15 @@ app.get('/user-regles', async (req, res) => {
       }
 
       const decryptedResponses = user.responses.map(response => {
-
-        // console.log("response.regle :",response.regle)
+        // const decryptedPhraseGratitude = decrypt(response.phraseGratitude); // déchiffrer la phraseGratitude
+        // const decryptedfeeling1 = decrypt(response.feeling1);
+        // const decryptedfeeling2 = decrypt(response.feeling2);
+        // const decryptedfeeling3 = decrypt(response.feeling3);
+        // const decryptedfeeling4 = decrypt(response.feeling4);
+        console.log("response.regle :",response.regle)
         const decryptedRegle = decrypt(response.regle);
         
-        // console.log("regle decrypté 5555555555555555: ", decryptedRegle);
+        console.log("regle decrypté 5555555555555555: ", decryptedRegle);
         // console.log("decryptedfeeling1: ", decryptedfeeling1);
   
         // Utiliser toObject pour nettoyer les données Mongoose avant de les renvoyer
@@ -382,61 +564,59 @@ app.get('/user-regles', async (req, res) => {
   
         return {
           ...responseObj, // garde toutes les autres valeurs intactes
+          // phraseGratitude: decryptedPhraseGratitude,
+          // feeling1: decryptedfeeling1 ,
+          // feeling2: decryptedfeeling2 ,
+          // feeling3: decryptedfeeling3 ,
+          // feeling4: decryptedfeeling4,
           regle:decryptedRegle
   
         };
       });
-
+      
+      // console.log("decryptedResponses ",decryptedResponses)
+      // Renvoie les réponses avec la phraseGratitude décryptée
       res.json(decryptedResponses);
-
+      // console.log("regles .....",user.regles)
+      // Récupérer les règles de l'utilisateur
+      // res.json({ regles: user.regles });
   } catch (err) {
       res.status(500).json({ message: 'Erreur serveur lors de la récupération des règles' });
   }
 });
 
-app.get('/getFeelings', async (req, res) => {
-  try {
-    if (!req.session.user) {
-      return res.status(401).json({ message: 'non autorisé' });
-    }
+// app.get('/user-history', async (req, res) => {
+//   if (!req.session.user) {
+//     return res.status(401).json({ message: 'Non autorisé : utilisateur non connecté' });
+//   }
 
-    const user = await User.findById(req.session.user._id);
-    if (!user) {
-      return res.status(404).json({ message: 'Utilisateur non trouvé' });
-    }
+//   try {
+//     const user = await User.findById(req.session.user._id);
+//     if (!user) {
+//       return res.status(404).json({ error: 'Utilisateur non trouvé' });
+//     }
+    
+//     console.log("------------")
+//     console.log("user.responses",user.responses)
+//     console.log("------------")
 
-    const feelingsDecrypted = user.feelings.map(f => f ? decrypt(f) : "");
+//   // Déchiffrer la phrase de gratitude pour chaque réponse
+//   const decryptedResponses = user.responses.map(response => {
+//     const decryptedPhraseGratitude = decrypt(response.phraseGratitude); // déchiffrer la phraseGratitude
+//     console.log("decryptedPhraseGratitude: ", decryptedPhraseGratitude);
+//     return {
+//       ...response,
+//       phraseGratitude: decryptedPhraseGratitude // remplacer la phraseGratitude chiffrée par la déchiffrée
+      
+//     };
+//     // console.log("decryptedPhraseGratitude: ", decryptedPhraseGratitude);
+//   });
 
-    res.json({ feelings: feelingsDecrypted });
-  } catch (error) {
-    console.error("Erreur dans /getFeelings :", error);
-    res.status(500).json({ message: "Erreur serveur" });
-  }
-});
-
-app.post('/updateFeeling', async (req, res) => {
-  try {
-    if (!req.session.user) {
-      return res.status(401).json({ message: 'Non autorisé' });
-    }
-
-    const { index, newFeeling } = req.body;
-    const user = await User.findById(req.session.user._id);
-    if (!user) {
-      return res.status(404).json({ message: 'Utilisateur non trouvé' });
-    }
-
-    const encryptedFeeling = encrypt(newFeeling);
-    user.feelings[index] = encryptedFeeling;
-    await user.save();
-
-    res.status(200).json({ message: 'Feeling mis à jour avec succès' });
-  } catch (err) {
-    console.error("Erreur dans /updateFeeling :", err);
-    res.status(500).json({ message: "Erreur serveur" });
-  }
-});
-
+//     res.json(user.responses);
+//   } catch (err) {
+//     res.status(500).json({ message: 'Erreur serveur lors de la récupération de l\'historique' });
+//   }
+// });
 
 // app.get('/user-history', async (req, res) => {
 //   if (!req.session.user) {
@@ -463,9 +643,6 @@ app.post('/updateFeeling', async (req, res) => {
 //     res.status(500).json({ message: 'Erreur serveur lors de la récupération de l\'historique' });
 //   }
 // });
-
-
-
 app.get('/user-history', async (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ message: 'Non autorisé : utilisateur non connecté' });
@@ -476,7 +653,20 @@ app.get('/user-history', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'Utilisateur non trouvé' });
     }
+    
+    // console.log("------------");
+    // console.log("user.responses", user.responses);
+    // console.log("------------");
 
+    // Déchiffrer la phrase de gratitude pour chaque réponse
+    // const decryptedResponses = user.responses.map(response => {
+    //   const decryptedPhraseGratitude = decrypt(response.phraseGratitude); // déchiffrer la phraseGratitude
+    //   console.log("decryptedPhraseGratitude: ", decryptedPhraseGratitude);
+    //   return {
+    //     ...response,
+    //     phraseGratitude: decryptedPhraseGratitude // remplacer la phraseGratitude chiffrée par la déchiffrée
+    //   };
+    // });
 
     const decryptedResponses = user.responses.map(response => {
       const decryptedPhraseGratitude = decrypt(response.phraseGratitude); // déchiffrer la phraseGratitude
@@ -484,10 +674,10 @@ app.get('/user-history', async (req, res) => {
       const decryptedfeeling2 = decrypt(response.feeling2);
       const decryptedfeeling3 = decrypt(response.feeling3);
       const decryptedfeeling4 = decrypt(response.feeling4);
-      // console.log("response.regle :",response.regle)
+      console.log("response.regle :",response.regle)
       const decryptedRegle = decrypt(response.regle);
       
-      // console.log("regle decrypté 5555555555555555: ", decryptedRegle);
+      console.log("regle decrypté 5555555555555555: ", decryptedRegle);
       // console.log("decryptedfeeling1: ", decryptedfeeling1);
 
       // Utiliser toObject pour nettoyer les données Mongoose avant de les renvoyer
@@ -500,7 +690,7 @@ app.get('/user-history', async (req, res) => {
         feeling2: decryptedfeeling2 ,
         feeling3: decryptedfeeling3 ,
         feeling4: decryptedfeeling4,
-        regle:decryptedRegle,
+        // regle:decryptedRegle,
         // regle:response.regle
 
       };
