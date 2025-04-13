@@ -105,7 +105,7 @@ function Identifiants() {
               </button>
              </Link>
              <p className ="droits">© 2025 myDay. Tous droits réservés.
-             Cette application et son contenu sont protégés par les lois en vigueur sur la propriété intellectuelle. </p>   
+             Cette application, ainsi que l’ensemble de son contenu, est protégée par les lois en vigueur relatives à la propriété intellectuelle. Les données qu’elle contient sont chiffrées afin d’en garantir la sécurité. </p>   
         </div>
     );
 }

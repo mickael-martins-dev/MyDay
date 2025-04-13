@@ -58,45 +58,18 @@ function Emotions() {
                 </h1>
             </div >
             
+            <h5>Derrière la ...</h5>
+            
+            <div className='emotionsProfils'>
+                <img src="/emotionsProfils.png" alt="emotions profils"></img>
+            </div>
+
             <h5>Roues des emotions</h5>
-            {/* <form onSubmit={handleSubmit}>
-                <h4>
-                    <label htmlFor="pseudo" >Pseudo : </label>
-                    <input className="login-input"
-                    type="text"
-                    id="pseudo"
-                    name="pseudo"
-                    value={pseudo}
-                    onChange={(e) => setPseudo(e.target.value)}
-                    required
-                    placeholder=""
-                    />
-                </h4>
-                <h4>
-                    <label htmlFor="mot de pass" >Mot de pass : </label>
-                    <input className="login-input"
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    placeholder=""
-                    />
-                </h4>
-                <hr className="hr" />
-                <div className="boutton-clear-submit-index">
-                    <Link to="/Register">
-                        <button type="button" className="submit-button">
-                            Créer un compte
-                        </button>
-                    </Link>
-                </div>
-                
-            </form> */}
-              <div className='rouesDesEmotions'>
+
+            <div className='rouesDesEmotions'>
                 <img src="/rouesDesEmotions.png" alt="Roues des émotions"></img>
-              </div>
+            </div>
+              
 
             <Link to="/Register">
               <button type="button" className="submit-button">
@@ -104,7 +77,7 @@ function Emotions() {
               </button>
              </Link>
              <p className ="droits">© 2025 myDay. Tous droits réservés.
-             Cette application et son contenu sont protégés par les lois en vigueur sur la propriété intellectuelle. </p>   
+             Cette application, ainsi que l’ensemble de son contenu, est protégée par les lois en vigueur relatives à la propriété intellectuelle. Les données qu’elle contient sont chiffrées afin d’en garantir la sécurité. </p>   
         </div>
     );
 }

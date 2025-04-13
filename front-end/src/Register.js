@@ -22,59 +22,6 @@ function Register() {
             setFeelings(JSON.parse(savedFeelings));
         }
     }, [])
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-
-    //     if (!acceptedTerms) {
-    //         alert("Vous devez accepter les conditions générales pour continuer.");
-    //         return;
-    //     }
-
-    //     if (password !== confirmPassword) {
-    //         setErrorMessage("Les mots de passe ne correspondent pas.");
-    //         return;
-    //     }
-
-    //     setErrorMessage(""); // Réinitialise le message d'erreur
-
-    //     const userData = {
-    //         pseudo,
-    //         password,
-    //         feelings,
-    //     };
-
-    //     console.log('User Data:', userData);
-    //     // Envoi des données à l'API ou base de données
-
-    //     try {
-    //         const response = await fetch("http://localhost:4000/Register", {
-    //             method: "POST",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify(userData),
-    //         });
-    
-    //         const data = await response.json();
-    //         console.log("Réponse du serveur :", data);
-    //     } catch (error) {
-    //         console.error("Erreur lors de l'envoi :", error);
-    //     }
-
-    //     fetch('/Register', {
-    //         method: "POST",
-    //         headers: { "Content-Type": "application/json" },
-    //         // body: JSON.stringify({ pseudo: document.getElementById("pseudo").value })
-    //         body: JSON.stringify(userData)
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         console.log("Réponse serveur :", data);
-    //         if (data.pseudo) {
-    //             window.location.href = "/Login"; // ✅ La redirection se fait ici
-    //         }
-    //     })
-    //     .catch(error => console.error("Erreur :", error));
-    // };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
     
@@ -202,17 +149,13 @@ function Register() {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)} // Changer l'état de showPassword
-                            className="show-password-button"
-                        >
-                            {showPassword ? (
-                                <i className="fas fa-eye-slash"></i>  // Icône "œil barré"
-                            ) : (
-                                <i className="fas fa-eye"></i>  // Icône "œil"
-                            )}
-                        </button>
+                     <button 
+                    type="button" 
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="button-option"
+                >
+                    {showPassword ? "😎" : "👀"}
+                </button>
                 </h4>
                 <h4>
                     <label htmlFor="confirmPassword">Confirmez le mot de passe : </label>
@@ -224,17 +167,13 @@ function Register() {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                     />
-                    <button
-                            type="button"
-                            onClick={() => setShowConfirmPassword(!showConfirmPassword)} // Changer l'état pour confirmPassword
-                            className="show-password-button"
-                        >
-                            {showConfirmPassword ? (
-                                <i className="fas fa-eye-slash"></i>  // Icône "œil barré"
-                            ) : (
-                                <i className="fas fa-eye"></i>  // Icône "œil"
-                            )}
-                        </button>
+                  <button 
+                    type="button" 
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="button-option"
+                >
+                    {showConfirmPassword ? "😎" : "👀"}
+                </button>
                 </h4>
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
 
@@ -263,7 +202,7 @@ function Register() {
                     
             </form>
             <p className ="droits">© 2025 myDay. Tous droits réservés.
-        Cette application et son contenu sont protégés par les lois en vigueur sur la propriété intellectuelle. </p>
+            Cette application, ainsi que l’ensemble de son contenu, est protégée par les lois en vigueur relatives à la propriété intellectuelle. Les données qu’elle contient sont chiffrées afin d’en garantir la sécurité. </p>
         </div>
     );
 }

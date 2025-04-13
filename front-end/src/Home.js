@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importer useNavigate
 import './styles/Home.css';
 import './styles/Mobile.css';
 import LogoutButton from './LogoutButton'; // Importer le composant LogoutButton
@@ -16,7 +17,7 @@ function Home() {
   const [phrase, setPhrase] = useState('');
   const [canSubmit, setCanSubmit] = useState(true); // Contrôle de la possibilité de soumettre
   const [feelings, setFeelings] = useState(["", "", "", ""]);
-
+  const navigate = useNavigate(); // Initialisation de useNavigate
   const handleRatingChange = (setter) => (newRating) => setter(newRating);
   const handlePhraseChange = (event) => setPhrase(event.target.value);
 
@@ -117,6 +118,7 @@ const handleSubmit = async () => {
         const currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
         localStorage.setItem('lastSubmissionDate', currentDateWithoutTime.toISOString()); // Enregistrer la date sans l'heure
         setCanSubmit(false); // Désactiver le bouton de soumission
+        navigate('/Historique');
       }
     } catch (error) {
       console.error("Erreur lors de l'envoi :", error);
@@ -280,7 +282,7 @@ const handleSubmit = async () => {
        
       </form>
       <p className ="droits">© 2025 myDay. Tous droits réservés.
-             Cette application et son contenu sont protégés par les lois en vigueur sur la propriété intellectuelle. </p>
+      Cette application, ainsi que l’ensemble de son contenu, est protégée par les lois en vigueur relatives à la propriété intellectuelle. Les données qu’elle contient sont chiffrées afin d’en garantir la sécurité. </p>
     </div>
   );
 }

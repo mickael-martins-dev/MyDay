@@ -47,12 +47,15 @@ const filtrerDonneesParTemps = (data, range) => {
   let limite;
 
   switch (range) {
+    case '24heures':
+      limite = new Date(maintenant.setHours(maintenant.getHours() - 24));
+      break;
     case '1semaine':
       limite = new Date(maintenant.setDate(maintenant.getDate() - 7));
       break;
-      case '2semaine':
-      limite = new Date(maintenant.setDate(maintenant.getDate() - 14));
-      break;
+      // case '2semaine':
+      // limite = new Date(maintenant.setDate(maintenant.getDate() - 14));
+      // break;
     case '1mois':
       // limite = new Date(maintenant.setMonth(maintenant.getMonth() - 1));
       limite = new Date(maintenant.setMonth(maintenant.getMonth() - 1));
@@ -189,6 +192,7 @@ const filtrerDonneesParTemps = (data, range) => {
   // }, [feelings, reglesDates, showFeeling1, showFeeling2, showFeeling3, showFeeling4, showRegles]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchUserFeelingsAndHistory = async () => {
       try {
         const API_URL =
@@ -203,6 +207,7 @@ const filtrerDonneesParTemps = (data, range) => {
         });
   
         const feelingsData = await feelingsResponse.json();
+        // cons.log("feelingsData  :",feelingsData )
         if (feelingsData && feelingsData.feelings) {
           // Ne relance pas setFeelings inutilement si les valeurs sont déjà identiques
           setFeelings(prev => JSON.stringify(prev) !== JSON.stringify(feelingsData.feelings) ? feelingsData.feelings : prev);
@@ -213,7 +218,7 @@ const filtrerDonneesParTemps = (data, range) => {
         const historyResponse = await axios.get(`${API_URL}/user-history`, {
           withCredentials: true,
         });
-  
+        // conseol.log("historyResponse :",historyResponse)
         const historyData = historyResponse.data;
         // historyData.sort((a, b) => new Date(a.userLocalDate) - new Date(b.userLocalDate));
         historyData.sort((a, b) => new Date(a.userLocalDate) - new Date(b.userLocalDate));
@@ -348,6 +353,55 @@ const filtrerDonneesParTemps = (data, range) => {
   }, [showFeeling1, showFeeling2, showFeeling3, showFeeling4, showRegles,timeRange]);
   
 
+  // const options = {
+  //   responsive: true,
+  //   maintainAspectRatio: false,
+  //   scales: {
+  //     x: {
+  //       ticks: {
+  //         font: {
+  //           weight: 'bold',
+  //         },
+  //       },
+  //     },
+  //   },
+  //   plugins: {
+  //     legend: {
+  //       display: true,
+  //       position: 'top',  // Position de la légende
+  //       labels: {
+  //         font: {
+  //           size: 14,
+  //           family: 'Arial',
+  //           weight: 'bold',
+  //         },
+  //         boxWidth: 15,
+  //         boxHeight: 5,
+  //         marginTop: 10,
+  //         marginBottom: 10, 
+  //         padding: 20,
+  //         color: '#333',
+  //         usePointStyle: true,
+  //       },
+  //     },
+  //     zoom: {
+  //       pan: {
+  //         enabled: true,
+  //         mode: 'x',
+  //       },
+  //       zoom: {
+  //         wheel: {
+  //           enabled: true,
+  //         },
+  //         pinch: {
+  //           enabled: true
+  //         },
+  //         mode: 'x',
+  //       },
+  //     },
+  //   },
+  // };
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -363,7 +417,7 @@ const filtrerDonneesParTemps = (data, range) => {
     plugins: {
       legend: {
         display: true,
-        position: 'top',
+        position: 'top',  // Position de la légende
         labels: {
           font: {
             size: 14,
@@ -373,10 +427,20 @@ const filtrerDonneesParTemps = (data, range) => {
           boxWidth: 15,
           boxHeight: 5,
           marginTop: 10,
-          marginBottom: 10, 
+          marginBottom: 10,
           padding: 20,
           color: '#333',
           usePointStyle: true,
+        },
+        // Ajout de la bordure autour de la légende entière
+        onBeforeInit: (chart) => {
+          const legend = chart.legend;
+          legend.boxWidth = 30;  // Largeur de la légende (ajustez selon votre besoin)
+          legend.labels.padding = 10;  // Espacement entre les labels
+          legend.borderColor = '#333';  // Couleur de la bordure
+          legend.borderWidth = 2;  // Largeur de la bordure
+          legend.borderRadius = 5;  // Rayon des coins
+          legend.backgroundColor = 'rgba(255, 255, 255, 0.7)';  // Fond de la légende (transparent ou couleur de fond)
         },
       },
       zoom: {
@@ -389,21 +453,24 @@ const filtrerDonneesParTemps = (data, range) => {
             enabled: true,
           },
           pinch: {
-            enabled: true
+            enabled: true,
           },
           mode: 'x',
         },
       },
     },
   };
+  
+  
 
   return (
     <div>
       <div className="container">
         <h6>Historique des Émotions</h6>
         <div className="time-filter">
+        <button onClick={() => setTimeRange('24heures')}>1 jour</button>
           <button onClick={() => setTimeRange('1semaine')}>1 semaine</button>
-          <button onClick={() => setTimeRange('2semaine')}>2 semaines</button>
+          {/* <button onClick={() => setTimeRange('2semaine')}>2 semaines</button> */}
           <button onClick={() => setTimeRange('1mois')}>1 mois</button>
           <button onClick={() => setTimeRange('3mois')}>3 mois</button>
           <button onClick={() => setTimeRange('6mois')}>6 mois</button>
@@ -527,7 +594,7 @@ const filtrerDonneesParTemps = (data, range) => {
           <LogoutButton />
         </div> */}
         <p className ="droits">© 2025 myDay. Tous droits réservés.
-        Cette application et son contenu sont protégés par les lois en vigueur sur la propriété intellectuelle. </p>
+        Cette application, ainsi que l’ensemble de son contenu, est protégée par les lois en vigueur relatives à la propriété intellectuelle. Les données qu’elle contient sont chiffrées afin d’en garantir la sécurité. </p>
       </div>
       
     </div>

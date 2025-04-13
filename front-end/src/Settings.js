@@ -1,111 +1,119 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles/Home.css';
 import './styles/Mobile.css';
 import { Link } from 'react-router-dom';
 
 function Settings() {
-    // const [pseudo, setPseudo] = useState('');
-    // const [password, setPassword] = useState('');
+    const [feelings, setFeelings] = useState([]);
+    const [editingIndex, setEditingIndex] = useState(null);
+    const [modifiedFeelings, setModifiedFeelings] = useState({});
+    const [selectedOption, setSelectedOption] = useState(''); // Ajouté pour gérer le thème
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    
-    //     // Ici, tu peux envoyer les données au backend ou gérer la logique de création du compte
-    //     const userData = {
-    //       pseudo,
-    //       password,
-    //     };
-        
-    //     console.log('User Data:', userData);
-    //     // Effectuer l'envoi de ces données à l'API ou base de données
+    // Fonction pour gérer le changement dans la liste déroulante
+    const handleSelectionChange = (e) => {
+        setSelectedOption(e.target.value);
 
-    //     try {
-    //         // const API_URL=process.env.REACT_APP_API_URL || "http://localhost:4000";
+        // Appliquer la classe correspondante pour changer le thème
+        document.body.className = e.target.value; // Applique la classe choisie sur le body
+    };
 
-    //         // const API_URL="https://myday-back.onrender.com";
-    //         // const API_URL = "http://localhost:4000";
-    //         const API_URL =
-    //             window.location.hostname === "localhost"
-    //                 ? "http://localhost:4000"
-    //                 : "https://myday-back.onrender.com";
-                    
-            
+    useEffect(() => {
+        fetch('/getFeelings')
+            .then(res => res.json())
+            .then(data => setFeelings(data.feelings))
+            .catch(err => console.error("Erreur en récupérant les émotions :", err));
+    }, []);
 
-    //         const response = await fetch(`${API_URL}/Login`, {
-    //         // const response = await fetch("http://localhost:4000/Login", {
-    //             method: "POST",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify(userData),
-    //             credentials: 'include'
-    //         });
-    
-    //         const data = await response.json();
-    //         console.log("Réponse du serveur :", data);
-    
-    //         if (data.success) {
-    //             window.location.href = data.redirectUrl;
-    //         }
-    //     } catch (error) {
-    //         console.error("Erreur lors de l'envoi :", error);
-    //     }
-    //   };
+    const handleInputChange = (index, value) => {
+        setModifiedFeelings(prev => ({
+            ...prev,
+            [index]: value
+        }));
+    };
+
+    const updateFeeling = (index) => {
+        const newFeeling = modifiedFeelings[index];
+        if (!newFeeling) return;
+
+        fetch('/updateFeeling', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ index, newFeeling })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                const updatedFeelings = [...feelings];
+                updatedFeelings[index] = newFeeling;
+                setFeelings(updatedFeelings);
+                setEditingIndex(null);
+                setModifiedFeelings({});
+            } else {
+                console.error("Erreur côté serveur :", data.message);
+            }
+        })
+        .catch(err => console.error("Erreur en mettant à jour :", err));
+    };
 
     return (
         <div className="container">
             <div className="header">
-            <h1>
-                <span>M</span><span>y</span><span>D</span><span>a</span><span>y</span>
+                <h1>
+                    <span>M</span><span>y</span><span>D</span><span>a</span><span>y</span>
                 </h1>
-            </div >
+            </div>
             
-            <h5>Settings</h5>
-            <p>In progress ⚙️</p>
-            {/* <form onSubmit={handleSubmit}>
-                <h4>
-                    <label htmlFor="pseudo" >Pseudo : </label>
-                    <input className="login-input"
-                    type="text"
-                    id="pseudo"
-                    name="pseudo"
-                    value={pseudo}
-                    onChange={(e) => setPseudo(e.target.value)}
-                    required
-                    placeholder=""
-                    />
-                </h4>
-                <h4>
-                    <label htmlFor="mot de pass" >Mot de pass : </label>
-                    <input className="login-input"
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    placeholder=""
-                    />
-                </h4>
-                <hr className="hr" />
-                <div className="boutton-clear-submit-index">
-                    <Link to="/Register">
-                        <button type="button" className="submit-button">
-                            Créer un compte
-                        </button>
-                    </Link>
-                </div>
-                
-            </form> */}
-              <div className='rouesDesEmotions'>
-                <img src="/construction.png" alt="page en construction"></img>
-              </div>
+            <h5>Theme : </h5>
+            <select id="theme-select" class="theme-select">
+            <option value="colorful">Coloré</option>
+            <option value="dark">not dev</option>
+
+            </select>
+
+            <h5>Emotions :</h5>
+            <ol>
+                {feelings.map((f, index) => (
+                    <ol key={index}>
+                        {editingIndex === index ? (
+                            <>
+                                <input
+                                    type="text"
+                                    defaultValue={f}
+                                    onChange={(e) => handleInputChange(index, e.target.value)}
+                                    
+                                />
+                                
+                                <button 
+                                    className="button-option"
+                                    onClick={() => updateFeeling(index)}>✔️</button>
+                                <button 
+                                    className="button-option"
+                                    onClick={() => setEditingIndex(null)}>❌</button>
+                               
+                            </>
+                        ) : (
+                            <>
+                                {f}
+                                <button 
+                                    className="button-option"
+                                    onClick={() => setEditingIndex(index)}>✏️</button>
+                            </>
+                        )}
+                         {index < feelings.length - 1 && <hr className="hr-settings" />}
+                    </ol>
+                    
+                ))}
+            </ol>
 
             <Link to="/">
-              <button type="button" className="submit-button">
-                  Home Page
-              </button>
-             </Link>
-             <p className ="droits">© 2025 myDay. Tous droits réservés.
-             Cette application et son contenu sont protégés par les lois en vigueur sur la propriété intellectuelle. </p>   
+                <button type="button" className="submit-button">Mes émotions</button>
+            </Link>
+
+            <p className="droits">
+                © 2025 myDay. Tous droits réservés. Cette application, ainsi que l’ensemble de son contenu, est protégée par les lois en vigueur relatives à la propriété intellectuelle. Les données qu’elle contient sont chiffrées afin d’en garantir la sécurité.
+            </p>
         </div>
     );
 }

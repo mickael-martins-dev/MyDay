@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 function Login() {
     const [pseudo, setPseudo] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -45,6 +46,10 @@ function Login() {
             if (data.success) {
                 window.location.href = data.redirectUrl;
             }
+            else {
+            // Si le serveur renvoie un message d'erreur, l'afficher ici
+                setErrorMessage(data.errorMessage);
+            }
         } catch (error) {
             console.error("Erreur lors de l'envoi :", error);
         }
@@ -83,6 +88,7 @@ function Login() {
                     placeholder=""
                     />
                 </h4>
+                
                 <hr className="hr" />
                 <div className="boutton-clear-submit-index">
                     <Link to="/Register">
@@ -106,8 +112,9 @@ function Login() {
                 </div>
                 
             </form>
+            {errorMessage && (<p className="error-message">{errorMessage}</p>)}
             <p className ="droits">© 2025 myDay. Tous droits réservés.
-            Cette application et son contenu sont protégés par les lois en vigueur sur la propriété intellectuelle. </p>
+            Cette application, ainsi que l’ensemble de son contenu, est protégée par les lois en vigueur relatives à la propriété intellectuelle. Les données qu’elle contient sont chiffrées afin d’en garantir la sécurité. </p>
         </div>
     );
 }
