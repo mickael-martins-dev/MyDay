@@ -54,7 +54,6 @@ function Identifiants() {
             </div>
 
             <h5>Identifiants</h5>
-            <p>In progress ⚙️</p>
             <form onSubmit={handleSubmit}>
                 <h4>
                     <label htmlFor="pseudo">Pseudo: </label>
