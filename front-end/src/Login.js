@@ -45,6 +45,7 @@ function Login() {
     
             if (data.success) {
                 window.location.href = data.redirectUrl;
+                document.body.classList.add(data.theme);
             }
             else {
             // Si le serveur renvoie un message d'erreur, l'afficher ici

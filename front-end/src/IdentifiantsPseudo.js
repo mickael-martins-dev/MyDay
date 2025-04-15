@@ -3,11 +3,47 @@ import './styles/Home.css';
 import './styles/Mobile.css';
 import { Link } from 'react-router-dom';
 
+
 function Identifiants() {
+    const[mail, setMail]=useState("")
+    const[password, setPassword]=useState("")
     const[pseudo, setPseudo]=useState("")
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const userData={
+            mail,
+            password
+        }
 
+        try {
+            const API_URL =
+                window.location.hostname === "localhost"
+                    ? "http://localhost:4000"
+                    : "https://myday-back.onrender.com";
+
+            const response = await fetch(`${API_URL}/IdentifiantsPseudo`,{  
+                method:"POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(userData),
+                credentials: 'include'
+            })
+
+            const data = await response.json()
+            console.log("Réponse du serveur :", data);
+
+            if (data.success) {
+                setErrorMessage("");
+                setPseudo(data.pseudo);  // Réponse du backend avec le pseudo
+                
+            } else {
+                setErrorMessage("Identifiants incorrects, veuillez réessayer.");
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'envoi :", error);
+            setErrorMessage("Erreur lors de la demande, veuillez réessayer.");
+        }
     }
     // const [pseudo, setPseudo] = useState('');
     // const [password, setPassword] = useState('');
@@ -63,27 +99,26 @@ function Identifiants() {
                 </h1>
             </div >
             
-            <h5>Identifiants</h5>
+            <h5>Pseudo oublié :</h5>
             <form onSubmit={handleSubmit}>
-                <div className="position-boutons-identifiants"> 
-                    <Link to="/IdentifiantsPseudo">
-                        <button type="button" className="submit-button-identifiants1">
-                            Pseudo oublié
-                        </button>
-                    </Link>
-
-
-                    <Link to="/IdentifiantsMdp">
-                        <button type="button" className="submit-button-identifiants">
-                            Mot de pass oublié
-                        </button>
-                    </Link>
-                </div>
-                
-
-                
-                {/* <h4>
-                    <label htmlFor="mot de pass" >Mot de pass : </label>
+                <h4>
+                    <label htmlFor="mail" >Mail: </label>
+                    <input className="login-input"
+                    type="mail"
+                    id="mail"
+                    name="mail"
+                    value={mail}
+                    onChange={(e) => {setMail(e.target.value)
+                    setErrorMessage("");
+                    }  
+                }
+                    
+                    required
+                    placeholder=""
+                    />
+                </h4>
+                <h4>
+                    <label htmlFor="password" >Mot de passe : </label>
                     <input className="login-input"
                     type="password"
                     id="password"
@@ -93,26 +128,23 @@ function Identifiants() {
                     required
                     placeholder=""
                     />
-                </h4> */}
-                {/* <div className="boutton-clear-submit-index">
-                        <button type="button" className="submit-button">
-                            Réinitialiser le mot de passe !
-                        </button>
-                </div> */}
-                <hr className="hr" />
-                {/* <div className="boutton-clear-submit-index">
-                    <Link to="/Register">
-                        <button type="button" className="submit-button">
-                            Créer un compte
-                        </button>
-                    </Link>
-                </div> */}
-                
+                </h4>
+             <button type="button" className="submit-button" onClick={handleSubmit}>
+                  Valider
+              </button>   
             </form>
-              {/* <div className='rouesDesEmotions'>
-                <img src="/construction.png" alt="page en construction"></img>
-              </div> */}
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            
+            {pseudo && (
+                <div>
+                    <div className='h4-pseudo'>
+                    Ton pseudo est : <strong>{pseudo}</strong>
+                    </div>
+                </div>
+            )}
+          
 
+            <hr className="hr" />
             <Link to="/Login">
               <button type="button" className="submit-button">
                   Connexion

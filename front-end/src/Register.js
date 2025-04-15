@@ -12,9 +12,10 @@ function Register() {
     const [feelings, setFeelings] = useState(["", "", "", ""]); // 4 émotions par défaut
     const [acceptedTerms, setAcceptedTerms] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessagePhrase, setErrorMessagePhrase] = useState('');
     const [showPassword, setShowPassword] = useState(false);  // Ajouter l'état showPassword
     const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Ajouter l'état pour la confirmation du mot de passe
-
+    const [phraseRegister,setphraseRegister]=useState("")
 
     useEffect(() => {
         const savedFeelings = localStorage.getItem('tempFeelings');
@@ -29,12 +30,19 @@ function Register() {
             alert("Vous devez accepter les conditions générales pour continuer.");
             return;
         }
+        if (phraseRegister === '') {
+            setErrorMessagePhrase("Vous devez choisir une phrase.");
+            return;
+        } else {
+            setErrorMessagePhrase(""); // on enlève l'erreur si une phrase est bien choisie
+        }
+        
     
         if (password !== confirmPassword) {
             setErrorMessage("Les mots de passe ne sont pas identiques.");
             return;
         }
-    
+        
         setErrorMessage(""); // Réinitialise le message d'erreur
     
         const userData = {
@@ -42,6 +50,7 @@ function Register() {
             mail,
             password,
             feelings,
+            phraseRegister
         };
     
         console.log('User Data:', userData);
@@ -128,6 +137,17 @@ function Register() {
                         required
                     />
                 </h4>
+                <h4>
+                    <select id="phraseRegister" className="phrase-select" onChange={(e) => setphraseRegister(e.target.value)}>
+                        <option>Choisir une phrase.</option>
+                        <option value="pizza">Je suis l'élement principal de la pizza.</option>
+                        <option value="ia">Mon cerveau est la meilleure de IA.</option>
+                        <option value="courant">Je préfère marcher à contre-courant.</option>
+                        <option value="toi">Toi sans moi, ça ne sera jamais nous.</option>
+                        
+                    </select>
+                </h4>
+                {errorMessagePhrase && <p className="error-message">{errorMessagePhrase}</p>}
                 <h4>
                     <label htmlFor="mail">Email : </label>
                     <input

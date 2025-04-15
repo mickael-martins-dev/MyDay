@@ -19,9 +19,28 @@ function Settings() {
 
     useEffect(() => {
         fetch('/getFeelings')
-            .then(res => res.json())
-            .then(data => setFeelings(data.feelings))
-            .catch(err => console.error("Erreur en récupérant les émotions :", err));
+        .then(res => res.json())
+        .then(data => setFeelings(data.feelings))
+        .catch(err => console.error("Erreur en récupérant les émotions :", err));
+
+    // Charger le thème depuis la base
+    const pseudo = localStorage.getItem('username');
+    if (pseudo) {
+        fetch('/getTheme', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pseudo })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success && data.theme) {
+                setSelectedOption(data.theme);
+                document.body.className = data.theme;
+            }
+        })
+     
+        .catch(err => console.error("Erreur en récupérant le thème :", err));
+    }
     }, []);
 
     const handleInputChange = (index, value) => {
@@ -30,6 +49,7 @@ function Settings() {
             [index]: value
         }));
     };
+
 
     const updateFeeling = (index) => {
         const newFeeling = modifiedFeelings[index];
@@ -66,10 +86,14 @@ function Settings() {
             </div>
             
             <h5>Theme : </h5>
-            <select id="theme-select" class="theme-select">
+            {/* <select id="theme-select" class="theme-select">
             <option value="colorful">Coloré</option>
             <option value="dark">not dev</option>
+            </select> */}
 
+            <select id="theme-select" className="theme-select" value={selectedOption} onChange={handleSelectionChange}>
+                <option value="colorful">Coloré</option>
+                <option value="dark">Sombre</option>
             </select>
 
             <h5>Emotions :</h5>
