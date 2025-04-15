@@ -10,7 +10,7 @@ body {
   font-family: 'Nunito', sans-serif;
   background: linear-gradient(135deg, #cfa2d9, #e0aad7, #b88c9d);
   color: #444;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 body.dark {
