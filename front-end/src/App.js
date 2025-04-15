@@ -12,11 +12,13 @@ import Identifiants from './Identifiants'
 import Settings from "./Settings"
 import IdentifantsMdp from "./IdentifiantsMdp"
 import IdentifantsPseudo from "./IdentifiantsPseudo"
+import ScrollToTop from './ScrollToTop';
 
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
         <Route path="/" element={
