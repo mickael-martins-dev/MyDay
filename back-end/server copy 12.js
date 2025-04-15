@@ -163,34 +163,6 @@ if (process.env.NODE_ENV === 'production') {
       app.get('/IdentifiantsMdp', (req, res) => {
         res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
       }); 
-      app.post('/IdentifiantsMdp', async (req, res) => {
-        const { pseudo, phraseRegister, newPassword } = req.body;
-        try {
-            const user = await User.findOne({ pseudo });
-            
-            if (!user) {
-                return res.status(404).json({ message: 'Utilisateur non trouvé' });
-            }
-    
-            const decryptedPhrase = decrypt(user.phraseRegister); // Décryptage de la phrase enregistrée
-            if (decryptedPhrase !== phraseRegister) {
-                return res.status(400).json({ message: 'Phrase de sécurité incorrecte' });
-            }
-            console.log("nouveaupassword : ",newPassword)
-            // Hashage du nouveau mot de passe
-            const passwordHashed = await bcryptjs.hash(newPassword, 10);
-    
-            // Mise à jour du mot de passe dans la base de données
-            user.password = passwordHashed;
-            await user.save();
-    
-            res.status(200).json({ message: 'Mot de passe réinitialisé avec succès' });
-        } catch (err) {
-            console.error(err);
-            res.status(500).json({ message: 'Erreur lors de la réinitialisation du mot de passe' });
-        }
-    });
-    
       app.get('/IdentifiantsPseudo', (req, res) => {
         res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
       }); 
