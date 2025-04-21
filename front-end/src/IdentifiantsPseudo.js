@@ -9,6 +9,7 @@ function Identifiants() {
     const[password, setPassword]=useState("")
     const[pseudo, setPseudo]=useState("")
     const [errorMessage, setErrorMessage] = useState("");
+    const [showPassword,setShowPassword]=useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -95,7 +96,7 @@ function Identifiants() {
         <div className="container">
             <div className="header">
             <h1>
-                <span>M</span><span>y</span><span>D</span><span>a</span><span>y</span>
+                <span>m</span><span>y</span><span>D</span><span>a</span><span>y</span>
                 </h1>
             </div >
             
@@ -120,7 +121,7 @@ function Identifiants() {
                 <h4>
                     <label htmlFor="password" >Mot de passe : </label>
                     <input className="login-input"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     value={password}
@@ -128,6 +129,13 @@ function Identifiants() {
                     required
                     placeholder=""
                     />
+                    <button 
+                    type="button" 
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="button-option"
+                >
+                    {showPassword ? "😎" : "👀"}
+                </button>
                 </h4>
              <button type="button" className="submit-button" onClick={handleSubmit}>
                   Valider

@@ -33,45 +33,6 @@ function Home() {
     }
   };
 
-//   const handleSubmit = async () => {
-//     // Cette fonction gère la soumission réelle
-//     const userData = {
-//       feeling1: rating1,
-//       feeling2: rating2,
-//       feeling3: rating3,
-//       feeling4: rating4,
-//       phraseGratitude: phrase,
-//       regle: document.getElementById("regle").checked
-//     };
-
-//     try {
-//       const API_URL =
-//         window.location.hostname === "localhost"
-//           ? "http://localhost:4000"
-//           : "https://myday-back.onrender.com";
-
-//       const response = await fetch(`${API_URL}/`, {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify(userData),
-//         credentials: 'include'
-//       });
-
-//       const data = await response.json();
-//       console.log("Réponse du serveur :", data);
-
-//       if (data) {
-//         handleClear();
-//         const currentDate = new Date();
-//         const currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-//         localStorage.setItem('lastSubmissionDate', currentDateWithoutTime.toISOString()); // Enregistrer la date sans l'heure
-//         setCanSubmit(false); // Désactiver le bouton de soumission
-//       }
-//     } catch (error) {
-//       console.error("Erreur lors de l'envoi :", error);
-//     }
-//   };
-
 const handleSubmit = async () => {
     // Vérification des valeurs avant l'envoi
     console.log("Données envoyées :");
@@ -134,6 +95,7 @@ const handleSubmit = async () => {
       });
 
       console.log("response",response)
+      
   };
   
 
@@ -157,7 +119,8 @@ const handleSubmit = async () => {
           feeling2=dataFeelings.feelings[1]
           feeling3=dataFeelings.feelings[2]
           feeling4=dataFeelings.feelings[3]
-
+          console.log("theme dans home !! : ",dataFeelings.theme)
+          document.body.className=dataFeelings.theme
           if (dataFeelings && dataFeelings.feelings) {
             setFeelings(dataFeelings.feelings);
           }
@@ -186,7 +149,7 @@ const handleSubmit = async () => {
     <div className="container">
       <div className="header">
         <h1>
-          <span>M</span><span>y</span><span>D</span><span>a</span><span>y</span>
+          <span>m</span><span>y</span><span>D</span><span>a</span><span>y</span>
         </h1>
       </div>
 
@@ -203,7 +166,7 @@ const handleSubmit = async () => {
               {[1, 2, 3, 4, 5].map((star) => (
                 <span
                   key={star}
-                  className={`star ${feeling.rating >= star ? 'active' : ''}`}
+                  className={`star ${feeling.rating >= star ? 'active' : 0}`}
                   onClick={() => feeling.setRating(star)}
                 >
                   &#9733;

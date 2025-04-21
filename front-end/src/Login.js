@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import './styles/Home.css';
 import './styles/Mobile.css';
 import { Link } from 'react-router-dom';
+// import { useEffect } from 'react';
 
 function Login() {
     const [pseudo, setPseudo] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [showPassword,setShowPassword]=useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,6 +20,8 @@ function Login() {
         };
         
         console.log('User Data:', userData);
+        document.body.className = "colorful";
+        console.log("theme sur Login : ",document.body.className)
         // Effectuer l'envoi de ces données à l'API ou base de données
 
         try {
@@ -43,12 +47,33 @@ function Login() {
             const data = await response.json();
             console.log("Réponse du serveur :", data);
     
+            // if (data.success) {
+            //     window.location.href = data.redirectUrl;
+            //     document.body.classList.add(data.theme);
+            // }
+            // else {
+            // // Si le serveur renvoie un message d'erreur, l'afficher ici
+            //     setErrorMessage(data.errorMessage);
+            // }
             if (data.success) {
+                // Appeler l'API pour récupérer le thème après la connexion réussie
+                const themeResponse = await fetch(`${API_URL}/getTheme`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ pseudo: data.username }),  // Utilise le pseudo retourné par le serveur
+                    credentials: 'include'
+                });
+
+                const themeData = await themeResponse.json();
+                if (themeData.success && themeData.theme) {
+                    // Appliquer le thème et le stocker dans localStorage
+                    document.body.classList.add(themeData.theme);
+                    localStorage.setItem('theme', themeData.theme);  // Sauvegarde du thème dans localStorage
+                }
+
+                // Rediriger après avoir appliqué le thème
                 window.location.href = data.redirectUrl;
-                document.body.classList.add(data.theme);
-            }
-            else {
-            // Si le serveur renvoie un message d'erreur, l'afficher ici
+            } else {
                 setErrorMessage(data.errorMessage);
             }
         } catch (error) {
@@ -56,11 +81,16 @@ function Login() {
         }
       };
 
+      useEffect(() => {
+        document.body.className = "colorful"; 
+        console.log("Thème appliqué à l'arrivée sur la page :", document.body.className);
+    }, []);
+
     return (
         <div className="container">
             <div className="header">
             <h1>
-                <span>M</span><span>y</span><span>D</span><span>a</span><span>y</span>
+                <span>m</span><span>y</span><span>D</span><span>a</span><span>y</span>
                 </h1>
             </div>
             <h5>Connexion</h5>
@@ -80,7 +110,7 @@ function Login() {
                 <h4>
                     <label htmlFor="mot de pass" >Mot de pass : </label>
                     <input className="login-input"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     value={password}
@@ -88,6 +118,13 @@ function Login() {
                     required
                     placeholder=""
                     />
+                    <butt
+                    type="button" 
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="button-option"
+                >
+                    {showPassword ? "😎" : "👀"}
+                </butt>
                 </h4>
                 
                 <hr className="hr" />

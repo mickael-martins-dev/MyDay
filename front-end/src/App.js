@@ -8,6 +8,7 @@ import Historique from './Historique'
 import Register from './Register';
 import PrivateRoute from './PrivateRoute';
 import Emotions from './Emotions'
+import EmotionsSettings from './EmotionsSettings'
 import Identifiants from './Identifiants'
 import Settings from "./Settings"
 import IdentifantsMdp from "./IdentifiantsMdp"
@@ -31,12 +32,11 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/historique" element={<Historique />} />
         <Route path="/emotions" element={<Emotions />} />
+        <Route path="/emotionsSettings" element={<EmotionsSettings />} />
         <Route path="/identifiants" element={<Identifiants />} />
         <Route path="/identifiantsPseudo" element={<IdentifantsPseudo />} />
         <Route path="/identifiantsMdp" element={<IdentifantsMdp />} />
         <Route path="/settings" element={<Settings />} />
-
-        
       </Routes>
     </Router>
   );

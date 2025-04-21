@@ -6,15 +6,17 @@ import { useEffect } from 'react';
 
 function Register() {
     const [pseudo, setPseudo] = useState('');
-    const [mail, setMail] = useState('');
+    const [mail, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [feelings, setFeelings] = useState(["", "", "", ""]); // 4 émotions par défaut
     const [acceptedTerms, setAcceptedTerms] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessagePseudo, setErrorMessagePseudo] = useState('');
+    const [errorMessageEmail, setErrorMessageEmail] = useState('');
     const [errorMessagePhrase, setErrorMessagePhrase] = useState('');
     const [showPassword, setShowPassword] = useState(false);  // Ajouter l'état showPassword
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Ajouter l'état pour la confirmation du mot de passe
+    // const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Ajouter l'état pour la confirmation du mot de passe
     const [phraseRegister,setphraseRegister]=useState("")
 
     useEffect(() => {
@@ -23,6 +25,20 @@ function Register() {
             setFeelings(JSON.parse(savedFeelings));
         }
     }, [])
+
+    const handlePseudoChange = (e) => {
+        setPseudo(e.target.value);
+        if (errorMessagePseudo) {
+            setErrorMessagePseudo(''); // Réinitialiser l'erreur lorsque le pseudo est modifié
+        }
+    };
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+        if (errorMessagePseudo) {
+            setErrorMessageEmail(''); // Réinitialiser l'erreur lorsque le pseudo est modifié
+        }
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
     
@@ -38,10 +54,10 @@ function Register() {
         }
         
     
-        if (password !== confirmPassword) {
-            setErrorMessage("Les mots de passe ne sont pas identiques.");
-            return;
-        }
+        // if (password !== confirmPassword) {
+        //     setErrorMessage("Les mots de passe ne sont pas identiques.");
+        //     return;
+        // }
         
         setErrorMessage(""); // Réinitialise le message d'erreur
     
@@ -78,11 +94,27 @@ function Register() {
             const data = await response.json();
             console.log("Réponse du serveur :", data);
     
-            if (data) {
+            // if (data) {
+            //     localStorage.setItem('userFeelings', JSON.stringify(feelings));
+            //     window.location.href = "/Login"; // ✅ La redirection se fait ici
+            //     localStorage.removeItem('tempFeelings')
+            // }
+
+            if (response.status === 201) {
                 localStorage.setItem('userFeelings', JSON.stringify(feelings));
-                window.location.href = "/Login"; // ✅ La redirection se fait ici
-                localStorage.removeItem('tempFeelings')
+                localStorage.removeItem('tempFeelings');
+                window.location.href = "/Login"; // ✅ Redirection seulement si succès
+            } else {
+                // Gestion des erreurs renvoyées par le backend
+                if (data.message === "Pseudo déjà utilisé") {
+                    setErrorMessagePseudo("Ce pseudo est déjà pris.");
+                } else if (data.message === "Email déjà utilisé") {
+                    setErrorMessageEmail("Cet email est déjà utilisé.");
+                } else {
+                    setErrorMessage("Une erreur est survenue. Veuillez réessayer.");
+                }
             }
+
         } catch (error) {
             console.error("Erreur lors de l'envoi :", error);
         }
@@ -100,7 +132,7 @@ function Register() {
         <div className="container">
             <div className="header">
                 <h1>
-                    <span>M</span><span>y</span><span>D</span><span>a</span><span>y</span>
+                    <span>m</span><span>y</span><span>D</span><span>a</span><span>y</span>
                 </h1>
             </div>
             <form onSubmit={handleSubmit}>
@@ -133,10 +165,12 @@ function Register() {
                         type="text"
                         id="pseudo"
                         value={pseudo}
-                        onChange={(e) => setPseudo(e.target.value)}
+                        // onChange={(e) => setPseudo(e.target.value)}
+                        onChange={handlePseudoChange}
                         required
                     />
                 </h4>
+                {errorMessagePseudo && <p className="error-message">{errorMessagePseudo}</p>}
                 <h4>
                     <select id="phraseRegister" className="phrase-select" onChange={(e) => setphraseRegister(e.target.value)}>
                         <option>Choisir une phrase.</option>
@@ -155,10 +189,12 @@ function Register() {
                         type="mail"
                         id="mail"
                         value={mail}
-                        onChange={(e) => setMail(e.target.value)}
+                        // onChange={(e) => setMail(e.target.value)}
+                        onChange={handleEmailChange}
                         required
                     />
                 </h4>
+                {errorMessageEmail && <p className="error-message">{errorMessageEmail}</p>}
                 <h4>
                     <label htmlFor="password">Mot de passe : </label>
                     <input
@@ -177,7 +213,7 @@ function Register() {
                     {showPassword ? "😎" : "👀"}
                 </button>
                 </h4>
-                <h4>
+                {/* <h4>
                     <label htmlFor="confirmPassword">Confirmez le mot de passe : </label>
                     <input
                         className="login-input"
@@ -195,7 +231,7 @@ function Register() {
                     {showConfirmPassword ? "😎" : "👀"}
                 </button>
                 </h4>
-                {errorMessage && <p className="error-message">{errorMessage}</p>}
+                {errorMessage && <p className="error-message">{errorMessage}</p>} */}
 
                 <hr className="hr" />
 

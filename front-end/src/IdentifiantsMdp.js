@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import './styles/Home.css';
 import './styles/Mobile.css';
 import { Link } from 'react-router-dom';
@@ -8,61 +8,142 @@ function Identifiants() {
     const [pseudo, setPseudo] = useState("");
     const [phraseRegister, setPhraseRegister] = useState("");
     const [newPassword, setNewPassword] = useState("");
+    const [newConfirmPassword, setNewConfirmPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState(""); // Nouvel état pour le message de succès
+    const [showPassword,setShowPassword]=useState(false)
+    const [showConfirmPassword,setShowConfirmPassword]=useState(false)
     const navigate = useNavigate();
 
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     const userData = {
+    //         pseudo,
+    //         phraseRegister,
+    //         newPassword,
+    //         newConfirmPassword
+    //     };
+    //     if (newPassword !== newConfirmPassword) {
+    //         setErrorMessage("Les mots de passe ne sont pas identiques.");
+    //         return;
+    //     }
+    //     try {
+    //         const API_URL = window.location.hostname === 'localhost'
+    //             ? "http://localhost:4000"
+    //             : "https://myday-back.onrender.com";
+
+    //         const response = await fetch(`${API_URL}/IdentifiantsMdp`, {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify(userData),
+    //             credentials: 'include'
+    //         });
+
+    //         const data = await response.json(); // Attendre la réponse avant de la manipuler
+
+    //         if (data.message) {
+    //             console.log("ddddddddd : ",data.message)
+    //             setErrorMessage(data.message); // Afficher l'erreur
+    //             // setSuccessMessage("Mot de passe réinitialisé avec succès !");
+    //             setTimeout(() => {
+    //                 navigate('/Login');
+    //             }, 3000); // Redirige après 2 secondes
+    //         } else {
+    //             setErrorMessage(""); // 
+    //             // setPseudo("");
+    //             setPhraseRegister("");
+    //             setNewPassword("");
+    //             // Ici, tu peux gérer le succès
+    //             // setSuccessMessage("Mot de passe réinitialisé avec succès !");
+    //             console.log("Success message set:", successMessage);
+    //             // Réaliser la redirection vers la page de connexion après un délai
+    //             // setTimeout(() => {
+    //             //     navigate('/Login');
+    //             // }, 2000); // Redirige après 2 secondes
+    //         }
+    //     } catch (error) {
+    //         console.error("Erreur lors de l'envoi :", error);
+    //         setErrorMessage("Erreur lors de la demande, veuillez réessayer.");
+    //     }
+    // };
     const handleSubmit = async (e) => {
         e.preventDefault();
         const userData = {
             pseudo,
             phraseRegister,
-            newPassword
+            newPassword,
+            newConfirmPassword
         };
+    
+        if (newPassword !== newConfirmPassword) {
+            setErrorMessage("Les mots de passe ne sont pas identiques.");
+            return;
+        }
+    
+        if (!pseudo || !phraseRegister) {
+            setErrorMessage("Veuillez remplir tous les champs.");
+            return;
+        }
+    
         try {
             const API_URL = window.location.hostname === 'localhost'
                 ? "http://localhost:4000"
                 : "https://myday-back.onrender.com";
-
+    
             const response = await fetch(`${API_URL}/IdentifiantsMdp`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userData),
                 credentials: 'include'
             });
-
+    
             const data = await response.json(); // Attendre la réponse avant de la manipuler
-
+    
             if (data.message) {
+                console.log("Erreur : ", data.message);
                 setErrorMessage(data.message); // Afficher l'erreur
+                if(data.message=="Mot de passe réinitialisé avec succès"){
+                    setTimeout(() => {
+                        navigate('/Login');
+                    }, 3000); // Redirige après 3 secondes
+                }
             } else {
-                setErrorMessage(""); // 
-                // setPseudo("");
+                setSuccessMessage("Mot de passe réinitialisé avec succès !");
+                // Réinitialisation des champs
+                setPseudo("");
                 setPhraseRegister("");
                 setNewPassword("");
-                // Ici, tu peux gérer le succès
-                setSuccessMessage("Mot de passe réinitialisé avec succès !");
-                // Réaliser la redirection vers la page de connexion après un délai
+                setNewConfirmPassword("");
+                // Redirection après un délai
                 setTimeout(() => {
                     navigate('/Login');
-                }, 2000); // Redirige après 2 secondes
+                }, 3000); // Redirige après 3 secondes
             }
         } catch (error) {
             console.error("Erreur lors de l'envoi :", error);
             setErrorMessage("Erreur lors de la demande, veuillez réessayer.");
         }
     };
+    
+    useEffect(() => {
+        if (successMessage) {
+            console.log("dans useEffect !!!!!")
+            const timer = setTimeout(() => {
+                navigate('/Login');
+            }, 2000); // Redirige après 2 secondes
+            return () => clearTimeout(timer); // Nettoyage
+        }
+    }, [successMessage, navigate])
 
     return (
         <div className="container">
             <div className="header">
                 <h1>
-                    <span>M</span><span>y</span><span>D</span><span>a</span><span>y</span>
+                    <span>m</span><span>y</span><span>D</span><span>a</span><span>y</span>
                 </h1>
             </div>
 
             <h5>Identifiants</h5>
-            <p>In progress ⚙️</p>
             <form onSubmit={handleSubmit}>
                 <h4>
                     <label htmlFor="pseudo">Pseudo: </label>
@@ -94,14 +175,44 @@ function Identifiants() {
                     <label htmlFor="newPassword">Nouveau mot de passe: </label>
                     <input
                         className="login-input"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         id="newPassword"
                         name="newPassword"
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                         required
+                        
                     />
+                    <button 
+                    
+                    type="button" 
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="button-option"
+                >
+                    {showPassword ? "😎" : "👀"}
+                </button>
                 </h4>
+                <h4>
+                    <label htmlFor="newConfirmPassword">Confirmation nouveau mot de passe: </label>
+                    <input
+                        className="login-input"
+                        type={showPassword ? "text" :"password"}
+                        id="newConfirmPassword"
+                        name="newConfirmPassword"
+                        value={newConfirmPassword}
+                        onChange={(e) => setNewConfirmPassword(e.target.value)}
+                        required
+                    />
+                    <button 
+                    
+                    type="button" 
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="button-option"
+                >
+                    {showPassword ? "😎" : "👀"}
+                </button>
+                </h4>
+                {errorMessage && <p className="error-message">{errorMessage}</p>}
                 <div className="boutton-clear-submit-index">
                     <button type="submit" className="submit-button">
                         Réinitialiser le mot de passe 
@@ -111,10 +222,13 @@ function Identifiants() {
             </form>
 
             {/* Affichage du message de succès en pop-up */}
-            {successMessage && (
+            {/* {successMessage && (
                 <div className="popup-success">
                     <p>{successMessage}</p>
                 </div>
+            )} */}
+            {successMessage && (
+                    <p>{successMessage}</p>
             )}
 
             <Link to="/Login">

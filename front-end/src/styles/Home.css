@@ -10,13 +10,266 @@ body {
   font-family: 'Nunito', sans-serif;
   background: linear-gradient(135deg, #cfa2d9, #e0aad7, #b88c9d);
   color: #444;
-  /* height: 100vh; */
+  height: 100vh;
 }
 
 body.dark {
   font-family: 'Nunito', sans-serif;
   background: linear-gradient(135deg, #2d1e2f, #3a1f34, #1f1b24);
   color: #e0d4eb;
+}
+
+body.ocean {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(135deg, #56b8e1, #6bbad6, #1c6ca7);
+  color: #033c5a;
+}
+
+.container {
+  border: #e0c7f1;
+  max-width: 37.5rem; /* 600px */
+  margin: 3.125rem auto; /* 50px */
+  margin-bottom: 3.125rem;
+  padding: 1.25rem; /* 20px */
+  text-align: center;
+  /* background-color: rgb(227, 167, 210); */
+  background: linear-gradient(135deg, #e0c7f1, #f0e7f9, #d8b2d6);
+  border-radius: 0.75rem; /* 12px */
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
+}
+
+body.dark .container{
+  border: 1px solid #e0c7f1;
+  /* background-color: red; */
+  background: linear-gradient(135deg, #1e1822, #2d2534, #3a2f41); 
+  color: #d1bfe3;
+}
+
+body.ocean .container {
+  border: 1px solid #c6e2ee;
+  background: linear-gradient(135deg, #d5f2fd, #a7dff1, #79c1e6);
+  color: #033c5a;
+}
+
+body.dark ol{
+  color:white;
+}
+
+body.ocean ol {
+  color: #023954;
+}
+
+.header {
+  max-width: 37.5rem; 
+  margin: 0.925rem 2.725rem 1.225rem 2.725rem; 
+  padding: 0.55rem 1.25rem 0.55rem 1.25rem  ;
+  text-align: center;
+  background-color:  #5a9a7f;
+  border-radius: 0.75rem; 
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
+}
+
+body.dark .header{
+  max-width: 37.5rem; 
+  margin: 0.925rem 2.725rem 1.225rem 2.725rem; 
+  padding: 0.55rem 1.25rem 0.55rem 1.25rem  ;
+  text-align: center;
+  background-color:  #d1d6d4;
+  border-radius: 0.75rem; 
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
+}
+
+body.ocean .header {
+  background-color: #1487b6;
+  color: #ffffff;
+}
+
+body.ocean h6 {
+  font-size: 1.35rem; /* 28px */
+  margin: auto;
+  margin-top: 1.85rem; /* 20px */
+  margin-bottom: 1.05rem; /* 20px */
+  color: #ffffff;
+  background-color: #1487b6;
+  border: #1487b6 1px solid;
+  border-radius: 10px;
+  width: 75%; 
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.75rem; /* 28px */
+  margin: 0.25rem auto; /* 20px */
+  color: #ffffff; /* Vert apaisant */
+}
+
+body.dark h1{
+  color:rgb(52, 52, 52);
+}
+
+body.ocean h1 {
+  color: #ffffff;
+}
+
+.regles{
+  margin-top: 1.3rem;
+  margin-bottom: 1.3rem;
+}
+
+.regles.dark{
+  color:white;
+}
+
+body.ocean .regles {
+  color: #05526d;
+}
+
+p {
+  font-size: 0.9rem;
+  line-height: 2.0;
+  padding-top: 0.9rem; 
+  margin-left: 2rem;  /* Marge à gauche */
+  margin-right: 2rem; /* Marge à droite */
+}
+
+body.dark p {
+  color:rgb(56, 52, 52);
+}
+
+body.ocean p {
+  color: #04455e;
+}
+
+.droits{
+  font-style: italic;
+  line-height: 1.2; /* Réduit l’interligne */
+  font-size: 0.75rem; /* Optionnel : si tu veux aussi la rendre discrète */
+  color: #433f3f; /* Optionnel : couleur plus douce */
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+
+}
+
+body.dark .droits{
+  color: #ffffff;
+}
+
+body.ocean .droits {
+  color: #05526d;
+}
+
+form .error-message {
+  color: red;
+  font-size: 1rem; /* Taille de police en rem */
+  font-weight: bold;
+  padding-top: .6rem;
+}
+
+body.dark form .error-message {
+  color: rgb(255, 255, 255);
+  font-size: 1rem; /* Taille de police en rem */
+  font-weight: bold;
+}
+
+body.ocean form .error-message {
+  color: #c90000;
+}
+
+.label-theme {
+  font-size: 1.1rem;
+  color: #5a9a7f;
+  margin-right: 0.5rem;
+}
+
+.label-theme.dark {
+  color: #ffffff;
+}
+
+.label-theme.ocean {
+  color: #1487b6;
+}
+
+body.ocean h5 {
+  font-size: 1.05rem; /* 28px */
+  margin: auto;
+  margin-top: 0.05rem; /* 20px */
+  margin-bottom: 0.05rem; /* 20px */
+  color: #123d2b; /* Vert apaisant */
+  /* background-color: #c294ef; */
+  /* background: linear-gradient(135deg, #cfa2d9, #e0aad7, #b88c9d); */
+  /* background: linear-gradient(135deg, #cfa2d9, #e0aad7, #f3e0e7); */
+  /* background: linear-gradient(135deg, #b3e5fc, #d0f0f7, #a7e8bd); */
+  /* background: linear-gradient(135deg, #b2f0e6, #dfffe4, #f2fbd3); */
+  /* background: linear-gradient(135deg, #b2f0e6, #dfffe4, #f7df89); */
+  background: linear-gradient(135deg, #b0e7ec, #d0f4ef, #e5fbe6);
+  border: #1487b6 1px solid;
+  border-radius: 10px;
+  width: 60%; 
+}
+
+body.ocean .theme-select {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.5rem;
+  font-size: 1rem;
+  border: #1487b6 1px solid;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #b0e7ec, #d0f4ef, #e5fbe6);
+  color: #123d2b;
+  font-family: 'Nunito', sans-serif;
+  cursor: pointer;
+}
+
+body.ocean h3 {
+  font-size: 1.35rem; /* 28px */
+  margin: auto;
+  margin-top: 1.85rem; /* 20px */
+  margin-bottom: 0.25rem; /* 20px */
+  color: #123d2b; /* Vert apaisant */
+  background: linear-gradient(135deg, #b0e7ec, #d0f4ef, #e5fbe6);
+  border: #1487b6 1px solid;
+  border-radius: 10px;
+  width: 75%; 
+}
+
+body.ocean .h7 {
+  font-size: 1.15rem; /* 28px */
+  margin: auto;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-top: 1.25rem; /* 20px */
+  margin-bottom: 1.05rem; /* 20px */
+  color: #123d2b; /* Vert apaisant */
+  background: linear-gradient(135deg, #b0e7ec, #d0f4ef, #e5fbe6);
+  border: #1487b6 1px solid;
+  border-radius: 10px;
+  width: 75%; 
+  text-align: center;
+}
+
+body.dark .error-message {
+  /* background-color: #e9e2f0;
+  border-radius: 0.5rem; */
+  color:  #e9e2f0;
+  font-size: 1rem; /* Taille de police en rem */
+  font-weight: bold;
+  padding-top: .6rem;
+}
+
+body.ocean .fenetre-gratitude{
+  border-radius: 10px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 80%;
+  height: 8rem;
+  color: #123d2b; /* Vert apaisant */
+  background: linear-gradient(135deg, #b0e7ec, #d0f4ef, #e5fbe6);
+  border: #1487b6 1px solid;
+  text-align: center;
+  margin: auto;
+  overflow-y: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* .container {
@@ -35,56 +288,6 @@ body.dark {
   align-items: center; /* optionnel : pour centrer horizontalement */
 }
 
-.container {
-  border: #e0c7f1;
-  max-width: 37.5rem; /* 600px */
-  margin: 3.125rem auto; /* 50px */
-  padding: 1.25rem; /* 20px */
-  text-align: center;
-  /* background-color: rgb(227, 167, 210); */
-  background: linear-gradient(135deg, #e0c7f1, #f0e7f9, #d8b2d6);
-  border-radius: 0.75rem; /* 12px */
-  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
-}
-
-body.dark .container{
-  border: 1px solid #e0c7f1;
-  /* background-color: red; */
-  background: linear-gradient(135deg, #1e1822, #2d2534, #3a2f41); 
-  color: #d1bfe3;
-}
-body.dark ol{
-  color:white;
-}
-
-.header {
-  max-width: 37.5rem; 
-  margin: 0.925rem 2.725rem 1.225rem 2.725rem; 
-  padding: 0.55rem 1.25rem 0.55rem 1.25rem  ;
-  text-align: center;
-  background-color:  #5a9a7f;
-  border-radius: 0.75rem; 
-  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
-}
-body.dark .header{
-  max-width: 37.5rem; 
-  margin: 0.925rem 2.725rem 1.225rem 2.725rem; 
-  padding: 0.55rem 1.25rem 0.55rem 1.25rem  ;
-  text-align: center;
-  background-color:  #d1d6d4;
-  border-radius: 0.75rem; 
-  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-  font-size: 1.75rem; /* 28px */
-  margin: 0.25rem auto; /* 20px */
-  color: #ffffff; /* Vert apaisant */
-}
-
-body.dark h1{
-  color:rgb(52, 52, 52);
-}
 h1 span {
   display: inline-block;
   transform: rotate(5deg); /* Ajuste pour arrondir */
@@ -214,7 +417,7 @@ h6 {
 
 .phrase-input {
   width: 90%;
-  height: 6.25rem; /* 100px */
+  height: 4.25rem; /* 100px */
   padding: 0.625rem; /* 10px */
   margin: 1.25rem 0 0 0; /* 20px */
   font-size: 1rem; /* 16px */
@@ -279,14 +482,7 @@ h6 {
   margin: 0.35rem auto  0.1rem ; /* Ajouter un peu de marge autour de la ligne */
 }
 
-.regles{
-  margin-top: 1.3rem;
-  margin-bottom: 1.3rem;
-}
 
-.regles.dark{
-  color:white;
-}
 
 .checkBox-regles{
   transform: scale(1.5);
@@ -468,17 +664,7 @@ h6 {
   overflow-wrap: break-word;
 }
 
-p {
-  font-size: 0.9rem;
-  line-height: 2.0;
-  padding-top: 0.9rem; 
-  margin-left: 2rem;  /* Marge à gauche */
-  margin-right: 2rem; /* Marge à droite */
-}
 
-body.dark p {
-  color:rgb(56, 52, 52);
-}
 
 .chart-container {
   height: 15rem; /* Spécifie la hauteur ici */
@@ -524,7 +710,14 @@ body.dark p {
    /* Espace entre la case à cocher et le texte */
 }
 
+.inputFeelingsSettings{
+  text-align: center;
+  border-radius: 0.5rem;
+}
+
 .rouesDesEmotions img {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   width: 100%;
 }
 .emotionsProfils img {
@@ -534,19 +727,7 @@ body.dark p {
   border-radius: 2rem 2rem 2rem 0;
 }
 
-.droits{
-  font-style: italic;
-  line-height: 1.2; /* Réduit l’interligne */
-  font-size: 0.75rem; /* Optionnel : si tu veux aussi la rendre discrète */
-  color: #433f3f; /* Optionnel : couleur plus douce */
-  margin-right: 0.5rem;
-  margin-left: 0.5rem;
 
-}
-
-body.dark .droits{
-  color: #ffffff;
-}
 
 /* .time-filter button {
   padding: 0.6rem 1.0rem; 
@@ -588,21 +769,6 @@ body.dark .droits{
   height:1.4rem;
 }
 
-form .error-message {
-  color: red;
-  font-size: 1rem; /* Taille de police en rem */
-  font-weight: bold;
-  padding-top: .6rem;
-}
-
-
-.error-message {
-  color: red;
-  font-size: 1rem; /* Taille de police en rem */
-  font-weight: bold;
-  padding-top: .6rem;
-}
-
 .button-option {
   margin-left: 0.8rem;
   background-color: transparent;  /* Pas de fond coloré */
@@ -626,15 +792,7 @@ form .error-message {
   opacity: 1;  /* Remettre l'opacité à 1 */
 }
 
-.label-theme {
-  font-size: 1.1rem;
-  color: #5a9a7f;
-  margin-right: 0.5rem;
-}
 
-.label-theme.dark {
-  color: #ffffff;
-}
 
 .theme-select {
   margin-top: 1rem;
@@ -647,6 +805,7 @@ form .error-message {
   color: #5a9a7f;
   font-family: 'Nunito', sans-serif;
   cursor: pointer;
+  text-align: center;
 }
 
 .theme-select:focus {
