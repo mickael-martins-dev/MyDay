@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     pseudo: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     mail: { type: String, required: true},
-    mailHash: { type: String, unique: true, index: true },
+    mailHash: { type: String},
     feelings: [{ type: String }], // Tableau de chaînes de caractères pour les feelings
     responses : [responseSchema],
     theme: { type: String, default: 'colorful' },

@@ -73,4 +73,9 @@ function decrypt(encryptedText) {
   return decrypted;
 }
 
-module.exports = { encrypt, decrypt };
+function hashed(text) {
+  if (!text || typeof text !== 'string') return '';
+  return crypto.createHash('sha256').update(text).digest('hex');
+}
+
+module.exports = { encrypt, decrypt,hashed };
