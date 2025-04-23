@@ -15,8 +15,9 @@ function Register() {
     const [errorMessagePseudo, setErrorMessagePseudo] = useState('');
     const [errorMessageEmail, setErrorMessageEmail] = useState('');
     const [errorMessagePhrase, setErrorMessagePhrase] = useState('');
+    const [errorMessagePassword, setErrorMessagePassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);  // Ajouter l'état showPassword
-    // const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Ajouter l'état pour la confirmation du mot de passe
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Ajouter l'état pour la confirmation du mot de passe
     const [phraseRegister,setphraseRegister]=useState("")
 
     useEffect(() => {
@@ -39,6 +40,29 @@ function Register() {
             setErrorMessageEmail(''); // Réinitialiser l'erreur lorsque le pseudo est modifié
         }
     };
+
+    const handleConfirmPasswordChange = (e) => {
+        const value = e.target.value;
+        setConfirmPassword(value);
+        
+        if (password && value && password !== value) {
+            setErrorMessagePassword("Les 2 mots de passe ne sont pas identiques");
+        } else {
+            setErrorMessagePassword('');
+        }
+    };
+    
+    const handlePasswordChange = (e) => {
+        const value = e.target.value;
+        setPassword(value);
+    
+        if (confirmPassword && value !== confirmPassword) {
+            setErrorMessagePassword("Les 2 mots de passe ne sont pas identiques");
+        } else {
+            setErrorMessagePassword('');
+        }
+    };
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
     
@@ -51,6 +75,11 @@ function Register() {
             return;
         } else {
             setErrorMessagePhrase(""); // on enlève l'erreur si une phrase est bien choisie
+        }
+
+        if(password!=confirmPassword){
+            setErrorMessagePassword("Les 2 mots de passes ne sont pas identiqes");
+            return; 
         }
         
     
@@ -202,7 +231,8 @@ function Register() {
                         type={showPassword ? "text" : "password"} // Toggle entre password et text
                         id="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        // onChange={(e) => setPassword(e.target.value)}
+                        onChange={handlePasswordChange}
                         required
                     />
                      <button 
@@ -213,14 +243,15 @@ function Register() {
                     {showPassword ? "😎" : "👀"}
                 </button>
                 </h4>
-                {/* <h4>
+                <h4>
                     <label htmlFor="confirmPassword">Confirmez le mot de passe : </label>
                     <input
                         className="login-input"
-                        type={showConfirmPassword ? "text" : "password"} // Toggle pour confirmer le mot de passe
+                        type={showPassword ? "text" : "password"} // Toggle pour confirmer le mot de passe
                         id="confirmPassword"
                         value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        // onChange={(e) => setConfirmPassword(e.target.value)}
+                        onChange={handleConfirmPasswordChange}
                         required
                     />
                   <button 
@@ -231,7 +262,7 @@ function Register() {
                     {showConfirmPassword ? "😎" : "👀"}
                 </button>
                 </h4>
-                {errorMessage && <p className="error-message">{errorMessage}</p>} */}
+                {errorMessagePassword && <p className="error-message">{errorMessagePassword}</p>}
 
                 <hr className="hr" />
 

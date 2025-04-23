@@ -25,6 +25,52 @@ body.ocean {
   color: #033c5a;
 }
 
+.popup-success-emotions {
+  background: linear-gradient(135deg, #cfa2d9, #e0aad7, #b88c9d);
+  color: #444;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 1rem auto;
+  margin-bottom: 10px;
+  margin-top: 0px;
+  font-size: 16px;
+  animation: fadeIn 1s ease-in-out;
+  max-width: 70%;
+  width: fit-content; /* ou un pourcentage */
+  min-width: 200px;
+}
+body.dark .popup-success-emotions {
+  background-color:  #d1d6d4;
+  color: #444;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 1rem auto;
+  margin-bottom: 10px;
+  margin-top: 0px;
+  font-size: 16px;
+  animation: fadeIn 1s ease-in-out;
+  max-width: 70%;
+  width: fit-content; /* ou un pourcentage */
+  min-width: 200px;
+}
+body.ocean .popup-success-emotions {
+  background: linear-gradient(135deg, #56b8e1, #6bbad6, #1c6ca7);
+  color: #033c5a;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 1rem auto;
+  margin-bottom: 10px;
+  margin-top: 0px;
+  font-size: 16px;
+  animation: fadeIn 1s ease-in-out;
+  max-width: 70%;
+  width: fit-content; /* ou un pourcentage */
+  min-width: 200px;
+}
+
 .container {
   border: #e0c7f1;
   max-width: 37.5rem; /* 600px */
@@ -713,6 +759,7 @@ h6 {
 .inputFeelingsSettings{
   text-align: center;
   border-radius: 0.5rem;
+  height: 1.6rem;
 }
 
 .rouesDesEmotions img {
@@ -847,6 +894,20 @@ h6 {
   font-size: 16px;
   animation: fadeIn 1s ease-in-out;
 }
+/* .popup-success-emotions {
+  background-color: #28a745; 
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 1rem 0;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 16px;
+  animation: fadeIn 1s ease-in-out;
+} */
+
+
 
 /* Animation pour faire apparaître le pop-up */
 @keyframes fadeIn {

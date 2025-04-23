@@ -9,7 +9,6 @@ function Settings() {
     const [modifiedFeelings, setModifiedFeelings] = useState({});
     const [selectedOption, setSelectedOption] = useState(''); // Ajouté pour gérer le thème
     const [pseudo, setPseudo] = useState("");
-    const [notification, setNotification] = useState('');
 
     const handleSelectionChange = (e) => {
         console.log("1")
@@ -135,51 +134,10 @@ function Settings() {
     //     })
     //     .catch(err => console.error("Erreur en mettant à jour :", err));
     // };
-    // const updateFeeling = (index) => {
-    //     const newFeeling = modifiedFeelings[index];
-    //     if (!newFeeling) return;
-    
-    //     fetch('/updateFeeling', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ index, newFeeling })
-    //     })
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         if (data.success) {
-    //             const updatedFeelings = [...feelings];
-    //             console.log("updatedFeelings : ",updatedFeelings)
-    //             updatedFeelings[index] = newFeeling;
-    //             console.log("updatedFeelings [index] : ",updatedFeelings[index])
-    //             setFeelings(updatedFeelings);           // met à jour l'affichage
-    //             setEditingIndex(null);                  // quitte le mode édition
-    //             setModifiedFeelings(prev => {
-    //                 const updated = { ...prev };
-    //                 console.log("upadated : ",updated)
-    //                 delete updated[index]; 
-    //                 const del = delete updated[index];
-    //                 console.log("del : ",del)             // nettoie le champ modifié
-    //                 return updated;
-    //             });
-    //         } else {
-    //             console.error("Erreur côté serveur :", data.message);
-    //         }
-    //     })
-    //     .catch(err => console.error("Erreur en mettant à jour :", err));
-    // };
-
     const updateFeeling = (index) => {
         const newFeeling = modifiedFeelings[index];
         if (!newFeeling) return;
     
-        // Mise à jour optimiste : applique la modification localement
-        const updatedFeelings = [...feelings];
-        updatedFeelings[index] = newFeeling;
-        setFeelings(updatedFeelings);
-    
-        // Maintenant on envoie la mise à jour au serveur
         fetch('/updateFeeling', {
             method: 'POST',
             headers: {
@@ -189,28 +147,27 @@ function Settings() {
         })
         .then(res => res.json())
         .then(data => {
-            if (!data.success) {
-                setNotification("Émotion modifiée !");
-                setTimeout(() => setNotification(''), 3000);
-                // En cas d'erreur côté serveur, on peut restaurer l'état initial
-                console.error("Erreur côté serveur :", data.message);
-                // Vous pouvez ajouter une logique pour restaurer l'état initial des émotions en cas d'erreur
-            } else {
-                // On quitte le mode édition si la mise à jour est réussie
-                setEditingIndex(null);
+            if (data.success) {
+                const updatedFeelings = [...feelings];
+                console.log("updatedFeelings : ",updatedFeelings)
+                updatedFeelings[index] = newFeeling;
+                console.log("updatedFeelings [index] : ",updatedFeelings[index])
+                setFeelings(updatedFeelings);           // met à jour l'affichage
+                setEditingIndex(null);                  // quitte le mode édition
                 setModifiedFeelings(prev => {
                     const updated = { ...prev };
-                    delete updated[index];
+                    console.log("upadated : ",updated)
+                    delete updated[index]; 
+                    const del = delete updated[index];
+                    console.log("del : ",del)             // nettoie le champ modifié
                     return updated;
                 });
+            } else {
+                console.error("Erreur côté serveur :", data.message);
             }
         })
-        .catch(err => {
-            console.error("Erreur en mettant à jour :", err);
-            // Restauration si l'erreur vient du serveur
-        });
+        .catch(err => console.error("Erreur en mettant à jour :", err));
     };
-    
     
     return (
         <div className="container">
@@ -282,24 +239,8 @@ function Settings() {
                                 />
                                 <button 
                                     className="button-option"
-                                    onClick={() => {
-                                        updateFeeling(index)
-                                        setModifiedFeelings(prev => {
-                                            const updated = { ...prev };
-                                            delete updated[index];
-                                            setTimeout(() => {
-                                                setEditingIndex(null);
-                                            }, 3000);
-                                            
-                                            return updated;
-                                            
-                                        });
-                                        // setEditingIndex(null);
-                                        }
-                                    }    
-                                >✔️
-                                </button>
-                               
+                                    onClick={() => updateFeeling(index)}
+                                >✔️</button>
                                 <button 
                                     className="button-option"
                                     onClick={() => {
@@ -311,7 +252,6 @@ function Settings() {
                                         });
                                     }}
                                 >❌</button>
-                                 {notification && <div className="popup-success-emotions">{notification}</div>}
                             </>
                         ) : (
                             <>

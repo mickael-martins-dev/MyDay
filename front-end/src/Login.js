@@ -108,7 +108,7 @@ function Login() {
                     />
                 </h4>
                 <h4>
-                    <label htmlFor="mot de pass" >Mot de pass : </label>
+                    <label htmlFor="mot de pass" >Mot de passe : </label>
                     <input className="login-input"
                     type={showPassword ? "text" : "password"}
                     id="password"
@@ -126,7 +126,7 @@ function Login() {
                     {showPassword ? "😎" : "👀"}
                 </butt>
                 </h4>
-                
+                {errorMessage && (<p className="error-message">{errorMessage}</p>)}
                 <hr className="hr" />
                 <div className="boutton-clear-submit-index">
                     <Link to="/Register">
@@ -148,9 +148,10 @@ function Login() {
                         </button>
                     </Link>
                 </div>
-                
+                    
             </form>
-            {errorMessage && (<p className="error-message">{errorMessage}</p>)}
+            
+            
             <p className ="droits">© 2025 myDay. Tous droits réservés.
             Cette application, ainsi que l’ensemble de son contenu, est protégée par les lois en vigueur relatives à la propriété intellectuelle. Les données qu’elle contient sont chiffrées afin d’en garantir la sécurité. </p>
         </div>
