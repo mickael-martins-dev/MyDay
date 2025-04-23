@@ -299,9 +299,9 @@ if (process.env.NODE_ENV === 'production') {
             { pseudo },
             { $set: { theme } },
         );
-        console.log("result :",result)
-        console.log("pseudo :",pseudo)
-        console.log("theme :",theme)
+        // console.log("result :",result)
+        // console.log("pseudo :",pseudo)
+        // console.log("theme :",theme)
 
         if (result.modifiedCount === 1) {
             res.json({ success: true });
@@ -597,17 +597,17 @@ if (process.env.NODE_ENV === 'production') {
   
       // Accéder dynamiquement aux propriétés de responses pour effacer l'historique uniquement du feeling modifié
       user.responses.forEach((response) => {
-        console.log("dans boucle pour delete")
-        console.log("Réponse actuelle : ", response.feeling1);
+        // console.log("dans boucle pour delete")
+        // console.log("Réponse actuelle : ", response.feeling1);
         response[feelingKey] = null;
-        console.log("Réponse apres : ", response.feeling1);
+        // console.log("Réponse apres : ", response.feeling1);
       });
 
       if (newFeeling !== null && newFeeling !== undefined && newFeeling !== '' ) {
         const encryptedFeeling = encrypt(newFeeling);
         user.feelings[index] = encryptedFeeling;
       } else {
-        console.log('user.feeling[index] :',user.feelings[index])
+        // console.log('user.feeling[index] :',user.feelings[index])
         user.feelings[index] = encrypt("deleted"); // On met bien un vrai null
       }
   
