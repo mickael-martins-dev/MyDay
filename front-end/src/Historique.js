@@ -227,7 +227,7 @@ const filtrerDonneesParTemps = (data, range) => {
             {
               label: feelingsData.feelings[1],
               // data: historyData.map(entry => entry.feeling3),
-              data: historyData.map(entry => entry.feeling3 ?? null),
+              data: historyData.map(entry => entry.feeling2 ?? null),
               borderColor: 'rgba(153, 102, 255, 1)',  // Violet
               borderWidth: 2,
               pointRadius: 4,
