@@ -208,57 +208,122 @@ const filtrerDonneesParTemps = (data, range) => {
         };
         }else
         {
+        // data = {
+        //   labels,
+        //   datasets: [
+        //     {
+        //       label: feelingsData.feelings[0],
+        //       // data: historyData.map(entry => entry.feeling1),
+        //       data: historyData.map(entry => entry.feeling1 ?? null),
+        //       borderColor: 'rgba(75, 192, 192, 1)',  // Turquoise
+        //       borderWidth: 2,
+        //       pointRadius: 4,  // Plus grand pour mieux se voir
+        //       pointHoverRadius: 8,
+        //       pointStyle: 'circle',  // Type de point : Cercle
+        //       fill: false,
+        //       hidden: !showFeeling1,
+        //       spanGaps: false,
+        //     },
+        //     {
+        //       label: feelingsData.feelings[1],
+        //       // data: historyData.map(entry => entry.feeling3),
+        //       data: historyData.map(entry => entry.feeling2 ?? null),
+        //       borderColor: 'rgba(153, 102, 255, 1)',  // Violet
+        //       borderWidth: 2,
+        //       pointRadius: 4,
+        //       pointHoverRadius: 8,
+        //       pointStyle: 'triangle',  // Type de point : Triangle
+        //       fill: false,
+        //       hidden: !showFeeling2,
+        //       spanGaps: false,
+        //     },
+        //     {
+        //       label: feelingsData.feelings[2],
+        //       // data: historyData.map(entry => entry.feeling3),
+        //       data: historyData.map(entry => entry.feeling3 ?? null),
+        //       borderColor: 'rgba(255, 99, 132, 1)',  // Rose
+        //       borderWidth: 2,
+        //       pointRadius: 4,
+        //       pointHoverRadius: 8,
+        //       pointStyle: 'rect',  // Type de point : Carré
+        //       fill: false,
+        //       hidden: !showFeeling3,
+        //       spanGaps: false,
+        //     },
+        //     {
+        //       label: feelingsData.feelings[3],
+        //       // data: historyData.map(entry => entry.feeling4),
+        //       data: historyData.map(entry => entry.feeling4 ?? null),
+        //       borderColor: 'rgba(255, 206, 86, 1)',  // Jaune
+        //       borderWidth: 2,
+        //       pointRadius: 4,
+        //       pointHoverRadius: 8,
+        //       pointStyle: 'star',  // Type de point : Étoile
+        //       fill: false,
+        //       hidden: !showFeeling4,
+        //       spanGaps: false,
+        //     },
+        //     {
+        //       label: 'Règles',
+        //       data: feelingsData.regles?.map((regle) => (regle === true ? 0 : null)) || [],
+        //       borderColor: 'rgb(0, 0, 0)',
+        //       backgroundColor: 'rgb(0, 0, 0)',
+        //       borderWidth: 2,
+        //       pointRadius: 4,
+        //       pointHoverRadius: 4,
+        //       fill: true,
+        //       hidden: !showRegles
+        //     }
+        //   ],
+        // };
+      
         data = {
           labels,
           datasets: [
             {
               label: feelingsData.feelings[0],
-              // data: historyData.map(entry => entry.feeling1),
               data: historyData.map(entry => entry.feeling1 ?? null),
               borderColor: 'rgba(75, 192, 192, 1)',  // Turquoise
               borderWidth: 2,
-              pointRadius: 4,  // Plus grand pour mieux se voir
+              pointRadius: 4,
               pointHoverRadius: 8,
-              pointStyle: 'circle',  // Type de point : Cercle
+              pointStyle: 'circle',
               fill: false,
               hidden: !showFeeling1,
               spanGaps: false,
             },
             {
               label: feelingsData.feelings[1],
-              // data: historyData.map(entry => entry.feeling3),
               data: historyData.map(entry => entry.feeling2 ?? null),
               borderColor: 'rgba(153, 102, 255, 1)',  // Violet
               borderWidth: 2,
               pointRadius: 4,
               pointHoverRadius: 8,
-              pointStyle: 'triangle',  // Type de point : Triangle
+              pointStyle: 'triangle',
               fill: false,
               hidden: !showFeeling2,
               spanGaps: false,
             },
             {
               label: feelingsData.feelings[2],
-              // data: historyData.map(entry => entry.feeling3),
               data: historyData.map(entry => entry.feeling3 ?? null),
               borderColor: 'rgba(255, 99, 132, 1)',  // Rose
               borderWidth: 2,
               pointRadius: 4,
               pointHoverRadius: 8,
-              pointStyle: 'rect',  // Type de point : Carré
+              pointStyle: 'rect',
               fill: false,
               hidden: !showFeeling3,
               spanGaps: false,
             },
             {
               label: feelingsData.feelings[3],
-              // data: historyData.map(entry => entry.feeling4),
               data: historyData.map(entry => entry.feeling4 ?? null),
               borderColor: 'rgba(255, 206, 86, 1)',  // Jaune
               borderWidth: 2,
               pointRadius: 4,
               pointHoverRadius: 8,
-              pointStyle: 'star',  // Type de point : Étoile
+              pointStyle: 'star',
               fill: false,
               hidden: !showFeeling4,
               spanGaps: false,
@@ -276,7 +341,7 @@ const filtrerDonneesParTemps = (data, range) => {
             }
           ],
         };
-      }
+        }
         setChartData(data);
       } catch (error) {
         console.error("Erreur lors de la récupération des données :", error);
