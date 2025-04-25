@@ -14,6 +14,7 @@ import Settings from "./Settings"
 import IdentifantsMdp from "./IdentifiantsMdp"
 import IdentifantsPseudo from "./IdentifiantsPseudo"
 import ScrollToTop from './ScrollToTop';
+import DelUser from './DelUser'
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/identifiantsPseudo" element={<IdentifantsPseudo />} />
         <Route path="/identifiantsMdp" element={<IdentifantsMdp />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/delUser" element={<DelUser />} />
       </Routes>
     </Router>
   );

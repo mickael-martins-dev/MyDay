@@ -337,6 +337,11 @@ function Settings() {
             <Link to="/">
                 <button type="button" className="submit-button">Mes émotions</button>
             </Link>
+            <hr className="hr" />
+
+            <Link to="/DelUser">
+                <button type="button" className="submit-button-supprimer">Supprimer compte</button>
+            </Link>
 
            
 
