@@ -170,6 +170,31 @@ if (process.env.NODE_ENV === 'production') {
         res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
   });
 
+  app.get('/DelUser', (req, res) => {
+    if(req.session.user)
+      res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
+  });
+
+  app.post('/DelUser', async (req, res) => {
+    const userDel = req.session.user;
+    console.log("userDel ",userDel)
+
+    try {
+      const user = await User.findOne({ pseudo: userDel.username});
+      console.log("user dans del : ",user)
+      if (!user) {
+        return res.status(404).json({ message: 'Utilisateur non trouvé' });
+      }
+      await User.deleteOne({ pseudo: userDel.username });  // Suppression de l'utilisateur
+      console.log('Utilisateur supprimé avec succès !');
+      res.status(201).json({ message: 'Utilisateur supprimé avec succès' });
+    } catch (err) {
+      console.error('Erreur lors de la suppression de l\'utilisateur :', err);
+      res.status(500).json({ message: 'Erreur lors de la suppression' });
+    }
+  })
+ 
+
   app.get('/Identifiants', (req, res) => {
       res.sendFile(path.join(__dirname, '..', 'front-end', 'build', 'index.html'));
   });  
