@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const ScrollToTop = () => {
-  const location = useLocation(); // Récupère l'emplacement actuel de la route
+  const location = useLocation(); 
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Fait défiler vers le haut chaque fois que la route change
-  }, [location]); // Réagit à chaque changement de route
+    window.scrollTo(0, 0); 
+  }, [location]); 
 
-  return null; // Ce composant ne rend rien
+  return null; 
 };
 
 export default ScrollToTop;

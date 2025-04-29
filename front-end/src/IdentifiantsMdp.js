@@ -10,62 +10,11 @@ function Identifiants() {
     const [newPassword, setNewPassword] = useState("");
     const [newConfirmPassword, setNewConfirmPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const [successMessage, setSuccessMessage] = useState(""); // Nouvel état pour le message de succès
+    const [successMessage, setSuccessMessage] = useState(""); 
     const [showPassword,setShowPassword]=useState(false)
     const [showConfirmPassword,setShowConfirmPassword]=useState(false)
     const navigate = useNavigate();
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     const userData = {
-    //         pseudo,
-    //         phraseRegister,
-    //         newPassword,
-    //         newConfirmPassword
-    //     };
-    //     if (newPassword !== newConfirmPassword) {
-    //         setErrorMessage("Les mots de passe ne sont pas identiques.");
-    //         return;
-    //     }
-    //     try {
-    //         const API_URL = window.location.hostname === 'localhost'
-    //             ? "http://localhost:4000"
-    //             : "https://myday-back.onrender.com";
-
-    //         const response = await fetch(`${API_URL}/IdentifiantsMdp`, {
-    //             method: "POST",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify(userData),
-    //             credentials: 'include'
-    //         });
-
-    //         const data = await response.json(); // Attendre la réponse avant de la manipuler
-
-    //         if (data.message) {
-    //             console.log("ddddddddd : ",data.message)
-    //             setErrorMessage(data.message); // Afficher l'erreur
-    //             // setSuccessMessage("Mot de passe réinitialisé avec succès !");
-    //             setTimeout(() => {
-    //                 navigate('/Login');
-    //             }, 3000); // Redirige après 2 secondes
-    //         } else {
-    //             setErrorMessage(""); // 
-    //             // setPseudo("");
-    //             setPhraseRegister("");
-    //             setNewPassword("");
-    //             // Ici, tu peux gérer le succès
-    //             // setSuccessMessage("Mot de passe réinitialisé avec succès !");
-    //             console.log("Success message set:", successMessage);
-    //             // Réaliser la redirection vers la page de connexion après un délai
-    //             // setTimeout(() => {
-    //             //     navigate('/Login');
-    //             // }, 2000); // Redirige après 2 secondes
-    //         }
-    //     } catch (error) {
-    //         console.error("Erreur lors de l'envoi :", error);
-    //         setErrorMessage("Erreur lors de la demande, veuillez réessayer.");
-    //     }
-    // };
     const handleSubmit = async (e) => {
         e.preventDefault();
         const userData = {
@@ -97,27 +46,25 @@ function Identifiants() {
                 credentials: 'include'
             });
     
-            const data = await response.json(); // Attendre la réponse avant de la manipuler
+            const data = await response.json();
     
             if (data.message) {
                 console.log("Erreur : ", data.message);
-                setErrorMessage(data.message); // Afficher l'erreur
+                setErrorMessage(data.message); 
                 if(data.message=="Mot de passe réinitialisé avec succès"){
                     setTimeout(() => {
                         navigate('/Login');
-                    }, 3000); // Redirige après 3 secondes
+                    }, 3000); 
                 }
             } else {
                 setSuccessMessage("Mot de passe réinitialisé avec succès !");
-                // Réinitialisation des champs
                 setPseudo("");
                 setPhraseRegister("");
                 setNewPassword("");
                 setNewConfirmPassword("");
-                // Redirection après un délai
                 setTimeout(() => {
                     navigate('/Login');
-                }, 3000); // Redirige après 3 secondes
+                }, 3000); 
             }
         } catch (error) {
             console.error("Erreur lors de l'envoi :", error);
@@ -130,8 +77,8 @@ function Identifiants() {
             console.log("dans useEffect !!!!!")
             const timer = setTimeout(() => {
                 navigate('/Login');
-            }, 2000); // Redirige après 2 secondes
-            return () => clearTimeout(timer); // Nettoyage
+            }, 2000); 
+            return () => clearTimeout(timer); 
         }
     }, [successMessage, navigate])
 
@@ -220,13 +167,6 @@ function Identifiants() {
                 </div>
                 <hr className="hr" />
             </form>
-
-            {/* Affichage du message de succès en pop-up */}
-            {/* {successMessage && (
-                <div className="popup-success">
-                    <p>{successMessage}</p>
-                </div>
-            )} */}
             {successMessage && (
                     <p>{successMessage}</p>
             )}

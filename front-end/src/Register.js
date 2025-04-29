@@ -16,8 +16,8 @@ function Register() {
     const [errorMessageEmail, setErrorMessageEmail] = useState('');
     const [errorMessagePhrase, setErrorMessagePhrase] = useState('');
     const [errorMessagePassword, setErrorMessagePassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);  // Ajouter l'état showPassword
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Ajouter l'état pour la confirmation du mot de passe
+    const [showPassword, setShowPassword] = useState(false); 
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
     const [phraseRegister,setphraseRegister]=useState("")
 
     useEffect(() => {
@@ -30,14 +30,14 @@ function Register() {
     const handlePseudoChange = (e) => {
         setPseudo(e.target.value);
         if (errorMessagePseudo) {
-            setErrorMessagePseudo(''); // Réinitialiser l'erreur lorsque le pseudo est modifié
+            setErrorMessagePseudo(''); 
         }
     };
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
         if (errorMessagePseudo) {
-            setErrorMessageEmail(''); // Réinitialiser l'erreur lorsque le pseudo est modifié
+            setErrorMessageEmail('');
         }
     };
 
@@ -74,7 +74,7 @@ function Register() {
             setErrorMessagePhrase("Vous devez choisir une phrase.");
             return;
         } else {
-            setErrorMessagePhrase(""); // on enlève l'erreur si une phrase est bien choisie
+            setErrorMessagePhrase(""); 
         }
 
         if(password!=confirmPassword){
@@ -149,7 +149,6 @@ function Register() {
         }
     };
     
-
     const handleFeelingChange = (index, value) => {
         const updatedFeelings = [...feelings];
         updatedFeelings[index] = value;
@@ -194,7 +193,6 @@ function Register() {
                         type="text"
                         id="pseudo"
                         value={pseudo}
-                        // onChange={(e) => setPseudo(e.target.value)}
                         onChange={handlePseudoChange}
                         required
                     />
@@ -218,7 +216,6 @@ function Register() {
                         type="mail"
                         id="mail"
                         value={mail}
-                        // onChange={(e) => setMail(e.target.value)}
                         onChange={handleEmailChange}
                         required
                     />
@@ -228,10 +225,9 @@ function Register() {
                     <label htmlFor="password">Mot de passe : </label>
                     <input
                         className="login-input"
-                        type={showPassword ? "text" : "password"} // Toggle entre password et text
+                        type={showPassword ? "text" : "password"}
                         id="password"
                         value={password}
-                        // onChange={(e) => setPassword(e.target.value)}
                         onChange={handlePasswordChange}
                         required
                     />
@@ -247,10 +243,9 @@ function Register() {
                     <label htmlFor="confirmPassword">Confirmez le mot de passe : </label>
                     <input
                         className="login-input"
-                        type={showPassword ? "text" : "password"} // Toggle pour confirmer le mot de passe
+                        type={showPassword ? "text" : "password"} 
                         id="confirmPassword"
                         value={confirmPassword}
-                        // onChange={(e) => setConfirmPassword(e.target.value)}
                         onChange={handleConfirmPasswordChange}
                         required
                     />

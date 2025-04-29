@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importer useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import './styles/Home.css';
 import './styles/Mobile.css';
-import LogoutButton from './LogoutButton'; // Importer le composant LogoutButton
-import SettingsButton from './SettingsButton'; // Importer le composant LogoutButton
+import LogoutButton from './LogoutButton'; 
+import SettingsButton from './SettingsButton'; 
 import { Link } from 'react-router-dom';
 let feeling1=""
 let feeling2=""
@@ -15,9 +15,9 @@ function Home() {
   const [rating3, setRating3] = useState(0);
   const [rating4, setRating4] = useState(0);
   const [phrase, setPhrase] = useState('');
-  const [canSubmit, setCanSubmit] = useState(true); // Contrôle de la possibilité de soumettre
+  const [canSubmit, setCanSubmit] = useState(true); 
   const [feelings, setFeelings] = useState(["", "", "", ""]);
-  const navigate = useNavigate(); // Initialisation de useNavigate
+  const navigate = useNavigate(); 
   const handleRatingChange = (setter) => (newRating) => setter(newRating);
   const handlePhraseChange = (event) => setPhrase(event.target.value);
 
@@ -34,7 +34,6 @@ function Home() {
   };
 
 const handleSubmit = async () => {
-    // Vérification des valeurs avant l'envoi
     console.log("Données envoyées :");
     console.log({
       feeling1: rating1,
@@ -60,9 +59,6 @@ const handleSubmit = async () => {
           ? "http://localhost:4000"
           : "https://myday-back.onrender.com";
   
-      // Ajout d'un log pour vérifier l'URL
-      console.log("Envoi de la requête à l'URL : ", `${API_URL}/`);
-  
       const response = await fetch(`${API_URL}/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -77,8 +73,8 @@ const handleSubmit = async () => {
         handleClear();
         const currentDate = new Date();
         const currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-        localStorage.setItem('lastSubmissionDate', currentDateWithoutTime.toISOString()); // Enregistrer la date sans l'heure
-        setCanSubmit(false); // Désactiver le bouton de soumission
+        localStorage.setItem('lastSubmissionDate', currentDateWithoutTime.toISOString()); 
+        setCanSubmit(false);
         navigate('/Historique');
       }
     } catch (error) {
@@ -93,12 +89,8 @@ const handleSubmit = async () => {
         headers: { "Content-Type": "application/json" },
         credentials: 'include'
       });
-
-      console.log("response",response)
-      
   };
   
-
   useEffect(() => {
 
     const fetchUserFeelings = async () => {
@@ -130,7 +122,6 @@ const handleSubmit = async () => {
       };
   
       fetchUserFeelings();
-    // Vérifier si la date du jour est différente de celle enregistrée dans le localStorage
     const lastSubmission = localStorage.getItem('lastSubmissionDate');
     const currentDate = new Date();
     const currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
@@ -138,9 +129,9 @@ const handleSubmit = async () => {
     if (lastSubmission) {
       const lastDate = new Date(lastSubmission);
       if (currentDateWithoutTime > lastDate) {
-        setCanSubmit(true); // Permettre la soumission si nous sommes sur un nouveau jour
+        setCanSubmit(true); 
       } else {
-        setCanSubmit(false); // Empêcher la soumission sinon
+        setCanSubmit(false);
       }
     }
   }, []);
@@ -153,7 +144,7 @@ const handleSubmit = async () => {
         </h1>
       </div>
 
-      <form onSubmit={(e) => e.preventDefault()}> {/* Prévenir la soumission automatique du formulaire */}
+      <form onSubmit={(e) => e.preventDefault()}>
         {[ 
           { title: feeling1, rating: rating1, setRating: handleRatingChange(setRating1) },
           { title: feeling2, rating: rating2, setRating: handleRatingChange(setRating2) },
@@ -206,29 +197,13 @@ const handleSubmit = async () => {
           <button
             type="submit"
             className="submit-button"
-            onClick={handleSubmit} // Appel de la fonction handleSubmit directement
-            // disabled={!canSubmit} // Désactiver le bouton si on ne peut pas soumettre
+            onClick={handleSubmit}
           >
             Soumettre
           </button>
         </div>
         <hr className="hr" />
-
-        {/* <Link to="/Historique">
-            <button type="button" className="submit-button">
-                Historique
-            </button>
-        </Link> */}
-        
-        {/* Utilisation du composant LogoutButton */}
         <div className="settings"> 
-          {/* <div className='button-container'>
-            <Link to="/Emotions">
-                <button type="button" className="submit-button">
-                    <img className="icon-settings" src="/logout.png"></img>
-                </button>
-            </Link>
-          </div> */}
           <div className='button-container'>
               <SettingsButton />
           </div>

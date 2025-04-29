@@ -22,15 +22,7 @@ function Emotions() {
                   });
           
                   const dataFeelings = await response.json();
-                //   feeling1=dataFeelings.feelings[0]
-                //   feeling2=dataFeelings.feelings[1]
-                //   feeling3=dataFeelings.feelings[2]
-                //   feeling4=dataFeelings.feelings[3]
-                //   console.log("theme dans home !! : ",dataFeelings.theme)
                   document.body.className=dataFeelings.theme
-                //   if (dataFeelings && dataFeelings.feelings) {
-                //     setFeelings(dataFeelings.feelings);
-                //   }
                 } catch (error) {
                   console.error("Erreur lors de la récupération des émotions :", error);
                 }

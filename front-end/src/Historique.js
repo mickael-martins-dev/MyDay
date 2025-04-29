@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import axios from 'axios';
-import LogoutButton from './LogoutButton'; // Importer le composant LogoutButton
+import LogoutButton from './LogoutButton'; 
 import { Link } from 'react-router-dom';
 import {
   Chart as ChartJS,
@@ -34,8 +34,6 @@ const Historique = () => {
   const [gratitudeDates, setDatesGratitude] = useState([]);
   const [reglesDates, setReglesDates] = useState([]);
   const[theme,setTheme]=useState("")
-  // const[options,setOptions]=useState({})
-  
   const [showFeeling1, setShowFeeling1] = useState(true);
   const [showFeeling2, setShowFeeling2] = useState(true);
   const [showFeeling3, setShowFeeling3] = useState(true);
@@ -56,15 +54,12 @@ const filtrerDonneesParTemps = (data, range) => {
       limite = new Date(maintenant.setDate(maintenant.getDate() - 7));
       break;
     case '1mois':
-      // limite = new Date(maintenant.setMonth(maintenant.getMonth() - 1));
       limite = new Date(maintenant.setMonth(maintenant.getMonth() - 1));
       break;
     case '3mois':
-      // limite = new Date(maintenant.setMonth(maintenant.getMonth() - 3));
       limite = new Date(maintenant.setMonth(maintenant.getMonth() - 3));
       break;
     case '6mois':
-      // limite = new Date(maintenant.setMonth(maintenant.getMonth() - 6));
       limite = new Date(maintenant.setMonth(maintenant.getMonth() - 6));
       break;
     default:
@@ -91,13 +86,9 @@ const filtrerDonneesParTemps = (data, range) => {
   
         const feelingsData = await feelingsResponse.json();
         console.log("theme dans historique !! : ",feelingsData.theme)
-        // document.body.className = feelingsData.theme;
         setTheme(feelingsData.theme)
-        // setOptions(feelingsData.theme)
         document.body.className = feelingsData.theme;
-        // cons.log("feelingsData  :",feelingsData )
         if (feelingsData && feelingsData.feelings) {
-          // Ne relance pas setFeelings inutilement si les valeurs sont déjà identiques
           setFeelings(prev => JSON.stringify(prev) !== JSON.stringify(feelingsData.feelings) ? feelingsData.feelings : prev);
           console.log("feelingsData.feelings : ",feelingsData.feelings)
           setPhraseGratitude(feelingsData.phraseGratitude || []);
@@ -107,10 +98,7 @@ const filtrerDonneesParTemps = (data, range) => {
         const historyResponse = await axios.get(`${API_URL}/user-history`, {
           withCredentials: true,
         });
-        // conseol.log("historyResponse :",historyResponse)
         const historyData = historyResponse.data;
-        console.log("histroryData : ",historyData)
-        // historyData.sort((a, b) => new Date(a.userLocalDate) - new Date(b.userLocalDate));
         historyData.sort((a, b) => new Date(a.userLocalDate) - new Date(b.userLocalDate));
         const filteredHistory = filtrerDonneesParTemps(historyData, timeRange);
         const labels = filteredHistory.map(entry => {
@@ -208,75 +196,7 @@ const filtrerDonneesParTemps = (data, range) => {
         };
         }else
         {
-        // data = {
-        //   labels,
-        //   datasets: [
-        //     {
-        //       label: feelingsData.feelings[0],
-        //       // data: historyData.map(entry => entry.feeling1),
-        //       data: historyData.map(entry => entry.feeling1 ?? null),
-        //       borderColor: 'rgba(75, 192, 192, 1)',  // Turquoise
-        //       borderWidth: 2,
-        //       pointRadius: 4,  // Plus grand pour mieux se voir
-        //       pointHoverRadius: 8,
-        //       pointStyle: 'circle',  // Type de point : Cercle
-        //       fill: false,
-        //       hidden: !showFeeling1,
-        //       spanGaps: false,
-        //     },
-        //     {
-        //       label: feelingsData.feelings[1],
-        //       // data: historyData.map(entry => entry.feeling3),
-        //       data: historyData.map(entry => entry.feeling2 ?? null),
-        //       borderColor: 'rgba(153, 102, 255, 1)',  // Violet
-        //       borderWidth: 2,
-        //       pointRadius: 4,
-        //       pointHoverRadius: 8,
-        //       pointStyle: 'triangle',  // Type de point : Triangle
-        //       fill: false,
-        //       hidden: !showFeeling2,
-        //       spanGaps: false,
-        //     },
-        //     {
-        //       label: feelingsData.feelings[2],
-        //       // data: historyData.map(entry => entry.feeling3),
-        //       data: historyData.map(entry => entry.feeling3 ?? null),
-        //       borderColor: 'rgba(255, 99, 132, 1)',  // Rose
-        //       borderWidth: 2,
-        //       pointRadius: 4,
-        //       pointHoverRadius: 8,
-        //       pointStyle: 'rect',  // Type de point : Carré
-        //       fill: false,
-        //       hidden: !showFeeling3,
-        //       spanGaps: false,
-        //     },
-        //     {
-        //       label: feelingsData.feelings[3],
-        //       // data: historyData.map(entry => entry.feeling4),
-        //       data: historyData.map(entry => entry.feeling4 ?? null),
-        //       borderColor: 'rgba(255, 206, 86, 1)',  // Jaune
-        //       borderWidth: 2,
-        //       pointRadius: 4,
-        //       pointHoverRadius: 8,
-        //       pointStyle: 'star',  // Type de point : Étoile
-        //       fill: false,
-        //       hidden: !showFeeling4,
-        //       spanGaps: false,
-        //     },
-        //     {
-        //       label: 'Règles',
-        //       data: feelingsData.regles?.map((regle) => (regle === true ? 0 : null)) || [],
-        //       borderColor: 'rgb(0, 0, 0)',
-        //       backgroundColor: 'rgb(0, 0, 0)',
-        //       borderWidth: 2,
-        //       pointRadius: 4,
-        //       pointHoverRadius: 4,
-        //       fill: true,
-        //       hidden: !showRegles
-        //     }
-        //   ],
-        // };
-      
+
         data = {
           labels,
           datasets: [
@@ -361,10 +281,10 @@ const filtrerDonneesParTemps = (data, range) => {
             font: {
               weight: 'bold',
             },
-            color: 'white', // Couleur du texte sur l'axe X
+            color: 'white',
           },
           grid: {
-            color: 'rgb(253, 253, 253)', // Optionnel : couleur des lignes de la grille
+            color: 'rgb(253, 253, 253)', 
             lineWidth: 0.5,
           },
         },
@@ -373,10 +293,10 @@ const filtrerDonneesParTemps = (data, range) => {
             font: {
               weight: 'bold',
             },
-            color: 'white', // Couleur du texte sur l'axe Y
+            color: 'white',
           },
           grid: {
-            color: 'rgb(253, 253, 253)', // Optionnel
+            color: 'rgb(253, 253, 253)', 
             lineWidth: 0.5,
           },
         },
@@ -431,7 +351,7 @@ const filtrerDonneesParTemps = (data, range) => {
       plugins: {
         legend: {
           display: true,
-          position: 'top',  // Position de la légende
+          position: 'top', 
           labels: {
             font: {
               size: 14,
@@ -446,15 +366,14 @@ const filtrerDonneesParTemps = (data, range) => {
             color: '#333',
             usePointStyle: true,
           },
-          // Ajout de la bordure autour de la légende entière
           onBeforeInit: (chart) => {
             const legend = chart.legend;
-            legend.boxWidth = 30;  // Largeur de la légende (ajustez selon votre besoin)
+            legend.boxWidth = 30;  // Largeur de la légende 
             legend.labels.padding = 10;  // Espacement entre les labels
             legend.borderColor = '#333';  // Couleur de la bordure
             legend.borderWidth = 2;  // Largeur de la bordure
             legend.borderRadius = 5;  // Rayon des coins
-            legend.backgroundColor = 'rgba(255, 255, 255, 0.7)';  // Fond de la légende (transparent ou couleur de fond)
+            legend.backgroundColor = 'rgba(255, 255, 255, 0.7)'; 
           },
         },
         zoom: {
@@ -483,7 +402,6 @@ const filtrerDonneesParTemps = (data, range) => {
         <div className="time-filter">
         <button onClick={() => setTimeRange('24heures')}>1 jour</button>
           <button onClick={() => setTimeRange('1semaine')}>1 semaine</button>
-          {/* <button onClick={() => setTimeRange('2semaine')}>2 semaines</button> */}
           <button onClick={() => setTimeRange('1mois')}>1 mois</button>
           <button onClick={() => setTimeRange('3mois')}>3 mois</button>
           <button onClick={() => setTimeRange('6mois')}>6 mois</button>
@@ -536,7 +454,6 @@ const filtrerDonneesParTemps = (data, range) => {
           </label>
         </div>
 
-
         <div className="historique-gratitude">
           <div className='h7'>Historique des mantras</div>
           <div className='fenetre-gratitude'>
@@ -553,16 +470,12 @@ const filtrerDonneesParTemps = (data, range) => {
           </div>
         </div>
 
-
-
         <Link to="/">
           <button type="button" className="submit-button-history">
             Emotions
           </button>
         </Link>
-        {/* <div className="button-container">
-          <LogoutButton />
-        </div> */}
+
         <p className ="droits">© 2025 myDay. Tous droits réservés.
         Cette application, ainsi que l’ensemble de son contenu, est protégée par les lois en vigueur relatives à la propriété intellectuelle. Les données qu’elle contient sont chiffrées afin d’en garantir la sécurité. </p>
       </div>
@@ -572,5 +485,3 @@ const filtrerDonneesParTemps = (data, range) => {
 };
 
 export default Historique;
-
-// { "pseudo": { "$eq": "qs"} }

@@ -12,16 +12,15 @@ function LogoutButton() {
                     : "https://myday-back.onrender.com";
                     
             const response = await fetch(`${API_URL}/logout`, {
-            // const response = await fetch('http://localhost:4000/logout', {
                 method: 'POST',
-                credentials: 'include',  // Pour inclure les cookies de session dans la requête
+                credentials: 'include',
             });
 
             const data = await response.json();
-            console.log(data.message);  // Vous pouvez afficher un message ou gérer la réponse
+            console.log(data.message); 
 
             // Redirection après déconnexion
-            navigate('/Login');  // Utilisation de react-router pour la redirection
+            navigate('/Login');
         } catch (error) {
             console.error('Erreur lors de la déconnexion:', error);
         }

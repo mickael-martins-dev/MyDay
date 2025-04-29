@@ -49,7 +49,7 @@ function DelUser() {
       if (response.ok) {
         setSuccess('Compte supprimé avec succès !');
         setTimeout(() => {
-          navigate('/login'); // Redirection vers la page de connexion ou autre
+          navigate('/login');
         }, 2000);
       } else {
         setError('Erreur lors de la suppression du compte.');
@@ -82,7 +82,7 @@ function DelUser() {
             checked={acceptedTerms}
             onChange={(e) => setAcceptedTerms(e.target.checked)}
           />
-          <label htmlFor="terms">
+          <label htmlFor="terms" >
             En cliquant sur supprimer toutes mes données sont définitivement perdues
           </label>
         </div>
@@ -96,8 +96,8 @@ function DelUser() {
         </button>
       </form>
 
-      {error && <p className="error">{error}</p>}
-      {success && <p className="success">{success}</p>}
+      {error && <p className="error-message">{error}</p>}
+      {success && <p className="error-message">{success}</p>}
 
       <hr className="hr" />
       <Link to="/Settings">

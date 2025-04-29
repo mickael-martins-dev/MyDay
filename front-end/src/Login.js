@@ -2,7 +2,6 @@ import React, { useState, useEffect} from 'react';
 import './styles/Home.css';
 import './styles/Mobile.css';
 import { Link } from 'react-router-dom';
-// import { useEffect } from 'react';
 
 function Login() {
     const [pseudo, setPseudo] = useState('');
@@ -13,22 +12,13 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        // Ici, tu peux envoyer les données au backend ou gérer la logique de création du compte
         const userData = {
           pseudo,
           password,
         };
-        
-        console.log('User Data:', userData);
         document.body.className = "colorful";
-        console.log("theme sur Login : ",document.body.className)
-        // Effectuer l'envoi de ces données à l'API ou base de données
 
         try {
-            // const API_URL=process.env.REACT_APP_API_URL || "http://localhost:4000";
-
-            // const API_URL="https://myday-back.onrender.com";
-            // const API_URL = "http://localhost:4000";
             const API_URL =
                 window.location.hostname === "localhost"
                     ? "http://localhost:4000"
@@ -37,7 +27,6 @@ function Login() {
             
 
             const response = await fetch(`${API_URL}/Login`, {
-            // const response = await fetch("http://localhost:4000/Login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userData),
@@ -46,32 +35,20 @@ function Login() {
     
             const data = await response.json();
             console.log("Réponse du serveur :", data);
-    
-            // if (data.success) {
-            //     window.location.href = data.redirectUrl;
-            //     document.body.classList.add(data.theme);
-            // }
-            // else {
-            // // Si le serveur renvoie un message d'erreur, l'afficher ici
-            //     setErrorMessage(data.errorMessage);
-            // }
+
             if (data.success) {
-                // Appeler l'API pour récupérer le thème après la connexion réussie
                 const themeResponse = await fetch(`${API_URL}/getTheme`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ pseudo: data.username }),  // Utilise le pseudo retourné par le serveur
+                    body: JSON.stringify({ pseudo: data.username }),  
                     credentials: 'include'
                 });
 
                 const themeData = await themeResponse.json();
                 if (themeData.success && themeData.theme) {
-                    // Appliquer le thème et le stocker dans localStorage
                     document.body.classList.add(themeData.theme);
-                    localStorage.setItem('theme', themeData.theme);  // Sauvegarde du thème dans localStorage
+                    localStorage.setItem('theme', themeData.theme); 
                 }
-
-                // Rediriger après avoir appliqué le thème
                 window.location.href = data.redirectUrl;
             } else {
                 setErrorMessage(data.errorMessage);
