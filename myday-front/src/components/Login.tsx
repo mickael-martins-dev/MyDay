@@ -1,64 +1,52 @@
 import React, { useState } from "react";
-import Cookies from 'universal-cookie';
-import { TEmotion, User } from "../models/Model";
+import { useNavigate } from "react-router-dom";
+import { IErrorResponse } from "../models/Model";
+import ErrorLabel from "./atoms/ErrorLabel";
+
+
+interface Response {
+    redirectUrl: string;
+}
 
 const Login: React.FC = () => {
-    const [pseudo, setPseudo] = useState("");
-    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
-    const login = async (): Promise<string> => {
-        // TODO : Edit the URL 
+    const [pseudo, setPseudo] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [error, setError] = useState<string>("");
 
-        const response = await fetch('https://myday-back.onrender.com/Login', {
+    // cDM44T2SZJ761zKH
+
+    const login = async (): Promise<Response> => {
+        const user = {
+            password: password,
+            pseudo: pseudo
+        }
+        const API_URL = "http://localhost:4001"
+        const response = await fetch(`${API_URL}/Login`, {
             method: 'POST',
-            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
             },
-            body:
-                new URLSearchParams({
-                    password: password,
-                    pseudo: pseudo
-                })
+            body: JSON.stringify(user),
+            credentials: 'include'
         });
 
-
-        const { data } = await response.json();
+        const data = await response.json();
         if (response.ok) {
-            console.log(data);
-            return 'ok';
+            return data as Response;
+        } else {
+            const error = data as IErrorResponse;
+            console.log(error.errorMessage)
+            setError(error.errorMessage);
+            throw new Error(error.errorMessage);
         }
-        throw new Error("400");
     }
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-
-        // Refaire une passe la dessus
-        const user: User = {
-            email: 'mickael.martins@admin.com',
-            pseudo: pseudo,
-            uuid: 'UA',
-            emotions: [
-                TEmotion.acceptation,
-                TEmotion.admiration,
-                TEmotion.amour,
-                TEmotion.averion
-            ]
-        };
-
-        // TODO: sans doute mettre un hook react pour avoir le maximum de forme
-        const cookies = new Cookies(null, { path: '/' });
-        cookies.set('my-day.cookie', user)
-
-        /*
         login()
-            .then(value => console.log(value))
-            .catch(reason => console.error('Failed to login : ' + reason));
-
-        console.log("pseudo:", pseudo, "Password:", password);
-        */
+            .then((response) => { navigate(response.redirectUrl) })
     };
 
     return (
@@ -69,6 +57,8 @@ const Login: React.FC = () => {
                     <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Bienvenue 👋</h1>
                     <p className="text-sm text-gray-500 mt-2 dark:text-gray-300">Connecte-toi à ton compte</p>
                 </div>
+
+                <ErrorLabel message={error} />
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-control mb-5">
