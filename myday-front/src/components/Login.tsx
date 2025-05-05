@@ -22,7 +22,7 @@ const Login: React.FC = () => {
             password: password,
             pseudo: pseudo
         }
-        const API_URL = "http://localhost:4001"
+        const API_URL = "http://localhost:4000"
         const response = await fetch(`${API_URL}/Login`, {
             method: 'POST',
             headers: {
