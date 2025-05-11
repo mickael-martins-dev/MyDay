@@ -17,6 +17,11 @@ const Register: React.FC = () => {
     const [emotions, setEmotions] = useState<Emotion[]>([]);
     const [error, setError] = useState<string>("")
 
+    const clearSelectedEmotions = (event: React.FormEvent) => {
+        event.preventDefault();
+        setEmotions([]);
+    }
+
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         event.stopPropagation();
@@ -26,27 +31,38 @@ const Register: React.FC = () => {
             setError("Les mots de passes ne sont pas identiques.");
         }
 
+        if (emotions.length < 4) {
+            // raise error ! 
+            setError("Vous devez selectionner 4 émotions en cliquant sur la roue des émotions.");
+        }
+
         // Send to the backend here
         const user: UserRegistration = {
-            email: email,
+            mail: email,
             pseudo: pseudo,
-            emotions: emotions,
+            feelings: emotions,
             password: password,
+            phraseRegister: "" // Nothing
         }
 
-        const API_URL = "http://localhost:4000"
-        const response = await fetch(`${API_URL}/Register`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(user),
-            credentials: 'include'
-        });
+        //const { pseudo, password, feelings, mail, phraseRegister } = req.body;
+        /*
+                const API_URL = "http://localhost:4000"
+                const response = await fetch(`${API_URL}/Register`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(user),
+                    credentials: 'include'
+                });
+        
+                if (response.ok) {
+                    navigate('/Login');
+                } else {
+                    console.error(response.statusText)
+                    setError("Erreur lors de l'enregistrement : " + response.statusText);
 
-        if (response.ok) {
-            navigate('/Login');
-        } else {
-            console.error(response.statusText)
-        }
+                }
+                    */
     };
 
     const style: React.CSSProperties = {
@@ -117,7 +133,6 @@ const Register: React.FC = () => {
 
             <div className="w-6/10 pt-6">
 
-
                 <form onSubmit={handleSubmit}>
                     <div className="flex flex-col">
                         <h2 className="text-2xl font-bold mb-3"> Vos informations </h2>
@@ -182,9 +197,9 @@ const Register: React.FC = () => {
 
                     <section className="m-auto">
                         <h2 className="text-2xl font-bold mb-3"> Vos emotions </h2>
-                        <div className="mt-2 mb-2"> {emotionTags} </div>
 
                         <p> Selectionnez 4 émotions que vous souhaitez suivre dans le temps. </p>
+                        <div className="mt-2 mb-2"> <button className="btn btn-square btn-sm" onClick={clearSelectedEmotions}> <i className="bi bi-trash3"></i> </button> {emotionTags} </div>
                         <svg width="700" height="700" id="svg3360" version="1.1">
                             <g id="layer1" transform="translate(-45.337435,-170.8461)">
                                 <g transform="translate(3.3820809e-8,3.5748922e-6)" style={{ display: "inline" }} id="g3127">

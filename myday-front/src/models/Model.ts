@@ -15,10 +15,12 @@ export interface User {
     emotions: Emotion[];
 }
 
-export interface UserRegistration extends User {
+export interface UserRegistration {
+    mail: string;
     password: string;
-    email: string;
     pseudo: string;
+    phraseRegister: string; // Nothing in my version
+    feelings: string[]; // Map to emotions
 }
 
 export interface EmotionDetailItem {
