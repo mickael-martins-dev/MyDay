@@ -7,3 +7,10 @@
   --color-primary: rgb(21 128 61);
   --color-secondary: teal;
 }
+
+.rating {
+  &.rating-xxl :where(:not(.rating-hidden)) {
+    width: calc(0.25rem * 16);
+    height: calc(0.25rem * 16);
+  }
+}

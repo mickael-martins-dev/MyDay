@@ -30,17 +30,37 @@ const UserComponent: React.FC = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         //setRating(e.target.value);
-
-        // Mettre ici les infos 
     };
 
     // Emotions
     const emotions = (feelings ? feelings.feelings : [] as string[]);
+    /*
     const emotonsComponents = emotions.map((emotion) => {
         return <>
             <div key={emotion} className="flex items-center justify-center ">
                 <span className="text-lg text-left font-medium mr-6">{emotion}</span>
                 <div className="join rating rating-xxl">
+                    {[1, 2, 3, 4, 5].map((value) => (
+                        <input
+                            key={`rating-${emotion}-${value} `}
+                            type="radio"
+                            name={`rating-${emotion} `}
+                            className="mask mask-star-2 bg-orange-400"
+                            value={value}
+                            onChange={handleChange}
+                        />
+                    ))}
+                </div>
+            </div >
+        </>
+    })
+        */
+
+    const emotonsComponents = emotions.map((emotion) => {
+        return <>
+            <div key={emotion} className="flex items-center">
+                <span className="w-26 text-xl text-left font-medium mr-6">{emotion}</span>
+                <div className="flex-1 join rating rating-xxl">
                     {[1, 2, 3, 4, 5].map((value) => (
                         <input
                             key={`rating-${emotion}-${value} `}

@@ -15,8 +15,6 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState<string>("");
     const [error, setError] = useState<string>("");
 
-    // cDM44T2SZJ761zKH
-
     const login = async (): Promise<Response> => {
         const user = {
             password: password,
@@ -87,7 +85,7 @@ const Login: React.FC = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
-                        <label className="label justify-end mt-2">
+                        <label className="label justify-end mt-2 ">
                             <a href="#" className="text-sm text-primary hover:underline">Mot de passe oublié ?</a>
                         </label>
                     </div>

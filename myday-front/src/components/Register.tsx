@@ -16,6 +16,8 @@ const Register: React.FC = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [emotions, setEmotions] = useState<Emotion[]>([]);
     const [error, setError] = useState<string>("")
+    const [registerSentence, setRegisterSentence] = useState<string>("")
+
 
     const clearSelectedEmotions = (event: React.FormEvent) => {
         event.preventDefault();
@@ -42,27 +44,25 @@ const Register: React.FC = () => {
             pseudo: pseudo,
             feelings: emotions,
             password: password,
-            phraseRegister: "" // Nothing
+            phraseRegister: registerSentence // Nothing
         }
 
-        //const { pseudo, password, feelings, mail, phraseRegister } = req.body;
-        /*
-                const API_URL = "http://localhost:4000"
-                const response = await fetch(`${API_URL}/Register`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(user),
-                    credentials: 'include'
-                });
-        
-                if (response.ok) {
-                    navigate('/Login');
-                } else {
-                    console.error(response.statusText)
-                    setError("Erreur lors de l'enregistrement : " + response.statusText);
+        const API_URL = "http://localhost:4000"
+        const response = await fetch(`${API_URL}/Register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(user),
+            credentials: 'include'
+        });
 
-                }
-                    */
+        console.log(response)
+
+        if (response.ok) {
+            navigate('/Login');
+        } else {
+            console.error(response.statusText)
+            setError("Erreur lors de l'enregistrement : " + response.statusText);
+        }
     };
 
     const style: React.CSSProperties = {
@@ -192,6 +192,20 @@ const Register: React.FC = () => {
                                     required
                                 />
                             </div>
+                        </section>
+
+                        <section>
+
+                            <label className="label">
+                                <span className="label-text text-gray-700 dark:text-gray-200">Choississez une phrase pour vous enregistrer.</span>
+                            </label>
+                            <select id="phraseRegister" className="select" onChange={(e) => setRegisterSentence(e.target.value)}>
+                                <option value="pizza">Je suis l'élement principal de la pizza.</option>
+                                <option value="ia">Mon cerveau est la meilleure de IA.</option>
+                                <option value="courant">Je préfère marcher à contre-courant.</option>
+                                <option value="toi">Toi sans moi, ça ne sera jamais nous.</option>
+                            </select>
+
                         </section>
                     </div>
 
