@@ -55,8 +55,6 @@ const Register: React.FC = () => {
             credentials: 'include'
         });
 
-        console.log(response)
-
         if (response.ok) {
             navigate('/Login');
         } else {
