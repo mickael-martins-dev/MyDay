@@ -1,14 +1,14 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import cors from 'cors';
 
 import path from 'path';
 
-import router from './routes/RegisterController';
+import registerRouter from './routes/register.routes';
 
 // Configure server
-const app = express();
+export const app = express();
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -38,11 +38,16 @@ app.use(sessionMiddleware);
 //
 // Routes defined here !
 //
-
 // Update this line with the production / dev vn
 // app.use(express.static(path.join(__dirname, 'public')));
 
-app.use("/api/register", router);
+app.use("/api/register", registerRouter);
+
+// Error manager
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur serveur' });
+});
 
 
 const port = process.env.PORT || 3000;

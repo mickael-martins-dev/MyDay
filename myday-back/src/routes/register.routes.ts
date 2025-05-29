@@ -4,9 +4,9 @@ import UserModel from '../model/User';
 import * as Crypto from '../utils/Crypto';
 import bcrypt from "bcryptjs";
 
-const RegisterRouter = Router();
+const registerRouter = Router();
 
-RegisterRouter.post('/api/register', async (request: Request, response: Response) => {
+registerRouter.post('/api/register', async (request: Request, response: Response) => {
     const { pseudo, password, feelings, mail, phraseRegister } = request.body;
     const theme = request.body.theme || "colorful";
     const feeling1Encrypted = []
@@ -48,4 +48,4 @@ RegisterRouter.post('/api/register', async (request: Request, response: Response
     }
 });
 
-export default RegisterRouter;
+export default registerRouter;
