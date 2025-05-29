@@ -25,8 +25,6 @@ const UserComponent: React.FC = () => {
         }
 
         fetchUser();
-
-        // Get the current User connected
     }, []);
 
     const clear = () => {

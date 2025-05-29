@@ -4,7 +4,7 @@ import UserComponent from './components/User';
 import Login from './components/Login';
 import ProtectedRoute from './routes/ProtectedRoute';
 import Register from './components/Register';
-// import HistoryComponent from './components/History';
+import HistoryComponent from './components/History';
 
 // https://medium.com/@shruti.latthe/understanding-react-outlet-a-comprehensive-guide-b122b1e5e7ff
 // Mettre cela en place pour le routing ! 
@@ -25,6 +25,7 @@ const App: React.FC = () => {
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<UserComponent />} />
             <Route path="/user" element={<UserComponent />} />
+            <Route path="/history" element={<HistoryComponent />} />
           </Route>
         </Route>
       </Routes >

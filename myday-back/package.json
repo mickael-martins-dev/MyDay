@@ -1,0 +1,33 @@
+{
+  "name": "myday-back",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --outdir=dist",
+    "start": "node --env-file=dev.env dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "dev2": "node --env-file=dev.env -r ts-node/register ./src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookieparser": "^0.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.0.0",
+    "express-session": "^1.18.1",
+    "mongoose": "^8.15.1"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.18",
+    "@types/express": "^4.0.0",
+    "@types/express-session": "^1.18.1",
+    "@types/node": "^22.15.21",
+    "esbuild": "^0.25.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
