@@ -1,25 +1,30 @@
-app.post('/api/Login', async (req, res) => {
+import { Router, Request, Response } from 'express';
+import UserModel from '../model/User';
+import bcrypt from 'bcryptjs';
+
+const router = Router();
+
+router.post('/', async (req: Request, res: Response) => {
     const { pseudo, password } = req.body;
     try {
-        const userLogged = await User.findOne({ pseudo });
-
+        const userLogged = await UserModel.findOne({ pseudo });
         if (!userLogged) {
             return res.status(400).json({ errorMessage: "Login ou mot de passe erroné !" });
         }
 
-        const isMatch = await bcryptjs.compare(password, userLogged.password);
+        const isMatch = await bcrypt.compare(password, userLogged.password);
         if (!isMatch) {
             return res.status(400).json({ errorMessage: "Login ou mot de passe erroné !" });
         }
 
         // Créer la session utilisateur
         req.session.user = {
-            _id: userLogged._id,
+            id: userLogged._id.toString(),
             username: userLogged.pseudo,
         };
 
         // Redirection
-        if (userLogged.isAdmin === "y") {
+        if (userLogged.isAdmin === "y") { // TODO: Pourquoi ne pas mettre un boolean ici, au lieu d'un String ? 
             console.log("Utilisateur admin connecté");
             return res.redirect('/admin');
         } else {
@@ -33,12 +38,15 @@ app.post('/api/Login', async (req, res) => {
     }
 });
 
-app.get('/api/check-auth', async (req, res) => {
+router.get('/check-auth', async (req: Request, res: Response) => {
     if (req.session.user) {
         const pseudo = req.session.user.username
         try {
-            const user = await User.findOne({ pseudo: pseudo })
-            return res.json({ authenticated: true, user: req.session.user, theme: user.theme });
+            const user = await UserModel.findOne({ pseudo: pseudo })
+            if (user) {
+                return res.status(200).json({ authenticated: true, user: req.session.user, theme: user.theme });
+            }
+            return res.status(403).json({ authenticated: false });
         } catch (err) {
             console.error("Erreur lors de la connexion :", err);
             res.status(500).send("Erreur lors de la connexion");
@@ -47,3 +55,5 @@ app.get('/api/check-auth', async (req, res) => {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 });
+
+export default router;

@@ -5,7 +5,11 @@ import cors from 'cors';
 
 import path from 'path';
 
+// Router
 import registerRouter from './routes/register.routes';
+import usersRouter from './routes/users.routes';
+import loginRouter from './routes/login.routes';
+import authenticated from './middleware/Authenticate';
 
 // Configure server
 export const app = express();
@@ -42,6 +46,8 @@ app.use(sessionMiddleware);
 // app.use(express.static(path.join(__dirname, 'public')));
 
 app.use("/api/register", registerRouter);
+app.use("/api/login", loginRouter);
+app.use("/api/users", authenticated, usersRouter);
 
 // Error manager
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

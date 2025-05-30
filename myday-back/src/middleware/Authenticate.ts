@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-export const isAuthenticated = (request: Request, response: Response, next: NextFunction) => {
+const authenticated = (request: Request, response: Response, next: NextFunction) => {
     if (request.session && request.session.user) {
         return next();
     } else {
@@ -8,3 +8,5 @@ export const isAuthenticated = (request: Request, response: Response, next: Next
         return response.redirect();
     }
 }
+
+export default authenticated;

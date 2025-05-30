@@ -1,5 +1,4 @@
 const crypto = require('crypto');
-require('dotenv').config();
 
 const algorithm = 'aes-256-cbc';
 const key = Buffer.from(process.env.SECRET_KEY, 'hex');
@@ -18,7 +17,7 @@ export const encrypt = (text: string | boolean | number): string => {
     return iv.toString('hex') + ':' + encrypted;
 }
 
-export const decrypt = (encryptedText: string): string => {
+export const decrypt = (encryptedText: string | undefined | null): string => {
 
     if (!encryptedText) return '';
 

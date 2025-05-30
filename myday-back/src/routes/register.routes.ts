@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 
 const registerRouter = Router();
 
-registerRouter.post('/api/register', async (request: Request, response: Response) => {
+registerRouter.post('/', async (request: Request, response: Response) => {
     const { pseudo, password, feelings, mail, phraseRegister } = request.body;
     const theme = request.body.theme || "colorful";
     const feeling1Encrypted = []

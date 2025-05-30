@@ -8,7 +8,7 @@ const responseSchema = new mongoose.Schema({
     phraseGratitude: String,
     regle: String,
     date: { type: Date, default: Date.now },
-    userLocalDate: { type: Date },
+    userLocalDate: { type: Date, required: true },
     timezone: { type: String },
 });
 
@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
     responses: [responseSchema],
     theme: { type: String, default: 'colorful' },
     phraseRegister: { type: String, required: true },
+    isAdmin: { type: String, required: false }
 });
 
 const UserModel = mongoose.model('User', userSchema);

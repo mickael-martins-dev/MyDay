@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --outdir=dist",
-    "start": "node --env-file=dev.env dist/index.js",
-    "dev": "ts-node src/index.ts",
-    "dev2": "node --env-file=dev.env -r ts-node/register ./src/index.ts",
+    "build": "node esbuild.config.js",
+    "start:prod": "node --env-file=prod.env dist/index.js",
+    "start:dev": "node --env-file=dev.env dist/index.js",
+    "dev": "node --env-file=dev.env -r ts-node/register ./src/index.ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -16,7 +16,7 @@
   "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.2",
-    "cookieparser": "^0.1.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^4.0.0",
     "express-session": "^1.18.1",
