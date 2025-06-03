@@ -1,6 +1,7 @@
 import { IHistory } from "@common/Model";
 import { useEffect, useState } from "react";
 import HistoryMantrasComponent from "./history/HistoryMantras";
+import HistoryChartComponent from "./history/HistoryChart";
 
 const fetchHistory = async (): Promise<IHistory[]> => {
     const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
@@ -29,10 +30,7 @@ const HistoryComponent = () => {
             try {
                 const data = await fetchHistory();
                 setHistory(data);
-
-                console.log(data);
             } catch (err) {
-                console.error(err)
                 setError((err as Error).message);
             }
         };
@@ -51,7 +49,7 @@ const HistoryComponent = () => {
                 <div className="tab-content border-base-300 bg-base-100 p-10"><HistoryMantrasComponent history={history} /></div>
 
                 <input type="radio" name="my_tabs_2" className="tab" aria-label="Emotions" />
-                <div className="tab-content border-base-300 bg-base-100 p-10">Tab content 2</div>
+                <div className="tab-content border-base-300 bg-base-100 p-10"><HistoryChartComponent history={history} /></div>
             </div>
 
         </div>);

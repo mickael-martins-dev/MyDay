@@ -1,6 +1,8 @@
 import { Router, Request, Response } from 'express';
 import UserModel from '../model/User';
 import { IHistory, IRequestFeeling } from '@common/Model';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 const router = Router();
 
@@ -106,13 +108,16 @@ router.get('/history', async (req: Request, res: Response) => {
         }
 
         const responses = user.responses.map(response => {
+
+            const dateFormatee = format(response.date, "dd MMMM yyyy - HH:mm", { locale: fr });
+
             const retValue: IHistory = {
-                date: response.date.toISOString(),
+                date: dateFormatee,
                 feeling1: parseInt(response.feeling1),
                 feeling2: parseInt(response.feeling2),
                 feeling3: parseInt(response.feeling3),
                 feeling4: parseInt(response.feeling4),
-                regle: response.regle,
+                regle: Boolean(response.regle),
                 phraseGratitude: response.phraseGratitude ?? ''
             }
             return retValue;

@@ -8,7 +8,6 @@ cd bmyday-front && npm ci && npm run dev
 ```
 
 ## TODO
-
-- [ ] Test and fix Register feature
-- [ ] View History
-- [ ] Refactoring backend
+- [ ] Finish history with the name of feelings
+- [ ] Dev HMR for backend
+- [ ] Backend - Production ( Cors / Variable for mongoAtlas) 

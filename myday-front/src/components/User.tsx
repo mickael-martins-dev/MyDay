@@ -14,9 +14,6 @@ const UserComponent: React.FC = () => {
     const rating = [0, 0, 0, 0];
 
     useEffect(() => {
-
-        console.log(window.location.protocol + '//' + window.location.hostname)
-
         const fetchUser = async () => {
             const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
             const response = await fetch(`${API_URL}/api/user/user-feelings`, {
