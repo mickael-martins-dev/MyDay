@@ -7,5 +7,6 @@ require('esbuild').build({
   external: ['express', 'cookie-parser', 'cors', 'bcryptjs', 'express-session', 'mongoose'], // on exclut les deps node
   target: ['node22'],
   color: true,
-
-}).catch(() => process.exit(1));
+})
+  .then(() => console.log('🚀 Build started in production mode...'))
+  .catch(() => process.exit(1));

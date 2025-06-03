@@ -1,15 +1,13 @@
 import mongoose from 'mongoose';
 
 const responseSchema = new mongoose.Schema({
-    feeling1: String,
-    feeling2: String,
-    feeling3: String,
-    feeling4: String,
-    phraseGratitude: String,
-    regle: String,
-    date: { type: Date, default: Date.now },
-    userLocalDate: { type: Date, required: true },
-    timezone: { type: String },
+    feeling1: { type: String, required: true },
+    feeling2: { type: String, required: true },
+    feeling3: { type: String, required: true },
+    feeling4: { type: String, required: true },
+    phraseGratitude: { type: String },
+    regle: { type: String, required: true },
+    date: { type: Date, default: Date.now, required: true },
 });
 
 const userSchema = new mongoose.Schema({

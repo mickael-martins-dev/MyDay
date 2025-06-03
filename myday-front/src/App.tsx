@@ -5,19 +5,24 @@ import Login from './components/Login';
 import ProtectedRoute from './routes/ProtectedRoute';
 import Register from './components/Register';
 import HistoryComponent from './components/History';
-
-// https://medium.com/@shruti.latthe/understanding-react-outlet-a-comprehensive-guide-b122b1e5e7ff
-// Mettre cela en place pour le routing ! 
-
-//       
-
-
-// Ensuite mettre un hook
+import { ToastContainer, Zoom } from 'react-toastify';
 
 const App: React.FC = () => {
-
   return (
     <div className=''>
+      <ToastContainer
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Zoom} />
+
       <Routes>
         <Route path="/">
           <Route path="/login" element={<Login />} />

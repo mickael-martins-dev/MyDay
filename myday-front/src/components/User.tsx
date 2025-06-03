@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { IFeelings, IRequestFeeling } from "../models/Model";
+import { IFeelings } from "../models/Model";
 import UserLabel from "./atoms/UserLabel";
+import { IRequestFeeling } from "@common/Model";
+import { toast } from 'react-toastify';
+
 
 const UserComponent: React.FC = () => {
 
@@ -11,9 +14,12 @@ const UserComponent: React.FC = () => {
     const rating = [0, 0, 0, 0];
 
     useEffect(() => {
+
+        console.log(window.location.protocol + '//' + window.location.hostname)
+
         const fetchUser = async () => {
-            const API_URL = "http://localhost:4000"
-            const response = await fetch(`${API_URL}/user-feelings`, {
+            const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
+            const response = await fetch(`${API_URL}/api/user/user-feelings`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -27,6 +33,7 @@ const UserComponent: React.FC = () => {
         fetchUser();
     }, []);
 
+    // TODO: Need to update this query
     const clear = () => {
 
         // Clear input for the rating and update UI
@@ -37,6 +44,7 @@ const UserComponent: React.FC = () => {
 
         setComment("");
         setMenses(false);
+        setFeeling(undefined)
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -57,8 +65,8 @@ const UserComponent: React.FC = () => {
         }
 
         try {
-            const API_URL = "http://localhost:4000";
-            const response = await fetch(`${API_URL}/`, {
+            const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
+            const response = await fetch(`${API_URL}/api/user/feelings`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(emotion),
@@ -66,8 +74,7 @@ const UserComponent: React.FC = () => {
             });
 
             if (response.ok) {
-                // Toast OK
-                clear();
+                toast.success('Les émotions ont été sauvegardées.')
             }
             else {
                 // Toast Failedd 
@@ -86,9 +93,9 @@ const UserComponent: React.FC = () => {
                 <div className="flex-1 join rating rating-xxl">
                     {[1, 2, 3, 4, 5].map((value) => (
                         <input
-                            key={`rating-${emotion}-${value} `}
+                            key={`rating-${emotion}-${value}`}
                             type="radio"
-                            name={`rating-${emotion} `}
+                            name={`rating-${emotion}$`}
                             className="mask mask-star-2 bg-orange-400"
                             value={value}
                             onChange={(event) => handleChange(event, index)}

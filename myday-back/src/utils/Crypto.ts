@@ -1,7 +1,8 @@
 const crypto = require('crypto');
 
 const algorithm = 'aes-256-cbc';
-const key = Buffer.from(process.env.SECRET_KEY, 'hex');
+console.log(process.env.SECRET_KEY)
+const key = Buffer.from("toto", 'hex');
 
 export const encrypt = (text: string | boolean | number): string => {
     if (typeof text === 'number')

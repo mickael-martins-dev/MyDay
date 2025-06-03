@@ -51,30 +51,9 @@ export interface IFeelings {
     regles: string[]
 }
 
-export interface IHistory {
-    feeling1: number
-    feeling2: number
-    feeling3: number
-    feeling4: number
-    phraseGratitude: string
-    regle: string
-    userLocalDate: string
-    timezone: string
-    _id: string
-    date: string
-}
-
 export interface IErrorResponse {
     errorMessage: string;
 }
 
-export interface IRequestFeeling {
-    feeling1: number;
-    feeling2: number,
-    feeling3: number,
-    feeling4: number,
-    phraseGratitude: string,
-    regle: boolean
-}
 
 export type ContextType = { user: IUser, logout: () => void, loading: boolean };

@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IErrorResponse } from "../models/Model";
 import ErrorLabel from "./atoms/ErrorLabel";
-
-
 interface Response {
     redirectUrl: string;
 }
@@ -20,8 +18,8 @@ const Login: React.FC = () => {
             password: password,
             pseudo: pseudo
         }
-        const API_URL = "http://localhost:4000"
-        const response = await fetch(`${API_URL}/Login`, {
+        const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
+        const response = await fetch(`${API_URL}/api/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

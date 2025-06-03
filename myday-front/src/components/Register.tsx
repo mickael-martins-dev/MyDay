@@ -47,8 +47,8 @@ const Register: React.FC = () => {
             phraseRegister: registerSentence // Nothing
         }
 
-        const API_URL = "http://localhost:4000"
-        const response = await fetch(`${API_URL}/Register`, {
+        const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
+        const response = await fetch(`${API_URL}/api/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(user),

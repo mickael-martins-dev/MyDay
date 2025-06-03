@@ -1,9 +1,10 @@
+import { IHistory } from "@common/Model";
 import { useEffect, useState } from "react";
-import { IHistory } from "../models/Model";
+import HistoryMantrasComponent from "./history/HistoryMantras";
 
 const fetchHistory = async (): Promise<IHistory[]> => {
-    const URL = "http://localhost:4000"
-    const response = await fetch(`${URL}/user-history`, {
+    const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
+    const response = await fetch(`${API_URL}/api/user/history`, {
         method: 'GET',
         headers: {
             "Content-Type": "application/json",
@@ -45,29 +46,9 @@ const HistoryComponent = () => {
                 Votre historique <span> 30 derniers jours </span>
             </h1>
 
-            <div className="stats shadow">
-                <div className="stat place-items-center">
-                    <div className="stat-title">Downloads</div>
-                    <div className="stat-value">31K</div>
-                    <div className="stat-desc">From January 1st to February 1st</div>
-                </div>
-
-                <div className="stat place-items-center">
-                    <div className="stat-title">Users</div>
-                    <div className="stat-value text-primary">4,200</div>
-                    <div className="stat-desc text-primary">↗︎ 40 (2%)</div>
-                </div>
-
-                <div className="stat place-items-center">
-                    <div className="stat-title">New Registers</div>
-                    <div className="stat-value">1,200</div>
-                    <div className="stat-desc">↘︎ 90 (14%)</div>
-                </div>
-            </div>
-
             <div className="tabs tabs-border pt-4">
                 <input type="radio" name="my_tabs_2" className="tab" aria-label="Mantras" defaultChecked />
-                <div className="tab-content border-base-300 bg-base-100 p-10">Tab content 1</div>
+                <div className="tab-content border-base-300 bg-base-100 p-10"><HistoryMantrasComponent history={history} /></div>
 
                 <input type="radio" name="my_tabs_2" className="tab" aria-label="Emotions" />
                 <div className="tab-content border-base-300 bg-base-100 p-10">Tab content 2</div>

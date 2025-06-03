@@ -1,7 +1,6 @@
 
 import { Router, Request, Response } from 'express';
 import UserModel from '../model/User';
-import * as Crypto from '../utils/Crypto';
 import bcrypt from "bcryptjs";
 
 const registerRouter = Router();
@@ -9,17 +8,8 @@ const registerRouter = Router();
 registerRouter.post('/', async (request: Request, response: Response) => {
     const { pseudo, password, feelings, mail, phraseRegister } = request.body;
     const theme = request.body.theme || "colorful";
-    const feeling1Encrypted = []
-    feeling1Encrypted[0] = feelings[0] ? Crypto.encrypt(feelings[0]) : "";
-    feeling1Encrypted[1] = feelings[1] ? Crypto.encrypt(feelings[1]) : "";
-    feeling1Encrypted[2] = feelings[2] ? Crypto.encrypt(feelings[2]) : "";
-    feeling1Encrypted[3] = feelings[3] ? Crypto.encrypt(feelings[3]) : "";
-    const mailHashed = mail ? Crypto.hashed(mail) : "";
-    const mailHash = Crypto.encrypt(mail)
-    const phraseRegisterEncrypted = phraseRegister ? Crypto.encrypt(phraseRegister) : "";
-    const passwordHashed = await bcrypt.hash(password, 10);
     const pseudoExist = await UserModel.findOne({ pseudo })
-    const mailExist = await UserModel.findOne({ mail: mailHashed })
+    const mailExist = await UserModel.findOne({ mail: mail })
 
     if (pseudoExist) {
         return response.status(409).json({ success: false, message: 'Pseudo déjà utilisé' });
@@ -30,12 +20,12 @@ registerRouter.post('/', async (request: Request, response: Response) => {
     else {
         const newUser = new UserModel({
             pseudo,
-            password: passwordHashed,
-            feelings: feeling1Encrypted,
-            mail: mailHashed,
-            mailHash: mailHash,
+            password: password,
+            feelings: feelings,
+            mail: mail,
+            mailHash: mail,
             theme: theme || 'colorful',
-            phraseRegister: phraseRegisterEncrypted
+            phraseRegister: phraseRegister
         });
         try {
             await newUser.save();

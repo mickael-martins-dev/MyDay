@@ -12,21 +12,21 @@ const ProtectedRoute: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
 
     const logout = async () => {
-        const API_URL = "http://localhost:4000"
-        const response = await fetch(`${API_URL}/logout`, {
+        const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
+        const response = await fetch(`${API_URL}/api/logout`, {
             method: 'POST',
             credentials: 'include',
         });
 
         console.log(JSON.stringify(response))
         if (response.ok) {
-            navigate('/Login');
+            navigate('/login');
         }
     }
 
     useEffect(() => {
         setLoading(true)
-        const API_URL = "http://localhost:4000"
+        const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
         fetch(`${API_URL}/api/check-auth`, {
             credentials: 'include',
         })

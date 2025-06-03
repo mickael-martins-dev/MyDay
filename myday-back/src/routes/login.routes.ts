@@ -1,6 +1,5 @@
 import { Router, Request, Response } from 'express';
 import UserModel from '../model/User';
-import bcrypt from 'bcryptjs';
 
 const router = Router();
 
@@ -12,7 +11,7 @@ router.post('/', async (req: Request, res: Response) => {
             return res.status(400).json({ errorMessage: "Login ou mot de passe erroné !" });
         }
 
-        const isMatch = await bcrypt.compare(password, userLogged.password);
+        const isMatch = password === userLogged.password;
         if (!isMatch) {
             return res.status(400).json({ errorMessage: "Login ou mot de passe erroné !" });
         }

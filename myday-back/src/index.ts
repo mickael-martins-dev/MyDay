@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import session from "express-session";
 import cookieParser from "cookie-parser";
+import { connectToMongo } from './model/Database';
 import cors from 'cors';
 
 import path from 'path';
@@ -9,16 +10,20 @@ import path from 'path';
 import registerRouter from './routes/register.routes';
 import usersRouter from './routes/users.routes';
 import loginRouter from './routes/login.routes';
+import logoutRouter from './routes/logout.routes';
+import authRouter from './routes/authentification.route';
 import authenticated from './middleware/Authenticate';
 
 // Configure server
 export const app = express();
-app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 // -- Cors
 // Dev / Production Cors, need to update this
+
+// -- Don't use in developpement
 app.use(cors({
     credentials: true,
     origin: 'http://localhost:3030', // frontend URL
@@ -27,6 +32,7 @@ app.use(cors({
 
 // Session Middleware, need to update this : Dev / Prodiction
 
+// Use this configuration in development
 const sessionMiddleware = session({
     secret: process.env.JWT_SECRET || 'default-secret',
     resave: false,
@@ -45,9 +51,11 @@ app.use(sessionMiddleware);
 // Update this line with the production / dev vn
 // app.use(express.static(path.join(__dirname, 'public')));
 
-app.use("/api/register", registerRouter);
 app.use("/api/login", loginRouter);
-app.use("/api/users", authenticated, usersRouter);
+app.use("/api/logout", authenticated, logoutRouter);
+app.use("/api/register", registerRouter);
+app.use("/api/check-auth", authRouter);
+app.use("/api/user", authenticated, usersRouter);
 
 // Error manager
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
@@ -56,7 +64,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
+const port = process.env.PORT || 4000;
+connectToMongo().then(() => app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
-});
+}));
