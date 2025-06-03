@@ -7,7 +7,11 @@ cd back-end && npm ci && npm run start
 cd bmyday-front && npm ci && npm run dev
 ```
 
+## Bugs
+- [ ] Star feelings not working
+
+
 ## TODO
-- [ ] Finish history with the name of feelings
-- [ ] Dev HMR for backend
-- [ ] Backend - Production ( Cors / Variable for mongoAtlas) 
+- [ ] Finish history with the name of feelings ( Update Hook value ! )
+- [ ] Dev HMR for backend ( tsnode / nodemon )
+- [ ] Backend - Production ( Cors / Variable for mongoAtlas / database ) 
