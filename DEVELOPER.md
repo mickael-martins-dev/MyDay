@@ -9,6 +9,7 @@ cd bmyday-front && npm ci && npm run dev
 
 ## Bugs
 - [ ] Star feelings not working
+- [ ] User already created
 
 
 ## TODO
