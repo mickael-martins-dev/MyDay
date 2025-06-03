@@ -15,7 +15,7 @@ const UserComponent: React.FC = () => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
+            const API_URL = `${window.location.protocol + '//' + window.location.host}`
             const response = await fetch(`${API_URL}/api/user/user-feelings`, {
                 method: 'GET',
                 headers: {
@@ -62,7 +62,7 @@ const UserComponent: React.FC = () => {
         }
 
         try {
-            const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
+            const API_URL = `${window.location.protocol + '//' + window.location.host}`
             const response = await fetch(`${API_URL}/api/user/feelings`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

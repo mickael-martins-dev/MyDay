@@ -7,9 +7,9 @@ export default defineConfig({
   server: {
     port: 3030,
     cors: true,
-    /* proxy: {
+    proxy: {
       '/api': 'http://localhost:4000',
-    } */
+    }
   },
   plugins: [tailwindcss(), react()],
 })

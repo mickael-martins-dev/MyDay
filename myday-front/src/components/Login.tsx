@@ -18,7 +18,7 @@ const Login: React.FC = () => {
             password: password,
             pseudo: pseudo
         }
-        const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
+        const API_URL = `${window.location.protocol + '//' + window.location.host}`
         const response = await fetch(`${API_URL}/api/login`, {
             method: 'POST',
             headers: {

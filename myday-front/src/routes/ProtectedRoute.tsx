@@ -12,7 +12,7 @@ const ProtectedRoute: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
 
     const logout = async () => {
-        const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
+        const API_URL = `${window.location.protocol + '//' + window.location.host}`
         const response = await fetch(`${API_URL}/api/logout`, {
             method: 'POST',
             credentials: 'include',
@@ -26,7 +26,7 @@ const ProtectedRoute: React.FC = () => {
 
     useEffect(() => {
         setLoading(true)
-        const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
+        const API_URL = `${window.location.protocol + '//' + window.location.host}`
         fetch(`${API_URL}/api/check-auth`, {
             credentials: 'include',
         })

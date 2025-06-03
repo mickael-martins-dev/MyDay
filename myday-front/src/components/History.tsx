@@ -4,7 +4,7 @@ import HistoryMantrasComponent from "./history/HistoryMantras";
 import HistoryChartComponent from "./history/HistoryChart";
 
 const fetchHistory = async (): Promise<IHistory[]> => {
-    const API_URL = `${window.location.protocol + '//' + window.location.hostname}:4000`
+    const API_URL = `${window.location.protocol + '//' + window.location.host}`
     const response = await fetch(`${API_URL}/api/user/history`, {
         method: 'GET',
         headers: {
