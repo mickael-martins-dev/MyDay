@@ -8,7 +8,7 @@ import BaseLayout from "../pages/layout/BaseLayout";
 const ProtectedRoute: React.FC = () => {
 
     const navigate = useNavigate();
-    const [user, setUser] = useState<IUser>({ _id: "0", username: "ooo" });
+    const [user, setUser] = useState<IUser>({ _id: "0", username: "ooo", feelings: [] });
     const [loading, setLoading] = useState<boolean>(true);
 
     const logout = async () => {
@@ -18,7 +18,6 @@ const ProtectedRoute: React.FC = () => {
             credentials: 'include',
         });
 
-        console.log(JSON.stringify(response))
         if (response.ok) {
             navigate('/login');
         }

@@ -10,7 +10,7 @@ const BaseLayout = (props: IProps) => {
     return (
         <main className="w-screen h-screen flex flex-col items-center">
             <Navbar logout={props.logout} />
-            <div className="w-5/10 pt-6">
+            <div className="w-6/10 pt-6">
                 {props.children}
             </div>
         </main>

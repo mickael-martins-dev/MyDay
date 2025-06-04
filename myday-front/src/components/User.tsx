@@ -1,48 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { IFeelings } from "../models/Model";
+import React, { useState } from "react";
 import UserLabel from "./atoms/UserLabel";
 import { IRequestFeeling } from "@common/Model";
+import { ContextType } from "../models/Model";
 import { toast } from 'react-toastify';
+import { useOutletContext } from "react-router-dom";
 
 
 const UserComponent: React.FC = () => {
 
-    const [feelings, setFeeling] = useState<IFeelings>();
+    //const [feelings, setFeeling] = useState<IFeelings>();
+
+    const { user } = useOutletContext<ContextType>();
+
     const [comment, setComment] = useState("");
 
     const [menses, setMenses] = useState<boolean>(false);
     const rating = [0, 0, 0, 0];
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            const API_URL = `${window.location.protocol + '//' + window.location.host}`
-            const response = await fetch(`${API_URL}/api/user/user-feelings`, {
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: 'include'
-            });
-            const dataFeelings = await response.json();
-            setFeeling(dataFeelings)
-        }
-
-        fetchUser();
-    }, []);
 
     // TODO: Need to update this query
-    const clear = () => {
+    // const clear = () => {
 
-        // Clear input for the rating and update UI
-        rating[0] = 0;
-        rating[1] = 0;
-        rating[2] = 0;
-        rating[3] = 0;
+    //     // Clear input for the rating and update UI
+    //     rating[0] = 0;
+    //     rating[1] = 0;
+    //     rating[2] = 0;
+    //     rating[3] = 0;
 
-        setComment("");
-        setMenses(false);
-        setFeeling(undefined)
-    }
+    //     setComment("");
+    //     setMenses(false);
+    // }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         rating[index] = Number(e.target.value);
@@ -82,7 +69,7 @@ const UserComponent: React.FC = () => {
     }
 
     // Emotions
-    const emotions = (feelings ? feelings.feelings : [] as string[]);
+    const emotions = (user ? user.feelings : [] as string[]);
     const emotonsComponents = emotions.map((emotion, index) => {
         return <>
             <div key={emotion} className="flex items-center">

@@ -43,6 +43,8 @@ export interface UserDetails extends User {
 export interface IUser {
     _id: string,
     username: string
+    feelings: string[], // List of emotions
+
 }
 
 export interface IFeelings {

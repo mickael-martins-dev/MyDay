@@ -20,6 +20,7 @@ router.post('/', async (req: Request, res: Response) => {
         req.session.user = {
             id: userLogged._id.toString(),
             username: userLogged.pseudo,
+            feelings: userLogged.feelings
         };
 
         // Redirection

@@ -23,7 +23,7 @@ const fetchHistory = async (): Promise<IHistory[]> => {
 const HistoryComponent = () => {
 
     const [history, setHistory] = useState<IHistory[]>([]);
-    const [error, setError] = useState<string | null>(null);
+    const [_, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const loadHistory = async () => {
