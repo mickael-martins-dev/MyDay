@@ -121,9 +121,7 @@ router.get('/history', async (req: Request, res: Response) => {
                 phraseGratitude: response.phraseGratitude ?? ''
             }
             return retValue;
-        })
-
-        // Renvoie les réponses avec la phraseGratitude décryptée
+        });
         res.status(200).json(responses).end();
     } catch (err) {
         res.status(500).json({ message: 'Erreur serveur lors de la récupération de l\'historique' }).end();

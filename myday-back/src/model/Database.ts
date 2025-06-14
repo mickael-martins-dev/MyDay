@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Logger from '@/Logger';
 
 export const connectToMongo = async () => {
     try {
@@ -8,9 +9,10 @@ export const connectToMongo = async () => {
             user: process.env.MONGODB_USERNAME,
             pass: process.env.MONGODB_PASSWORD
         });
-        console.log("Link to mongodb etablished");
-    } catch (err) {
-        console.error("Fail to connection mongodb", err);
+        Logger.info('Link to mongodb etablished');
+
+    } catch (error) {
+        Logger.error('Fail to connection mongodb', error);
         process.exit(1);
     }
 };

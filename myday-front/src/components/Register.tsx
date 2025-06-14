@@ -58,7 +58,6 @@ const Register: React.FC = () => {
         if (response.ok) {
             navigate('/Login');
         } else {
-            console.error(response.statusText)
             setError("Erreur lors de l'enregistrement : " + response.statusText);
         }
     };
@@ -112,7 +111,6 @@ const Register: React.FC = () => {
         event.preventDefault();
 
         const index = (emotions.findIndex((item) => item === emotion));
-        console.log(index)
         if (index === -1) {
             setEmotions([...emotions, emotion].slice(-4));
         }
@@ -130,6 +128,9 @@ const Register: React.FC = () => {
             </nav>
 
             <div className="w-6/10 pt-6">
+
+                <ErrorLabel message={error} />
+
 
                 <form onSubmit={handleSubmit}>
                     <div className="flex flex-col">
@@ -586,8 +587,6 @@ const Register: React.FC = () => {
                             </g>
                         </svg>
                     </section>
-
-                    <ErrorLabel message={error} />
 
                     <button type="submit" className="btn btn-primary w-full text-white tracking-wide font-semibold">
                         Valider

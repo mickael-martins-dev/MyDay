@@ -3,8 +3,8 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 import { connectToMongo } from './model/Database';
 import cors from 'cors';
-
 import path from 'path';
+import logger from '@/Logger';
 
 // Router
 import registerRouter from './routes/register.routes';
@@ -20,17 +20,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// -- Cors
-// Dev / Production Cors, need to update this
-
-// -- Don't use in developpement
-app.use(cors({
-    credentials: true,
-    origin: 'http://localhost:3030', // frontend URL
-}));
-
-
-// Session Middleware, need to update this : Dev / Prodiction
+if (process.env.NODE_ENV === 'development') {
+    app.use(cors({
+        credentials: true,
+        origin: '*', // frontend URL
+    }));
+} else {
+    app.use(cors({
+        credentials: true,
+        origin: '*', // Need to update this Line with good deployment
+    }));
+}
 
 // Use this configuration in development
 const sessionMiddleware = session({
@@ -45,11 +45,11 @@ const sessionMiddleware = session({
 });
 app.use(sessionMiddleware);
 
-//
-// Routes defined here !
-//
-// Update this line with the production / dev vn
-// app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/api', (req, res, next) => {
+    logger.info(`${req.method} - ${req.originalUrl}`);
+    next();
+});
 
 app.use("/api/login", loginRouter);
 app.use("/api/logout", authenticated, logoutRouter);
@@ -57,14 +57,20 @@ app.use("/api/register", registerRouter);
 app.use("/api/check-auth", authRouter);
 app.use("/api/user", authenticated, usersRouter);
 
+//, PUT the correct route for this
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Error manager
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    console.error(err);
-    res.status(500).json({ error: 'Erreur serveur' });
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+    if (error) {
+        logger.error(error)
+        res.status(500).json({ error: 'Erreur serveur' });
+    }
 });
 
 
 const port = process.env.PORT || 4000;
 connectToMongo().then(() => app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    logger.info(`Server is running on http://localhost:${port}`)
+
 }));

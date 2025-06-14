@@ -33,7 +33,6 @@ const Login: React.FC = () => {
             return data as Response;
         } else {
             const error = data as IErrorResponse;
-            console.log(error.errorMessage)
             setError(error.errorMessage);
             throw new Error(error.errorMessage);
         }

@@ -4,7 +4,6 @@ const router = Router();
 
 router.post('/logout', (request: Request, response: Response) => {
     if (request.session.user) {
-        console.log("// Détruire la session actuelle !!! ")
         request.session.destroy((err) => {
             if (err) {
                 return response.status(500).json({ message: 'Erreur lors de la déconnexion' });
